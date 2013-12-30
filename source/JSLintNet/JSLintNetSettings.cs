@@ -1,0 +1,202 @@
+﻿namespace JSLintNet
+{
+    using System.Collections.Generic;
+    using System.IO;
+    using Newtonsoft.Json;
+
+    /// <summary>
+    /// The type of output for JSLint errors
+    /// </summary>
+    internal enum Output
+    {
+        /// <summary>
+        /// Output JSLint errors as errors.
+        /// </summary>
+        Error,
+
+        /// <summary>
+        /// Output JSLint errors as warnings.
+        /// </summary>
+        Warning,
+
+        /// <summary>
+        /// Output JSLint errors as messages.
+        /// </summary>
+        Message
+    }
+
+    /// <summary>
+    /// Represents the settings available to the JSLint.NET suite.
+    /// </summary>
+    internal class JSLintNetSettings
+    {
+        /// <summary>
+        /// The standard file name for JSLint.NET settings.
+        /// </summary>
+        public const string FileName = "JSLintNet.json";
+
+        /// <summary>
+        /// The default error limit.
+        /// </summary>
+        public const int DefaultErrorLimit = 1000;
+
+        /// <summary>
+        /// The default file limit.
+        /// </summary>
+        public const int DefaultFileLimit = 1000;
+
+        /// <summary>
+        /// The hard exception limit.
+        /// </summary>
+        public const int ExceptionLimit = 50;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JSLintNetSettings"/> class.
+        /// </summary>
+        public JSLintNetSettings()
+        {
+            this.Ignore = new List<string>();
+        }
+
+        /// <summary>
+        /// Gets or sets the full path and name of the settings file.
+        /// </summary>
+        /// <value>
+        /// The full path and name of the settings file.
+        /// </value>
+        public string File { get; set; }
+
+        /// <summary>
+        /// Gets or sets the output type.
+        /// </summary>
+        /// <value>
+        /// The output type.
+        /// </value>
+        [JsonProperty("output")]
+        public Output Output { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether JSLint should run on save.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if JSLint should run on save; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("runOnSave")]
+        public bool RunOnSave { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether JSLint should run on build.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if JSLint should run on build; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("runOnBuild")]
+        public bool RunOnBuild { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the build should be cancelled for JSLint errors.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the build should be cancelled for JSLint errors; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("cancelBuild")]
+        public bool CancelBuild { get; set; }
+
+        /// <summary>
+        /// Gets the list of paths to ignore.
+        /// </summary>
+        /// <value>
+        /// The list of paths to ignore.
+        /// </value>
+        [JsonProperty("ignore")]
+        public IList<string> Ignore { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the JSLint options.
+        /// </summary>
+        /// <value>
+        /// The JSLint options.
+        /// </value>
+        [JsonProperty("options")]
+        public JSLintOptions Options { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total error limit.
+        /// </summary>
+        /// <value>
+        /// The total error limit.
+        /// </value>
+        [JsonProperty("errorLimit")]
+        public int? ErrorLimit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total file limit.
+        /// </summary>
+        /// <value>
+        /// The total file limit.
+        /// </value>
+        [JsonProperty("fileLimit")]
+        public int? FileLimit { get; set; }
+
+        /// <summary>
+        /// Normalizes the ignore list to a new clone.
+        /// </summary>
+        /// <returns>A normalized clone of the ignore list.</returns>
+        public IList<string> NormalizeIgnore()
+        {
+            var clone = new List<string>();
+
+            if (this.Ignore != null)
+            {
+                var directorySeparator = Path.DirectorySeparatorChar.ToString();
+
+                for (int i = 0; i < this.Ignore.Count; i++)
+                {
+                    var normalized = this.Ignore[i];
+
+                    normalized = normalized.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+                    if (!normalized.StartsWith(directorySeparator))
+                    {
+                        normalized = directorySeparator + normalized;
+                    }
+
+                    if (!JSLint.CanLint(normalized) && !normalized.EndsWith(directorySeparator))
+                    {
+                        normalized += directorySeparator;
+                    }
+
+                    clone.Add(normalized);
+                }
+            }
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Gets the error limit for this instance or the default if one was not defined.
+        /// </summary>
+        /// <returns>
+        /// The error limit for this instance or the default if one was not defined.
+        /// </returns>
+        internal int ErrorLimitOrDefault()
+        {
+            var nullable = this.ErrorLimit;
+
+            return nullable.HasValue && nullable.Value > 0 ? nullable.Value : JSLintNetSettings.DefaultErrorLimit;
+        }
+
+        /// <summary>
+        /// Gets the file limit for this instance or the default if one was not defined.
+        /// </summary>
+        /// <returns>
+        /// The file limit for this instance or the default if one was not defined.
+        /// </returns>
+        internal int FileLimitOrDefault()
+        {
+            var nullable = this.FileLimit;
+
+            return nullable.HasValue && nullable.Value > 0 ? nullable.Value : JSLintNetSettings.DefaultFileLimit;
+        }
+    }
+}

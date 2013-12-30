@@ -1,0 +1,65 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#@ include file="..\..\JSLintOptions.t4" #>
+namespace JSLintNet
+{
+    using System.CodeDom.Compiler;
+    using Newtonsoft.Json;
+
+    /// <summary>
+    /// Provides a simple way to create and manage the options used by JSLint.
+    /// </summary>
+    [GeneratedCode("TextTemplatingFileGenerator", "")]
+    public partial class JSLintOptions
+    {
+<#
+    var first = true;
+
+    foreach (var definition in definitions)
+    {
+        if (first)
+        {
+            first = false;
+        }
+        else
+        {
+            this.WriteLine(string.Empty);
+        }
+
+        if (definition.PropertyType == "bool")
+        {
+#>
+        /// <summary>
+        /// Gets or sets a value indicating whether <#= definition.Description #>.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if <#= definition.Description #>; otherwise, <c>false</c>.
+        /// </value>
+<#
+        }
+        else
+        {
+#>
+        /// <summary>
+        /// Gets or sets the <#= definition.Description #>.
+        /// </summary>
+        /// <value>
+        /// The <#= definition.Description #>.
+        /// </value>
+<#
+        }
+#>
+        /// <remarks>
+        /// JSLint "<#= definition.Key #>" option.
+        /// </remarks>
+        [JsonProperty("<#= definition.Key #>")]
+        public <#= definition.PropertyType #>? <#= definition.PropertyName #> { get; set; }
+<#
+    }
+#>
+    }
+}

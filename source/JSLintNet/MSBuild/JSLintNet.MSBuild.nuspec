@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>JSLintNet.MSBuild</id>
+    <version>0.0.0.0</version>
+    <title>JSLint.NET for MSBuild</title>
+    <authors>JSLint.NET Contributors</authors>
+    <owners>JSLint.NET Contributors</owners>
+    <licenseUrl>https://jslintnet.codeplex.com/license</licenseUrl>
+    <projectUrl>https://jslintnet.codeplex.com/</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=jslintnet&amp;DownloadId=771961</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>JSLint.NET for MSBuild adds JavaScript validation targets to any Visual Studio project.</description>
+    <summary>JSLint.NET MSBuild targets.</summary>
+    <copyright>Copyright © JSLint.NET Contributors 2013</copyright>
+    <tags>JavaScript JSLint MSBuild</tags>
+  </metadata>
+</package>

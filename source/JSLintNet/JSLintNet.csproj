@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JSLintNet</RootNamespace>
+    <AssemblyName>JSLintNet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Debug\JSLintNet.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Release\JSLintNet.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\JSLint.NET.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Noesis.Javascript">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\x86\Noesis.Javascript.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstractions\FileSystemWrapper.cs" />
+    <Compile Include="Abstractions\IFileSystemWrapper.cs" />
+    <Compile Include="Abstractions\IJavaScriptContext.cs" />
+    <Compile Include="Abstractions\ITaskLoggingHelper.cs" />
+    <Compile Include="Abstractions\IAbstractionFactory.cs" />
+    <Compile Include="Abstractions\JavaScriptContext.cs" />
+    <Compile Include="Abstractions\TaskLoggingHelper.cs" />
+    <Compile Include="Abstractions\AbstractionFactory.cs" />
+    <Compile Include="Helpers\ExecutionHelper.cs" />
+    <Compile Include="JSLintNetSettings.cs" />
+    <Compile Include="JSLintOptions.cs" />
+    <Compile Include="JSLintParameters.cs" />
+    <Compile Include="IJSLintFactory.cs" />
+    <Compile Include="IJSLintContext.cs" />
+    <Compile Include="JSLint.cs" />
+    <Compile Include="JSLintFactory.cs" />
+    <Compile Include="JSLintTask.cs" />
+    <Compile Include="Json\IJsonProvider.cs" />
+    <Compile Include="Json\JSLintErrorConverter.cs" />
+    <Compile Include="Json\JSLintFunctionConverter.cs" />
+    <Compile Include="Json\JsonProvider.cs" />
+    <Compile Include="Models\ExecutionResult.cs" />
+    <Compile Include="Models\ExecutionResult`1.cs" />
+    <Compile Include="Models\IJSLintData.cs" />
+    <Compile Include="Models\IJSLintError.cs" />
+    <Compile Include="Models\IJSLintFunction.cs" />
+    <Compile Include="Models\JSLintFunction.cs" />
+    <Compile Include="JSLintOptions.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JSLintOptions.generated.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JSLintData.cs" />
+    <Compile Include="JSLintContext.cs" />
+    <Compile Include="Models\JSLintError.cs" />
+    <Compile Include="Models\TaskFile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="JSLintReportBuilder.cs" />
+    <Compile Include="IJSLintReportBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MSBuild\JSLintNet.MSBuild.targets" />
+    <None Include="Targets\NuGetPackage.targets" />
+    <None Include="MSBuild\JSLintNet.MSBuild.nuspec" />
+    <None Include="JSLintOptions.generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JSLintOptions.generated.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Resources\jslint.js" />
+    <None Include="Targets\ZipPackage.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jslintData.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jslintRunFormat.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReportFileFormat.html" />
+    <None Include="Resources\ReportDocumentFormat.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\License.txt">
+      <Link>License.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\amd64\Noesis.Javascript.dll">
+      <Link>amd64\Noesis.Javascript.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\amd64\Microsoft.VC100.CRT\msvcp100.dll">
+      <Link>amd64\Microsoft.VC100.CRT\msvcp100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\amd64\Microsoft.VC100.CRT\msvcr100.dll">
+      <Link>amd64\Microsoft.VC100.CRT\msvcr100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\x86\Noesis.Javascript.dll">
+      <Link>x86\Noesis.Javascript.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\x86\Microsoft.VC100.CRT\msvcp100.dll">
+      <Link>x86\Microsoft.VC100.CRT\msvcp100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\x86\Microsoft.VC100.CRT\msvcr100.dll">
+      <Link>x86\Microsoft.VC100.CRT\msvcr100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\jslintEdition.js" />
+    <None Include="Resources\ReportDocumentStyle.css" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="Targets\NuGetPackage.targets" Condition="$(Configuration) == Release" />
+  <Import Project="Targets\ZipPackage.targets" Condition="$(Configuration) == Release" />
+  <PropertyGroup>
+    <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.47.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
+  <PropertyGroup>
+    <StyleCopMSBuildMessageMissing>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded. Ensure that the package is present and then restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build.</StyleCopMSBuildMessageMissing>
+    <StyleCopMSBuildMessagePresent>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build.</StyleCopMSBuildMessagePresent>
+    <StyleCopMSBuildMessageRestore>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded. To fix this, restore the package and then restart the build. If you are using an IDE (e.g. Visual Studio), you may need to reload the project before restarting the build. Note that regular NuGet package restore (during build) does not work with this package because the package needs to be present before the project is loaded. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the project is built.</StyleCopMSBuildMessageRestore>
+    <StyleCopMSBuildMessageRestored>Failed to import StyleCop.MSBuild targets from '$(StyleCopMSBuildTargetsFile)'. The StyleCop.MSBuild package was either missing or incomplete when the project was loaded (but is now present). To fix this, restart the build. If you are using an IDE (e.g. Visual Studio), reload the project before restarting the build. Note that when using regular NuGet package restore (during build) the package will not be available for the initial build because the package needs to be present before the project is loaded. If package restore executes successfully in the initial build then the package will be available for subsequent builds. If this is an automated build (e.g. CI server), you may want to ensure that the build process restores the StyleCop.MSBuild package before the initial build.</StyleCopMSBuildMessageRestored>
+  </PropertyGroup>
+  <Target Name="StyleCopMSBuildTargetsNotFound">
+    <Warning Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageMissing)" />
+    <Warning Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessagePresent)" />
+    <Warning Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageRestore)" />
+    <Warning Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)!=false" Text="$(StyleCopMSBuildMessageRestored)" />
+    <Error Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessageMissing)" />
+    <Error Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)!=true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessagePresent)" />
+    <Error Condition="!Exists('$(StyleCopMSBuildTargetsFile)') And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessageRestore)" />
+    <Error Condition="Exists('$(StyleCopMSBuildTargetsFile)')  And $(RestorePackages)==true And $(StyleCopTreatErrorsAsWarnings)==false" Text="$(StyleCopMSBuildMessageRestored)" />
+  </Target>
+  <PropertyGroup>
+    <PrepareForBuildDependsOn Condition="!Exists('$(StyleCopMSBuildTargetsFile)')">StyleCopMSBuildTargetsNotFound;$(PrepareForBuildDependsOn)</PrepareForBuildDependsOn>
+  </PropertyGroup>
+</Project>

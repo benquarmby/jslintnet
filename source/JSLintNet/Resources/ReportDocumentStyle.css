@@ -1,0 +1,22 @@
+﻿body {
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 75%;
+}
+
+h2 {
+    background-color: #cd5c5c;
+    color: #ffffff;
+    padding: 4px 8px;
+}
+
+cite {
+    background-color: #eeeeee;
+    display: block;
+    padding: 4px 8px;
+    font-style: normal;
+}
+
+address {
+    float: right;
+    color: #999999;
+}

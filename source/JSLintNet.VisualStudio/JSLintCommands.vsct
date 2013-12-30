@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable">
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h" />
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h" />
+
+  <Commands package="JSLintNetPackage">
+    <Groups>
+      <Group guid="GroupSet" id="ErrorListGroup" priority="0x0000" />
+      <Group guid="GroupSet" id="ItemNodeGroup" priority="0x0000" />
+      <Group guid="GroupSet" id="FolderNodeGroup" priority="0x0000" />
+      <Group guid="GroupSet" id="ProjectNodeGroup" priority="0x0000" />
+      <Group guid="GroupSet" id="CodeWindowGroup" priority="0x0000" />
+    </Groups>
+
+    <Buttons>
+      <Button guid="CommandSet" id="ErrorListClearCommand" priority="0x0000" type="Button">
+        <Parent guid="GroupSet" id="ErrorListGroup" />
+        <Icon guid="BitmapSet" id="ClearBitmap" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+
+        <Strings>
+          <CommandName>ClearErrors</CommandName>
+          <ButtonText>Clear JSLint Errors</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="ItemNodeRunCommand" priority="0x0000" type="Button">
+        <Parent guid="GroupSet" id="ItemNodeGroup" />
+        <Icon guid="BitmapSet" id="RunBitmap" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+
+        <Strings>
+          <CommandName>RunJSLint</CommandName>
+          <ButtonText>Run JSLint</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="ItemNodeIgnoreCommand" priority="0x0001" type="Button">
+        <Parent guid="GroupSet" id="ItemNodeGroup" />
+        <Icon guid="BitmapSet" id="IgnoreBitmap" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+
+        <Strings>
+          <CommandName>IgnoreFile</CommandName>
+          <ButtonText>Ignore File</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="FolderNodeRunCommand" priority="0x0000" type="Button">
+        <Parent guid="GroupSet" id="FolderNodeGroup" />
+        <Icon guid="BitmapSet" id="RunBitmap" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+
+        <Strings>
+          <CommandName>RunJSLint</CommandName>
+          <ButtonText>Run JSLint</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="FolderNodeIgnoreCommand" priority="0x0001" type="Button">
+        <Parent guid="GroupSet" id="FolderNodeGroup" />
+        <Icon guid="BitmapSet" id="IgnoreBitmap" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+
+        <Strings>
+          <CommandName>IgnoreFolder</CommandName>
+          <ButtonText>Ignore Folder</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="ProjectNodeRunCommand" priority="0x0000" type="Button">
+        <Parent guid="GroupSet" id="ProjectNodeGroup" />
+        <Icon guid="BitmapSet" id="RunBitmap" />
+
+        <Strings>
+          <CommandName>RunJSLint</CommandName>
+          <ButtonText>Run JSLint</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="ProjectNodeSettingsCommand" priority="0x0001" type="Button">
+        <Parent guid="GroupSet" id="ProjectNodeGroup" />
+        <Icon guid="BitmapSet" id="SettingsBitmap" />
+
+        <Strings>
+          <CommandName>Settings</CommandName>
+          <ButtonText>JSLint.NET Project Settings...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="CommandSet" id="CodeWindowRunCommand" priority="0x0000" type="Button">
+        <Parent guid="GroupSet" id="CodeWindowGroup" />
+        <Icon guid="BitmapSet" id="RunBitmap" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+
+        <Strings>
+          <CommandName>RunJSLint</CommandName>
+          <ButtonText>Run JSLint</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="BitmapSet" href="Resources\JSLint.NET.png" />
+    </Bitmaps>
+  </Commands>
+
+  <CommandPlacements>
+    <CommandPlacement guid="GroupSet" id="ErrorListGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ERRORLIST" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="ItemNodeGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="ItemNodeGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBITEMNODE" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="FolderNodeGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="FolderNodeGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBFOLDER" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="ProjectNodeGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="ProjectNodeGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBPROJECT" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="GroupSet" id="CodeWindowGroup" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <GuidSymbol name="JSLintNetPackage" value="{20d11160-ceed-4510-8fc7-ab34c7c34caa}"></GuidSymbol>
+
+    <GuidSymbol name="GroupSet" value="{4c385fb4-8bd5-4bf4-ba18-c7a2564792ef}">
+      <IDSymbol name="ErrorListGroup" value="0x1000" />
+      <IDSymbol name="ItemNodeGroup" value="0x1010" />
+      <IDSymbol name="FolderNodeGroup" value="0x1020" />
+      <IDSymbol name="ProjectNodeGroup" value="0x1030" />
+      <IDSymbol name="CodeWindowGroup" value="0x1040" />
+    </GuidSymbol>
+
+    <GuidSymbol name="CommandSet" value="{ceb9d912-cf68-49ec-b2db-b1e02540ad2e}">
+      <IDSymbol name="ErrorListClearCommand" value="0x0100" />
+      <IDSymbol name="ItemNodeRunCommand" value="0x0110" />
+      <IDSymbol name="ItemNodeIgnoreCommand" value="0x0120" />
+      <IDSymbol name="FolderNodeRunCommand" value="0x0130" />
+      <IDSymbol name="FolderNodeIgnoreCommand" value="0x0140" />
+      <IDSymbol name="ProjectNodeRunCommand" value="0x0150" />
+      <IDSymbol name="ProjectNodeSettingsCommand" value="0x0160" />
+      <IDSymbol name="CodeWindowRunCommand" value="0x0170" />
+    </GuidSymbol>
+
+    <GuidSymbol name="BitmapSet" value="{6fbf7338-b6e2-4cab-8803-989604f26097}">
+      <IDSymbol name="RunBitmap" value="1" />
+      <IDSymbol name="SettingsBitmap" value="2" />
+      <IDSymbol name="ClearBitmap" value="3" />
+      <IDSymbol name="IgnoreBitmap" value="4" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

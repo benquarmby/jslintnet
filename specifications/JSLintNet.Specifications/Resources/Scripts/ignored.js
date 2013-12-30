@@ -1,0 +1,5 @@
+﻿UndeclaredGlobal.doStuff();
+
+with (window) {
+
+}

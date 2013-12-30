@@ -1,0 +1,1 @@
+﻿JSLINT({0}, JSON.parse({1}));

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="20d11160-ceed-4510-8fc7-ab34c7c34caa" Version="1.4.0" Language="en-US" Publisher="JSLint.NET Contributors" />
+    <DisplayName>JSLint.NET for Visual Studio</DisplayName>
+    <Description xml:space="preserve">JSLint.NET is a wrapper for Douglas Crockford's JSLint, the JavaScript code quality tool. It can validate JavaScript anywhere .NET runs.</Description>
+    <MoreInfo>https://jslintnet.codeplex.com/</MoreInfo>
+    <License>License.txt</License>
+    <Icon>Resources\JSLint.NET.ico</Icon>
+    <PreviewImage>Resources\JSLint.NET-256.png</PreviewImage>
+  </Metadata>
+  <Installation InstalledByMsi="false">
+    <InstallationTarget Version="[11.0,13.0)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[11.0,13.0)" Id="Microsoft.VisualStudio.Premium" />
+    <InstallationTarget Version="[11.0,13.0)" Id="Microsoft.VisualStudio.Ultimate" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.11.0" DisplayName="Visual Studio MPF 11.0" d:Source="Installed" Version="11.0" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+  </Assets>
+</PackageManifest>

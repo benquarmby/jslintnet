@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8743E3F5-4E10-44C0-AC6C-D6CA77DB5423}"
+	ProjectSection(SolutionItems) = preProject
+		JSLint.NET.ico = JSLint.NET.ico
+		Settings.StyleCop = Settings.StyleCop
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{AA584202-BE07-4E9A-A756-D587EAAAA518}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{DDBE0CB7-3F37-4C26-A817-3F7CA67DD062}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLintNet", "source\JSLintNet\JSLintNet.csproj", "{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLintNet.Specifications", "specifications\JSLintNet.Specifications\JSLintNet.Specifications.csproj", "{472AE3AF-C0D7-41F4-93CE-5F0F000E6C93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLintNet.QualityTools", "specifications\JSLintNet.QualityTools\JSLintNet.QualityTools.csproj", "{DBEE7885-9175-49E8-95FC-73F85B3EFEC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLintNet.Console", "source\JSLintNet.Console\JSLintNet.Console.csproj", "{E054BE26-4901-4948-A2D6-081F55172D63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLintNet.Console.Specifications", "specifications\JSLintNet.Console.Specifications\JSLintNet.Console.Specifications.csproj", "{5C7F6C15-3FC2-47A1-AD66-469C0B1C62D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BF2F3A2A-04F8-47F9-8648-310AF332D2BF}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472AE3AF-C0D7-41F4-93CE-5F0F000E6C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472AE3AF-C0D7-41F4-93CE-5F0F000E6C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472AE3AF-C0D7-41F4-93CE-5F0F000E6C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472AE3AF-C0D7-41F4-93CE-5F0F000E6C93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBEE7885-9175-49E8-95FC-73F85B3EFEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBEE7885-9175-49E8-95FC-73F85B3EFEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBEE7885-9175-49E8-95FC-73F85B3EFEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBEE7885-9175-49E8-95FC-73F85B3EFEC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E054BE26-4901-4948-A2D6-081F55172D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E054BE26-4901-4948-A2D6-081F55172D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E054BE26-4901-4948-A2D6-081F55172D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E054BE26-4901-4948-A2D6-081F55172D63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C7F6C15-3FC2-47A1-AD66-469C0B1C62D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C7F6C15-3FC2-47A1-AD66-469C0B1C62D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C7F6C15-3FC2-47A1-AD66-469C0B1C62D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C7F6C15-3FC2-47A1-AD66-469C0B1C62D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{12DE4C0E-ABE0-45AC-9627-1311B2F2FE93} = {AA584202-BE07-4E9A-A756-D587EAAAA518}
+		{E054BE26-4901-4948-A2D6-081F55172D63} = {AA584202-BE07-4E9A-A756-D587EAAAA518}
+		{472AE3AF-C0D7-41F4-93CE-5F0F000E6C93} = {DDBE0CB7-3F37-4C26-A817-3F7CA67DD062}
+		{DBEE7885-9175-49E8-95FC-73F85B3EFEC7} = {DDBE0CB7-3F37-4C26-A817-3F7CA67DD062}
+		{5C7F6C15-3FC2-47A1-AD66-469C0B1C62D5} = {DDBE0CB7-3F37-4C26-A817-3F7CA67DD062}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,7 @@
+﻿{
+    "ignore": [
+        "\\Scripts\\Libraries\\",
+        "scripts\\ignored.js",
+        "\\scripts\\calculator.js"
+    ]
+}
