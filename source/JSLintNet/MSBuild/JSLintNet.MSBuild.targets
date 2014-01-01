@@ -3,16 +3,22 @@
   <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\tools\JSLintNet.dll" TaskName="JSLintTask" />
 
   <PropertyGroup>
+    <JSLintNetSourceDirectory Condition="'$(JSLintNetSourceDirectory)' == ''">$(MSBuildProjectDirectory)</JSLintNetSourceDirectory>
+
     <BuildDependsOn>
       JSLintNet;
       $(BuildDependsOn);
     </BuildDependsOn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <JSLintNetSourceFiles Condition="'@(JSLintNetSourceFiles)' == ''" Include="@(Content)" />
+  </ItemGroup>
+
   <Target Name="JSLintNet">
     <JSLintTask
-      SourceDirectory="$(MSBuildProjectDirectory)"
-      SourceFiles="@(Content)"
+      SourceDirectory="$(JSLintNetSourceDirectory)"
+      SourceFiles="@(JSLintNetSourceFiles)"
       ReportFile="$(JSLintNetReportFile)"
       SettingsFile="$(JSLintNetSettingsFile)"
       OutputOverride="$(JSLintNetOutputOverride)" />

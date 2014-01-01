@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>JSLint.NET for MSBuild adds JavaScript validation targets to any Visual Studio project.</description>
     <summary>JSLint.NET MSBuild targets.</summary>
-    <copyright>Copyright © JSLint.NET Contributors 2013</copyright>
+    <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
   </metadata>
 </package>

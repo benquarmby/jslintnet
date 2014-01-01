@@ -40,7 +40,7 @@ namespace JSLintNet
         /// <summary>
         /// The copyright line for JSLint.NET.
         /// </summary>
-        public const string Copyright = "Copyright © JSLint.NET Contributors 2013";
+        public const string Copyright = "Copyright © JSLint.NET Contributors 2013-2014";
 
         /// <summary>
         /// The company name for JSLint.NET.

@@ -17,8 +17,6 @@
     /// </summary>
     public class JSLintTask : Task
     {
-        private const string JSLintSubcategory = "JSLint";
-
         private IJSLintFactory jsLintFactory;
 
         private IFileSystemWrapper fileSystemWrapper;
@@ -191,7 +189,7 @@
                             foreach (var error in data.Errors)
                             {
                                 logger(
-                                    subcategory: JSLintSubcategory,
+                                    subcategory: AssemblyInfo.Product,
                                     errorCode: null,
                                     helpKeyword: null,
                                     file: file.Absolute,
