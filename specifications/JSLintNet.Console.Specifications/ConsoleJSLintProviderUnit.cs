@@ -8,6 +8,8 @@
     using JSLintNet.Json;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Fakes;
+    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Views;
     using Moq;
     using Xunit;
     using CoreResources = JSLintNet.Properties.Resources;
@@ -133,22 +135,6 @@
                         .Setup(x => x.CreateReportBuilder())
                         .Returns(this.JSLintReportBuilderMock.Object);
 
-                    this.ConsoleWriterMock
-                        .Setup(x => x.WriteLine())
-                        .Returns(this.ConsoleWriterMock.Object);
-
-                    this.ConsoleWriterMock
-                        .Setup(x => x.WriteLine(It.IsAny<string>(), It.IsAny<object[]>()))
-                        .Returns(this.ConsoleWriterMock.Object);
-
-                    this.ConsoleWriterMock
-                        .Setup(x => x.WriteErrorLine())
-                        .Returns(this.ConsoleWriterMock.Object);
-
-                    this.ConsoleWriterMock
-                        .Setup(x => x.WriteErrorLine(It.IsAny<string>(), It.IsAny<object[]>()))
-                        .Returns(this.ConsoleWriterMock.Object);
-
                     this.JSLintReportBuilderMock
                         .SetupGet(x => x.ErrorCount)
                         .Returns(() => this.ErrorCount);
@@ -160,14 +146,88 @@
             }
         }
 
+        public class EditSettings : UnitBase
+        {
+            [Fact(DisplayName = "Should always show editor window")]
+            public void Spec01()
+            {
+                using (var testable = new EditSettingsTestable())
+                {
+                    testable.Instance.EditSettings(testable.Options);
+
+                    testable.ViewMock.Verify(x => x.ShowDialog());
+                }
+            }
+
+            [Fact(DisplayName = "Should save results when dialog is OK")]
+            public void Spec02()
+            {
+                using (var testable = new EditSettingsTestable())
+                {
+                    testable.ViewMock
+                        .Setup(x => x.ShowDialog())
+                        .Returns(true);
+
+                    testable.Instance.EditSettings(testable.Options);
+
+                    testable.FileSystemWrapperMock.Verify(x => x.WriteAllText(testable.Options.SettingsFile, It.IsAny<string>(), It.IsAny<Encoding>()));
+                }
+            }
+
+            [Fact(DisplayName = "Should not save results when dialog is canceled")]
+            public void Spec03()
+            {
+                using (var testable = new EditSettingsTestable())
+                {
+                    testable.ViewMock
+                        .Setup(x => x.ShowDialog())
+                        .Returns(false);
+
+                    testable.Instance.EditSettings(testable.Options);
+
+                    testable.FileSystemWrapperMock.Verify(x => x.WriteAllText(testable.Options.SettingsFile, It.IsAny<string>(), It.IsAny<Encoding>()), Times.Never());
+                }
+            }
+
+            private class EditSettingsTestable : ConsoleJSLintProviderTestableBase
+            {
+                public EditSettingsTestable()
+                {
+                    this.ViewMock = new Mock<IView>();
+
+                    this.Options = new ConsoleOptions()
+                    {
+                        SettingsEditor = true,
+                        SettingsFile = @"D:\path\to\file.json",
+                        Settings = new JSLintNetSettings()
+                    };
+
+                    this.BeforeInit += this.OnBeforeInit;
+                }
+
+                public ConsoleOptions Options { get; set; }
+
+                public Mock<IView> ViewMock { get; set; }
+
+                private void OnBeforeInit(object sender, EventArgs e)
+                {
+                    this.GetMock<IViewFactory>()
+                        .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
+                        .Returns(this.ViewMock.Object);
+                }
+            }
+        }
+
         private abstract class ConsoleJSLintProviderTestableBase : TestableBase<ConsoleJSLintProvider>
         {
             public ConsoleJSLintProviderTestableBase()
             {
-                this.JSLintFactoryMock = this.AutoMocker.Mock<IJSLintFactory>();
-                this.FileSystemWrapperMock = this.AutoMocker.Mock<IFileSystemWrapper>();
-                this.JsonProviderMock = this.AutoMocker.Mock<IJsonProvider>();
-                this.ConsoleWriterMock = this.AutoMocker.Mock<IConsoleWriter>();
+                this.JSLintFactoryMock = this.GetMock<IJSLintFactory>();
+                this.FileSystemWrapperMock = this.GetMock<IFileSystemWrapper>();
+                this.JsonProviderMock = this.GetMock<IJsonProvider>();
+                this.ConsoleWriterMock = this.GetMock<IConsoleWriter>();
+
+                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<IJSLintFactory> JSLintFactoryMock { get; set; }
@@ -177,6 +237,25 @@
             public Mock<IJsonProvider> JsonProviderMock { get; set; }
 
             public Mock<IConsoleWriter> ConsoleWriterMock { get; set; }
+
+            private void OnBeforeInit(object sender, EventArgs e)
+            {
+                this.ConsoleWriterMock
+                    .Setup(x => x.WriteLine())
+                    .Returns(this.ConsoleWriterMock.Object);
+
+                this.ConsoleWriterMock
+                    .Setup(x => x.WriteLine(It.IsAny<string>(), It.IsAny<object[]>()))
+                    .Returns(this.ConsoleWriterMock.Object);
+
+                this.ConsoleWriterMock
+                    .Setup(x => x.WriteErrorLine())
+                    .Returns(this.ConsoleWriterMock.Object);
+
+                this.ConsoleWriterMock
+                    .Setup(x => x.WriteErrorLine(It.IsAny<string>(), It.IsAny<object[]>()))
+                    .Returns(this.ConsoleWriterMock.Object);
+            }
         }
     }
 }

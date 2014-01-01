@@ -169,6 +169,20 @@
                 }
             }
 
+            [Fact(DisplayName = "Should set settings editor to true given a JSON file")]
+            public void Spec12()
+            {
+                using (var testable = new CreateTestable())
+                {
+                    var actual = testable.Instance.Create(new string[]
+                    {
+                        @"some\path\to\file.json"
+                    });
+
+                    I.Expect(actual.SettingsEditor).ToBe(true);
+                }
+            }
+
             private class CreateTestable : ConsoleOptionsFactoryUnitTestableBase
             {
                 public CreateTestable()
@@ -180,6 +194,10 @@
                 {
                     this.FileSystemWrapperMock
                         .Setup(x => x.ResolveDirectory(It.IsAny<string>()))
+                        .Returns((string x) => x);
+
+                    this.FileSystemWrapperMock
+                        .Setup(x => x.ResolveFile(It.IsAny<string>()))
                         .Returns((string x) => x);
                 }
             }

@@ -31,9 +31,13 @@
 
             if (!options.Help)
             {
-                this.ResolveSourceDirectory(options);
+                if (!options.SettingsEditor)
+                {
+                    this.ResolveSourceDirectory(options);
+                    this.ResolveSourceFiles(options);
+                }
+
                 this.ResolveSettings(options);
-                this.ResolveSourceFiles(options);
             }
 
             return options;
@@ -93,7 +97,17 @@
             }
             else
             {
-                options.SourceDirectory = first;
+                if (first.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+                {
+                    options.SettingsFile = first;
+                    options.SettingsEditor = true;
+
+                    return options;
+                }
+                else
+                {
+                    options.SourceDirectory = first;
+                }
             }
 
             if (string.IsNullOrEmpty(options.SourceDirectory))
@@ -165,6 +179,12 @@
             {
                 settingsPath = Path.Combine(options.SourceDirectory, JSLintNetSettings.FileName);
             }
+            else
+            {
+                settingsPath = this.fileSystemWrapper.ResolveFile(settingsPath);
+            }
+
+            options.SettingsFile = settingsPath;
 
             if (this.fileSystemWrapper.FileExists(settingsPath))
             {

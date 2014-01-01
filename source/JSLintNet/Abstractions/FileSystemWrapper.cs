@@ -22,6 +22,11 @@ namespace JSLintNet.Abstractions
             File.WriteAllText(path, contents, encoding);
         }
 
+        public string ResolveFile(string path)
+        {
+            return new FileInfo(path).FullName;
+        }
+
         public string[] GetFiles(string path, string searchPattern, SearchOption searchOption)
         {
             return Directory.GetFiles(path, searchPattern, searchOption);

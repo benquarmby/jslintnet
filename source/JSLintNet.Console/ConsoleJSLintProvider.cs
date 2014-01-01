@@ -10,6 +10,8 @@
     using JSLintNet.Console.Properties;
     using JSLintNet.Helpers;
     using JSLintNet.Json;
+    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Views;
     using CoreResources = JSLintNet.Properties.Resources;
 
     internal class ConsoleJSLintProvider
@@ -24,17 +26,20 @@
 
         private IConsoleWriter consoleWriter;
 
+        private IViewFactory viewFactory;
+
         public ConsoleJSLintProvider()
-            : this(new JSLintFactory(), new FileSystemWrapper(), new JsonProvider(), new ConsoleWriter())
+            : this(new JSLintFactory(), new FileSystemWrapper(), new JsonProvider(), new ConsoleWriter(), new ViewFactory())
         {
         }
 
-        public ConsoleJSLintProvider(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IJsonProvider jsonProvider, IConsoleWriter consoleWriter)
+        public ConsoleJSLintProvider(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IJsonProvider jsonProvider, IConsoleWriter consoleWriter, IViewFactory viewFactory)
         {
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
             this.jsonProvider = jsonProvider;
             this.consoleWriter = consoleWriter;
+            this.viewFactory = viewFactory;
         }
 
         public void WriteHeader()
@@ -76,6 +81,39 @@
                 .WriteLine(6, Resources.HelpLogLevelSilent)
                 .WriteLine(6, Resources.HelpLogLevelNormal)
                 .WriteLine(6, Resources.HelpLogLevelVerbose);
+
+            return 0;
+        }
+
+        public int EditSettings(ConsoleOptions options)
+        {
+            var model = options.Settings;
+            var message = string.Empty;
+
+            this.consoleWriter
+                .WriteLine()
+                .WriteLine(Resources.SettingsEditorLaunching)
+                .WriteLine(Resources.SettingsEditorCloseWarning);
+
+            using (var viewModel = new SettingsViewModel(model))
+            {
+                var view = this.viewFactory.CreateSettings(viewModel);
+                var result = view.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+                    this.SaveSettings(options.SettingsFile, model);
+                    message = string.Format(Resources.SettingsEditorSavedFormat, options.SettingsFile);
+                }
+                else
+                {
+                    message = Resources.SettingsEditorCanceled;
+                }
+            }
+
+            this.consoleWriter
+                .WriteLine()
+                .WriteLine(message);
 
             return 0;
         }
@@ -213,6 +251,13 @@
             var relative = GetRelativePath(sourceDirectory, file);
 
             return ignore.Any(x => relative.StartsWith(x, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private void SaveSettings(string settingsPath, JSLintNetSettings model)
+        {
+            var settingsJson = this.jsonProvider.SerializeSettings(model);
+
+            this.fileSystemWrapper.WriteAllText(settingsPath, settingsJson, Encoding.UTF8);
         }
     }
 }

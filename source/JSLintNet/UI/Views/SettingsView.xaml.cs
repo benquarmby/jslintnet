@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    public partial class SettingsView : Window
+    public partial class SettingsView : Window, IView
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsView"/> class.
@@ -10,11 +10,6 @@
         public SettingsView()
         {
             this.InitializeComponent();
-        }
-
-        private void OnButtonClick(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

@@ -4,6 +4,7 @@
 
     public class Program
     {
+        [STAThread]
         public static int Main(string[] args)
         {
             var provider = new ConsoleJSLintProvider();
@@ -18,6 +19,11 @@
                 if (options.Help)
                 {
                     return provider.WriteHelp();
+                }
+
+                if (options.SettingsEditor)
+                {
+                    return provider.EditSettings(options);
                 }
 
                 return provider.Lint(options);

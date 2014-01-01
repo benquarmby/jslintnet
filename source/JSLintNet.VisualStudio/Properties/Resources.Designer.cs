@@ -61,11 +61,11 @@ namespace JSLintNet.VisualStudio.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Build cancelled due to JSLint errors..
+        ///   Looks up a localized string similar to Build canceled due to JSLint errors..
         /// </summary>
-        internal static string BuildCancelled {
+        internal static string BuildCanceled {
             get {
-                return ResourceManager.GetString("BuildCancelled", resourceCulture);
+                return ResourceManager.GetString("BuildCanceled", resourceCulture);
             }
         }
         

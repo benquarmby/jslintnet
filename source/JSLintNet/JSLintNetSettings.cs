@@ -64,6 +64,7 @@
         /// <value>
         /// The full path and name of the settings file.
         /// </value>
+        [JsonIgnore]
         public string File { get; set; }
 
         /// <summary>
@@ -94,10 +95,10 @@
         public bool RunOnBuild { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the build should be cancelled for JSLint errors.
+        /// Gets or sets a value indicating whether the build should be canceled for JSLint errors.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the build should be cancelled for JSLint errors; otherwise, <c>false</c>.
+        ///   <c>true</c> if the build should be canceled for JSLint errors; otherwise, <c>false</c>.
         /// </value>
         [JsonProperty("cancelBuild")]
         public bool CancelBuild { get; set; }

@@ -3,10 +3,13 @@
     using System;
     using System.ComponentModel;
     using System.Linq.Expressions;
+    using JSLintNet.UI.Views;
 
     internal abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public IView View { get; set; }
 
         public void Dispose()
         {

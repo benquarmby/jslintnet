@@ -12,16 +12,19 @@
 
     internal class MenuEventController : EventControllerBase
     {
+        private IViewFactory viewFactory;
+
         private IMenuCommandService menuService;
 
         public MenuEventController(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider)
-            : this(serviceProvider, errorListProvider, new VisualStudioJSLintProvider(serviceProvider, errorListProvider))
+            : this(serviceProvider, errorListProvider, new VisualStudioJSLintProvider(serviceProvider, errorListProvider), new ViewFactory())
         {
         }
 
-        public MenuEventController(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IVisualStudioJSLintProvider visualStudioJSLintProvider)
+        public MenuEventController(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IVisualStudioJSLintProvider visualStudioJSLintProvider, IViewFactory viewFactory)
             : base(serviceProvider, errorListProvider, visualStudioJSLintProvider)
         {
+            this.viewFactory = viewFactory;
             this.menuService = serviceProvider.GetService<IMenuCommandService>();
         }
 
@@ -176,21 +179,14 @@
 
             using (var viewModel = new SettingsViewModel(model))
             {
-                viewModel.SettingsSaved += this.OnSettingsSaved;
+                var view = this.viewFactory.CreateSettings(viewModel);
+                var result = view.ShowDialog();
 
-                var view = new SettingsView();
-                view.DataContext = viewModel;
-                view.ShowDialog();
+                if (result.HasValue && result.Value)
+                {
+                    this.VisualStudioJSLintProvider.SaveSettings(project, model);
+                }
             }
-        }
-
-        private void OnSettingsSaved(object sender, EventArgs e)
-        {
-            var project = this.Environment.GetSelectedProject();
-            var viewModel = (SettingsViewModel)sender;
-            var model = viewModel.Model;
-
-            this.VisualStudioJSLintProvider.SaveSettings(project, model);
         }
 
         private void OnBeforeCodeWindowRun(object sender, EventArgs e)

@@ -63,7 +63,7 @@
             if (errors > 0 && settings.CancelBuild)
             {
                 this.Environment.ExecuteCommand("Build.Cancel");
-                this.ErrorListProvider.AddCustomError(Resources.BuildCancelled);
+                this.ErrorListProvider.AddCustomError(Resources.BuildCanceled);
             }
         }
     }

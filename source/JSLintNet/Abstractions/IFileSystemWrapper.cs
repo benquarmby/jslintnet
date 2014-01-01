@@ -13,6 +13,8 @@ namespace JSLintNet.Abstractions
 
         void WriteAllText(string path, string contents, Encoding encoding);
 
+        string ResolveFile(string path);
+
         string[] GetFiles(string path, string searchPattern, SearchOption searchOption);
 
         string ResolveDirectory(string path);

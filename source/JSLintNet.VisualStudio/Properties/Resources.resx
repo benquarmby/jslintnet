@@ -135,7 +135,7 @@
   <data name="JSLintErrorsFound" xml:space="preserve">
     <value>JSLint errors found</value>
   </data>
-  <data name="BuildCancelled" xml:space="preserve">
-    <value>Build cancelled due to JSLint errors.</value>
+  <data name="BuildCanceled" xml:space="preserve">
+    <value>Build canceled due to JSLint errors.</value>
   </data>
 </root>

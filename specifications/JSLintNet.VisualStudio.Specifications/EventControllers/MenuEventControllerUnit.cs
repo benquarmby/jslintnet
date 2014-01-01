@@ -9,6 +9,8 @@
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
+    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Views;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.EventControllers;
     using JSLintNet.VisualStudio.Specifications.Fakes;
@@ -632,6 +634,80 @@
             }
         }
 
+        public class OnProjectNodeSettings : UnitBase
+        {
+            [Fact(DisplayName = "Should always show editor window")]
+            public void Spec01()
+            {
+                using (var testable = new OnProjectNodeSettingsTestable())
+                {
+                    testable.Init();
+                    testable.MenuCommand.Invoke(testable.MenuCommand);
+
+                    testable.ViewMock.Verify(x => x.ShowDialog());
+                }
+            }
+
+            [Fact(DisplayName = "Should save results when dialog is OK")]
+            public void Spec02()
+            {
+                using (var testable = new OnProjectNodeSettingsTestable())
+                {
+                    testable.ViewMock
+                        .Setup(x => x.ShowDialog())
+                        .Returns(true);
+
+                    testable.Init();
+                    testable.MenuCommand.Invoke(testable.MenuCommand);
+
+                    testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, testable.Settings));
+                }
+            }
+
+            [Fact(DisplayName = "Should not save results when dialog is canceled")]
+            public void Spec03()
+            {
+                using (var testable = new OnProjectNodeSettingsTestable())
+                {
+                    testable.ViewMock
+                        .Setup(x => x.ShowDialog())
+                        .Returns(false);
+
+                    testable.Init();
+                    testable.MenuCommand.Invoke(testable.MenuCommand);
+
+                    testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, testable.Settings), Times.Never());
+                }
+            }
+
+            private class OnProjectNodeSettingsTestable : ProjectNodeTestableBase
+            {
+                public OnProjectNodeSettingsTestable()
+                {
+                    this.ViewMock = new Mock<IView>();
+
+                    this.BeforeInit += this.OnBeforeInit;
+                }
+
+                public Mock<IView> ViewMock { get; set; }
+
+                public override CommandID CommandID
+                {
+                    get
+                    {
+                        return JSLintCommands.ProjectNodeSettings;
+                    }
+                }
+
+                private void OnBeforeInit(object sender, EventArgs e)
+                {
+                    this.GetMock<IViewFactory>()
+                        .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
+                        .Returns(this.ViewMock.Object);
+                }
+            }
+        }
+
         private abstract class MenuEventControllerTestableBase : EventControllerTestableBase<MenuEventController>
         {
             public MenuEventControllerTestableBase()
@@ -681,49 +757,33 @@
                 this.BeforeInit += this.OnBeforeInit;
             }
 
-            internal JSLintNetSettings Settings { get; set; }
+            public JSLintNetSettings Settings { get; set; }
 
-            internal Mock<Project> ProjectMock { get; set; }
+            public Mock<Project> ProjectMock { get; set; }
 
             protected string ProjectFullName { get; set; }
 
             public Mock<UIHierarchyItem> AddSelectedItem(string fileName, bool isLink = false)
             {
-                var hierarchyItemMock = new Mock<UIHierarchyItem>();
-                var projectItemMock = new Mock<ProjectItem>();
                 var name = Path.GetFileName(fileName);
                 var propertiesFake = new PropertiesFake();
                 var path = Path.GetDirectoryName(this.ProjectFullName);
 
                 propertiesFake.AddProperty("IsLink", isLink);
 
-                projectItemMock
-                    .Setup(x => x.get_FileNames(0))
-                    .Returns(Path.Combine(path, fileName));
+                var projectItem = Mock.Of<ProjectItem>(x =>
+                    x.get_FileNames(0) == Path.Combine(path, fileName) &&
+                    x.Name == name &&
+                    x.Properties == propertiesFake &&
+                    x.ContainingProject == this.ProjectMock.Object);
 
-                projectItemMock
-                    .SetupGet(x => x.Name)
-                    .Returns(name);
+                var hierarchyItem = Mock.Of<UIHierarchyItem>(x =>
+                    x.Name == name &&
+                    x.Object == projectItem);
 
-                projectItemMock
-                    .SetupGet(x => x.Properties)
-                    .Returns(propertiesFake);
+                this.selectedItems.Add(hierarchyItem);
 
-                projectItemMock
-                    .SetupGet(x => x.ContainingProject)
-                    .Returns(this.ProjectMock.Object);
-
-                hierarchyItemMock
-                    .SetupGet(x => x.Name)
-                    .Returns(name);
-
-                hierarchyItemMock
-                    .SetupGet(x => x.Object)
-                    .Returns(projectItemMock.Object);
-
-                this.selectedItems.Add(hierarchyItemMock.Object);
-
-                return hierarchyItemMock;
+                return Mock.Get(hierarchyItem);
             }
 
             private void OnBeforeInit(object sender, EventArgs e)
@@ -790,6 +850,44 @@
                 this.EnvironmentMock
                     .SetupGet(x => x.ActiveDocument)
                     .Returns(this.DocumentMock.Object);
+            }
+        }
+
+        private abstract class ProjectNodeTestableBase : MenuEventControllerTestableBase
+        {
+            public ProjectNodeTestableBase()
+            {
+                this.ProjectMock = new Mock<Project>();
+                this.Settings = new JSLintNetSettings();
+
+                this.BeforeInit += this.OnBeforeInit;
+            }
+
+            public Mock<Project> ProjectMock { get; set; }
+
+            public JSLintNetSettings Settings { get; set; }
+
+            private void OnBeforeInit(object sender, EventArgs e)
+            {
+                var solutionExplorerWindowMock = new Mock<UIHierarchy>();
+                var toolWindowsMock = new Mock<ToolWindows>();
+                var hierarchyItem = Mock.Of<UIHierarchyItem>(x => x.Object == this.ProjectMock.Object);
+
+                solutionExplorerWindowMock
+                    .SetupGet(x => x.SelectedItems)
+                    .Returns(new[] { hierarchyItem });
+
+                toolWindowsMock
+                    .Setup(x => x.GetToolWindow(Constants.vsWindowKindSolutionExplorer))
+                    .Returns(solutionExplorerWindowMock.Object);
+
+                this.EnvironmentMock
+                    .SetupGet(x => x.ToolWindows)
+                    .Returns(toolWindowsMock.Object);
+
+                this.GetMock<IVisualStudioJSLintProvider>()
+                    .Setup(x => x.LoadSettings(this.ProjectMock.Object))
+                    .Returns(this.Settings);
             }
         }
     }

@@ -19,15 +19,20 @@
             }
 
             this.SettingsSavedCommand = new RelayCommand(this.OnSettingsSaved);
+            this.SettingsCanceledCommand = new RelayCommand(this.OnSettingsCanceled);
             this.IgnoreAddCommand = new RelayCommand<TextBox>(this.OnIgnoreAdd);
             this.IgnoreDeleteCommand = new RelayCommand<int>(this.OnIgnoreDelete);
         }
 
         public event EventHandler SettingsSaved;
 
+        public event EventHandler SettingsCanceled;
+
         public JSLintNetSettings Model { get; private set; }
 
         public ICommand SettingsSavedCommand { get; private set; }
+
+        public ICommand SettingsCanceledCommand { get; private set; }
 
         public ICommand IgnoreAddCommand { get; private set; }
 
@@ -229,8 +234,26 @@
 
             if (handler != null)
             {
-                handler(this, new EventArgs());
+                handler(this, EventArgs.Empty);
             }
+
+            var view = this.View;
+            view.DialogResult = true;
+            view.Close();
+        }
+
+        private void OnSettingsCanceled(object param)
+        {
+            var handler = this.SettingsCanceled;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+
+            var view = this.View;
+            view.DialogResult = false;
+            view.Close();
         }
 
         private void OnIgnoreAdd(TextBox param)

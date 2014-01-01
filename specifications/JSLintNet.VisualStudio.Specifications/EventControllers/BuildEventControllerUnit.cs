@@ -87,7 +87,7 @@
                     testable.BuildEventsMock.Raise(x => x.OnBuildProjConfigBegin += null, testable.ProjectMock.Object.UniqueName, string.Empty, string.Empty, string.Empty);
 
                     testable.EnvironmentMock.Verify(x => x.ExecuteCommand("Build.Cancel", string.Empty));
-                    testable.Verify<IJSLintErrorListProvider>(x => x.AddCustomError(Resources.BuildCancelled));
+                    testable.Verify<IJSLintErrorListProvider>(x => x.AddCustomError(Resources.BuildCanceled));
                 }
             }
 

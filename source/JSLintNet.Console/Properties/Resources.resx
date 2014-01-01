@@ -189,6 +189,18 @@
   <data name="HelpSyntaxHeading" xml:space="preserve">
     <value>Syntax:</value>
   </data>
+  <data name="SettingsEditorCanceled" xml:space="preserve">
+    <value>Settings editor canceled without saving.</value>
+  </data>
+  <data name="SettingsEditorCloseWarning" xml:space="preserve">
+    <value>CLOSING THIS CONSOLE WINDOW WILL EXIT THE EDITOR WITHOUT SAVING.</value>
+  </data>
+  <data name="SettingsEditorLaunching" xml:space="preserve">
+    <value>Launching the JSLint.NET settings editor.</value>
+  </data>
+  <data name="SettingsEditorSavedFormat" xml:space="preserve">
+    <value>Settings saved to "{0}".</value>
+  </data>
   <data name="SummaryErrorCountFormat" xml:space="preserve">
     <value>Total Errors: {0}</value>
   </data>
