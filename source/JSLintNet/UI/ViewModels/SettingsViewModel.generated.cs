@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.VisualStudio.UI.ViewModels
+﻿namespace JSLintNet.UI.ViewModels
 {
     using System.CodeDom.Compiler;
 

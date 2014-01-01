@@ -5,9 +5,9 @@
     using System.ComponentModel.Design;
     using EnvDTE;
     using EnvDTE80;
+    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Views;
     using JSLintNet.VisualStudio.Errors;
-    using JSLintNet.VisualStudio.UI.ViewModels;
-    using JSLintNet.VisualStudio.UI.Views;
     using Microsoft.VisualStudio.Shell;
 
     internal class MenuEventController : EventControllerBase

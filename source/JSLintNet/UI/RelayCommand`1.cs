@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.VisualStudio.UI
+﻿namespace JSLintNet.UI
 {
     using System;
     using System.Windows.Input;

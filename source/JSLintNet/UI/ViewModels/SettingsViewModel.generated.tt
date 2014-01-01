@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 <#@ include file="..\..\..\..\JSLintOptions.t4" #>
-namespace JSLintNet.VisualStudio.UI.ViewModels
+namespace JSLintNet.UI.ViewModels
 {
     using System.CodeDom.Compiler;
 

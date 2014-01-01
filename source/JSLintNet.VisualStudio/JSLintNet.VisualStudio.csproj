@@ -157,8 +157,6 @@
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Errors\JSLintTagger.cs" />
     <Compile Include="Errors\JSLintTaggerProvider.cs" />
-    <Compile Include="UI\RelayCommand`1.cs" />
-    <Compile Include="UI\InvertedCheckBox.cs" />
     <Compile Include="JSLintCommands.cs" />
     <Compile Include="Errors\IJSLintErrorListProvider.cs" />
     <Compile Include="IVisualStudioJSLintProvider.cs" />
@@ -173,21 +171,6 @@
     </Compile>
     <None Include="packages.config" />
     <None Include="Targets\ZipPackage.targets" />
-    <None Include="UI\ViewModels\SettingsViewModel.generated.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SettingsViewModel.generated.cs</LastGenOutput>
-    </None>
-    <Compile Include="UI\RelayCommand.cs" />
-    <Compile Include="UI\ViewModels\SettingsViewModel.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SettingsViewModel.generated.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ViewModels\ViewModelBase.cs" />
-    <Compile Include="UI\Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\ViewModels\SettingsViewModel.cs" />
     <Compile Include="VisualStudioJSLintProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -234,12 +217,6 @@
       <Link>License.txt</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="UI\Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

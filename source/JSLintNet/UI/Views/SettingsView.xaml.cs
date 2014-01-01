@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.VisualStudio.UI.Views
+﻿namespace JSLintNet.UI.Views
 {
     using System.Windows;
 

@@ -58,9 +58,14 @@
       <HintPath>..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\x86\Noesis.Javascript.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\FileSystemWrapper.cs" />
@@ -107,6 +112,19 @@
     </Compile>
     <Compile Include="JSLintReportBuilder.cs" />
     <Compile Include="IJSLintReportBuilder.cs" />
+    <Compile Include="UI\InvertedCheckBox.cs" />
+    <Compile Include="UI\RelayCommand.cs" />
+    <Compile Include="UI\RelayCommand`1.cs" />
+    <Compile Include="UI\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="UI\ViewModels\SettingsViewModel.generated.cs">
+      <DependentUpon>SettingsViewModel.generated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="UI\ViewModels\ViewModelBase.cs" />
+    <Compile Include="UI\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -126,6 +144,10 @@
     <None Include="packages.config" />
     <None Include="Resources\jslint.js" />
     <None Include="Targets\ZipPackage.targets" />
+    <None Include="UI\ViewModels\SettingsViewModel.generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SettingsViewModel.generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -171,6 +193,12 @@
     </Content>
     <None Include="Resources\jslintEdition.js" />
     <None Include="Resources\ReportDocumentStyle.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
