@@ -133,6 +133,24 @@ namespace JSLintNet.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specifies the JSON settings file to create or edit. A .json extension is required or it will be treated as sourcedirectory (see below)..
+        /// </summary>
+        internal static string HelpEditSettingsFileDescription {
+            get {
+                return ResourceManager.GetString("HelpEditSettingsFileDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to editsettingsfile.
+        /// </summary>
+        internal static string HelpEditSettingsFileOption {
+            get {
+                return ResourceManager.GetString("HelpEditSettingsFileOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Displays this help text..
         /// </summary>
         internal static string HelpHelpDescription {
@@ -223,6 +241,15 @@ namespace JSLintNet.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -----.
+        /// </summary>
+        internal static string HelpSectionDivider {
+            get {
+                return ResourceManager.GetString("HelpSectionDivider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specifies the path to a custom settings file if a {0} file in the source directory should not be used..
         /// </summary>
         internal static string HelpSettingsFileDescriptionFormat {
@@ -259,7 +286,7 @@ namespace JSLintNet.Console.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} /? | sourcedirectory [/s settingsfile] [/r reportfile] [/l loglevel].
+        ///   Looks up a localized string similar to {0} /? | editsettingsfile | sourcedirectory [/s settingsfile] [/r reportfile] [/l loglevel].
         /// </summary>
         internal static string HelpSyntaxFormat {
             get {

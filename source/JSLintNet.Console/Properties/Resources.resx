@@ -141,6 +141,12 @@
   <data name="ExceptionUnrecognizedArgument" xml:space="preserve">
     <value>Unrecognised argument.</value>
   </data>
+  <data name="HelpEditSettingsFileDescription" xml:space="preserve">
+    <value>Specifies the JSON settings file to create or edit. A .json extension is required or it will be treated as sourcedirectory (see below).</value>
+  </data>
+  <data name="HelpEditSettingsFileOption" xml:space="preserve">
+    <value>editsettingsfile</value>
+  </data>
   <data name="HelpHelpDescription" xml:space="preserve">
     <value>Displays this help text.</value>
   </data>
@@ -171,6 +177,9 @@
   <data name="HelpReportFileOption" xml:space="preserve">
     <value>/r reportfile</value>
   </data>
+  <data name="HelpSectionDivider" xml:space="preserve">
+    <value>-----</value>
+  </data>
   <data name="HelpSettingsFileDescriptionFormat" xml:space="preserve">
     <value>Specifies the path to a custom settings file if a {0} file in the source directory should not be used.</value>
   </data>
@@ -184,7 +193,7 @@
     <value>sourcedirectory</value>
   </data>
   <data name="HelpSyntaxFormat" xml:space="preserve">
-    <value>{0} /? | sourcedirectory [/s settingsfile] [/r reportfile] [/l loglevel]</value>
+    <value>{0} /? | editsettingsfile | sourcedirectory [/s settingsfile] [/r reportfile] [/l loglevel]</value>
   </data>
   <data name="HelpSyntaxHeading" xml:space="preserve">
     <value>Syntax:</value>
