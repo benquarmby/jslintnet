@@ -137,15 +137,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MSBuild\JSLintNet.MSBuild.targets" />
-    <None Include="Targets\NuGetPackage.targets" />
-    <None Include="MSBuild\JSLintNet.MSBuild.nuspec" />
     <None Include="JSLintOptions.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JSLintOptions.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <None Include="Resources\jslint.js" />
+    <None Include="Targets\CleanupPackages.targets" />
     <None Include="Targets\ZipPackage.targets" />
     <None Include="UI\ViewModels\SettingsViewModel.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -216,7 +214,7 @@
   </Target>
   -->
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="Targets\NuGetPackage.targets" Condition="$(Configuration) == Release" />
+  <Import Project="Targets\CleanupPackages.targets" Condition="$(Configuration) == Release" />
   <Import Project="Targets\ZipPackage.targets" Condition="$(Configuration) == Release" />
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.47.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>

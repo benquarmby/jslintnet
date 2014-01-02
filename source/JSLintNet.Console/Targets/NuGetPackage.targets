@@ -14,9 +14,10 @@
 
     <PropertyGroup>
       <NuGetTargetDir>$(TargetDir)NuGet\</NuGetTargetDir>
+      <BuildPackageDir>$(SolutionDir)build\</BuildPackageDir>
       <FullVersion>%(AssemblyIdentity.Version)</FullVersion>
       <InformationalVersion>$(FullVersion.Substring(0, $(FullVersion.LastIndexOf('.'))))</InformationalVersion>
-      <AssetPath>$(MSBuildThisFileDirectory)..\MSBuild\$(MSBuildProjectName).MSBuild</AssetPath>
+      <AssetPath>$(MSBuildThisFileDirectory)..\MSBuild\JSLintNet.MSBuild</AssetPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,7 +32,7 @@
     <Copy SourceFiles="@(NuGetBuild)" DestinationFolder="$(NuGetTargetDir)build\" />
     <Copy SourceFiles="@(NuGetTools)" DestinationFolder="$(NuGetTargetDir)tools\%(RecursiveDir)" />
 
-    <Exec Command="$(SolutionDir).nuget\NuGet.exe pack -Version $(InformationalVersion) -Verbosity quiet -OutputDirectory $(TargetDir)" WorkingDirectory="$(NuGetTargetDir)" />
+    <Exec Command="$(SolutionDir).nuget\NuGet.exe pack -Version $(InformationalVersion) -Verbosity quiet -OutputDirectory $(BuildPackageDir)" WorkingDirectory="$(NuGetTargetDir)" />
 
     <RemoveDir Directories="$(NuGetTargetDir)" />
   </Target>

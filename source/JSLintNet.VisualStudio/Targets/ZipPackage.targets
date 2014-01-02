@@ -14,9 +14,10 @@
 
     <PropertyGroup>
       <VsixTargetDir>$(TargetDir)Vsix\</VsixTargetDir>
+      <BuildPackageDir>$(SolutionDir)build\</BuildPackageDir>
       <FullVersion>%(AssemblyIdentity.Version)</FullVersion>
       <InformationalVersion>$(FullVersion.Substring(0, $(FullVersion.LastIndexOf('.'))))</InformationalVersion>
-      <FinalVsixName>$(MSBuildProjectName)-$(InformationalVersion).vsix</FinalVsixName>
+      <FinalVsixName>$(MSBuildProjectName).$(InformationalVersion).vsix</FinalVsixName>
     </PropertyGroup>
 
     <RemoveDir Directories="$(VsixTargetDir)" />
@@ -24,7 +25,7 @@
 
     <Exec Command="&quot;$(ProgramW6432)\7-Zip\7z.exe&quot; x &quot;$(MSBuildProjectName).vsix&quot; -o&quot;$(VsixTargetDir)&quot;" WorkingDirectory="$(TargetDir)" LogStandardErrorAsError="true" />
 
-    <Exec Command="&quot;$(ProgramW6432)\7-Zip\7z.exe&quot; a &quot;$(FinalVsixName)&quot; -tzip -r &quot;$(VsixTargetDir)*.*&quot;" WorkingDirectory="$(TargetDir)" LogStandardErrorAsError="true" />
+    <Exec Command="&quot;$(ProgramW6432)\7-Zip\7z.exe&quot; a &quot;$(FinalVsixName)&quot; -tzip -r &quot;$(VsixTargetDir)*.*&quot;" WorkingDirectory="$(BuildPackageDir)" LogStandardErrorAsError="true" />
 
     <RemoveDir Directories="$(VsixTargetDir)" />
   </Target>

@@ -14,9 +14,10 @@
 
     <PropertyGroup>
       <PackageTargetDir>$(TargetDir)Package\</PackageTargetDir>
+      <BuildPackageDir>$(SolutionDir)build\</BuildPackageDir>
       <FullVersion>%(AssemblyIdentity.Version)</FullVersion>
       <InformationalVersion>$(FullVersion.Substring(0, $(FullVersion.LastIndexOf('.'))))</InformationalVersion>
-      <FinalPackageName>$(MSBuildProjectName)-$(InformationalVersion).zip</FinalPackageName>
+      <FinalPackageName>$(MSBuildProjectName).$(InformationalVersion).zip</FinalPackageName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,12 +25,11 @@
       <PackageContent Include="$(TargetDir)$(TargetName).xml" Condition="Exists('$(TargetDir)$(TargetName).xml')" />
     </ItemGroup>
 
-    <Delete Files="$(TargetDir)$(FinalPackageName)" />
     <RemoveDir Directories="$(PackageTargetDir)" />
 
     <Copy SourceFiles="@(PackageContent)" DestinationFolder="$(PackageTargetDir)%(RecursiveDir)" />
 
-    <Exec Command="&quot;$(ProgramW6432)\7-Zip\7z.exe&quot; a &quot;$(FinalPackageName)&quot; -r &quot;$(PackageTargetDir)*.*&quot;" WorkingDirectory="$(TargetDir)" LogStandardErrorAsError="true" />
+    <Exec Command="&quot;$(ProgramW6432)\7-Zip\7z.exe&quot; a &quot;$(FinalPackageName)&quot; -r &quot;$(PackageTargetDir)*.*&quot;" WorkingDirectory="$(BuildPackageDir)" LogStandardErrorAsError="true" />
 
     <RemoveDir Directories="$(PackageTargetDir)" />
   </Target>

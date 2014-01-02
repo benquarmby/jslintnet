@@ -72,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="MSBuild\JSLintNet.MSBuild.nuspec" />
+    <None Include="MSBuild\JSLintNet.MSBuild.targets" />
+    <None Include="Targets\NuGetPackage.targets" />
     <None Include="Targets\ZipPackage.targets">
       <SubType>Designer</SubType>
     </None>
@@ -99,6 +102,7 @@
   -->
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="Targets\ZipPackage.targets" Condition="$(Configuration) == Release" />
+  <Import Project="Targets\NuGetPackage.targets" Condition="$(Configuration) == Release" />
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.47.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
