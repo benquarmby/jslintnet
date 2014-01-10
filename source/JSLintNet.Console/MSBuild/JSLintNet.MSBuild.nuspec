@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>JSLintNet.MSBuild</id>
     <version>0.0.0.0</version>
@@ -14,5 +14,11 @@
     <summary>JSLint.NET MSBuild targets.</summary>
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
+    <releaseNotes>
+1.4.0 - Made targets even more configurable. Supports 64-bit MSBuild. Added console app to tools for settings editor.
+1.3.1 - Added configurable properties to JSLint.NET targets.
+For the full changelog see:
+https://jslintnet.codeplex.com/wikipage?title=Change%20Log
+    </releaseNotes>
   </metadata>
 </package>
