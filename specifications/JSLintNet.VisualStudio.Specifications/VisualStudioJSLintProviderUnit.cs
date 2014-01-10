@@ -27,7 +27,12 @@
                 {
                     var settingsPath = Path.Combine(@"some\path", JSLintNetSettings.FileName);
 
-                    testable.ProjectItemsFake.AddProjectItem(settingsPath, true);
+                    var settingsItemMock = testable.ProjectItemsFake.AddProjectItem(settingsPath, true);
+
+                    settingsItemMock
+                        .SetupGet(x => x.ContainingProject)
+                        .Returns(Mock.Of<Project>());
+
                     testable.GetMock<IFileSystemWrapper>()
                         .Setup(y => y.FileExists(settingsPath))
                         .Returns(true);

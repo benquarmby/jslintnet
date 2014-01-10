@@ -51,7 +51,7 @@
 
         private static void AddLintable(ProjectItem projectItem, List<ProjectItem> projectItemList, IList<string> ignore)
         {
-            var fileName = projectItem.FileNames[0];
+            var fileName = projectItem.GetFileName();
 
             if (projectItem.Kind != FolderKind)
             {

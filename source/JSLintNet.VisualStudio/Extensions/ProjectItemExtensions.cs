@@ -14,9 +14,11 @@
 
     internal static class ProjectItemExtensions
     {
+        public const string SolutionFolderKind = "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}";
+
         public static bool IsIgnored(this ProjectItem projectItem, IList<string> ignore)
         {
-            if (ignore != null)
+            if (ignore != null && projectItem.ContainingProject.Kind != SolutionFolderKind)
             {
                 var relative = projectItem.GetRelativePath();
 
@@ -28,7 +30,7 @@
 
         public static IgnoreState GetIgnoreState(this ProjectItem projectItem, IList<string> ignore)
         {
-            if (ignore != null)
+            if (ignore != null && projectItem.ContainingProject.Kind != SolutionFolderKind)
             {
                 var relative = projectItem.GetRelativePath();
 
@@ -52,7 +54,7 @@
             {
                 var projectPath = projectItem.ContainingProject.Properties.Get<string>("FullPath");
                 projectPath = Path.GetDirectoryName(projectPath);
-                var fileName = projectItem.FileNames[0];
+                var fileName = projectItem.GetFileName();
 
                 return fileName.Substring(projectPath.Length);
             }
@@ -68,6 +70,16 @@
             }
 
             return projectItem.Properties.Get<bool>("IsLink");
+        }
+
+        public static string GetFileName(this ProjectItem projectItem)
+        {
+            if (projectItem.ContainingProject.Kind == SolutionFolderKind)
+            {
+                return projectItem.FileNames[1];
+            }
+
+            return projectItem.FileNames[0];
         }
 
         private static string GetVirtualPath(ProjectItem projectItem)

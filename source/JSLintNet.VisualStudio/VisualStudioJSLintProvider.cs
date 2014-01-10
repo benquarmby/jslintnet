@@ -152,7 +152,7 @@
             {
                 foreach (var item in projectItems)
                 {
-                    var fileName = item.FileNames[0];
+                    var fileName = item.GetFileName();
                     this.errorListProvider.ClearJSLintErrors(fileName);
 
                     var isOpen = item.Document != null;
@@ -280,7 +280,7 @@
 
             if (project.ProjectItems.TryFindItem(JSLintNetSettings.FileName, out settingsItem))
             {
-                return settingsItem.FileNames[0];
+                return settingsItem.GetFileName();
             }
 
             return Path.Combine(path, JSLintNetSettings.FileName);
