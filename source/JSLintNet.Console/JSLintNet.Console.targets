@@ -39,7 +39,7 @@
 
   <Target Name="JSLintNetMSBuildPackage">
     <PropertyGroup>
-      <JSLintMSBuildAssetPath>$(MSBuildThisFileDirectory)..\MSBuild\JSLintNet.MSBuild</JSLintMSBuildAssetPath>
+      <JSLintMSBuildAssetPath>$(MSBuildThisFileDirectory)MSBuild\JSLintNet.MSBuild</JSLintMSBuildAssetPath>
     </PropertyGroup>
 
     <ItemGroup>
