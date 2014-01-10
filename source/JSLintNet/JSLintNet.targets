@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BuildDependsOn>
+      JSLintNetPreCleanup;
+      $(BuildDependsOn);
+      JSLintNetPackage;
+      JSLintNetPostCleanup;
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="JSLintNetPreCleanup">
+    <RemoveDir Directories="$(JSLintNetBuildDir)" />
+    <RemoveDir Directories="$(JSLintNetPackageDir)" />
+  </Target>
+
+  <Target Name="JSLintNetPackage">
+    <PropertyGroup>
+      <JSLintNetPackageFile>$(MSBuildProjectName).$(JSLintNetInformationalVersion).zip</JSLintNetPackageFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <JSLintNetPackageContent Include="$(TargetPath);$(TargetDir)License.txt;$(TargetDir)**\*.dll" KeepDuplicates="false" />
+      <JSLintNetPackageContent Include="$(TargetDir)$(TargetName).xml" Condition="Exists('$(TargetDir)$(TargetName).xml')" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(JSLintNetPackageContent)" DestinationFolder="$(JSLintNetPackageDir)%(RecursiveDir)" />
+
+    <ItemGroup>
+      <JSLintNetPackageFiles Include="$(JSLintNetPackageDir)**\*.*" />
+    </ItemGroup>
+
+    <Zip
+      WorkingDirectory="$(JSLintNetPackageDir)"
+      Files="@(JSLintNetPackageFiles)"
+      ZipFileName="$(JSLintNetBuildDir)$(JSLintNetPackageFile)" />
+  </Target>
+
+  <Target Name="JSLintNetPostCleanup">
+    <RemoveDir Directories="$(JSLintNetPackageDir)" />
+  </Target>
+</Project>

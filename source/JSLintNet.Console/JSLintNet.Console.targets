@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BuildDependsOn>
+      JSLintNetConsolePreCleanup;
+      $(BuildDependsOn);
+      JSLintNetConsolePackage;
+      JSLintNetMSBuildPackage;
+      JSLintNetConsolePostCleanup;
+    </BuildDependsOn>
+
+    <JSLintMSBuildTargetDir>$(TargetDir)NuGet\</JSLintMSBuildTargetDir>
+  </PropertyGroup>
+
+  <Target Name="JSLintNetConsolePreCleanup">
+    <RemoveDir Directories="$(JSLintMSBuildTargetDir)" />
+  </Target>
+
+  <Target Name="JSLintNetConsolePackage">
+    <ItemGroup>
+      <JSLintNetConsolePackageContent Include="$(TargetPath);$(TargetDir)License.txt;$(TargetDir)**\*.dll" KeepDuplicates="false" />
+    </ItemGroup>
+
+    <RemoveDir Directories="$(JSLintNetPackageDir)" />
+
+    <Copy SourceFiles="@(JSLintNetConsolePackageContent)" DestinationFolder="$(JSLintNetPackageDir)%(RecursiveDir)" />
+
+    <ItemGroup>
+      <JSLintNetConsolePackageFiles Include="$(JSLintNetPackageDir)**\*.*" />
+    </ItemGroup>
+
+    <Zip
+      WorkingDirectory="$(JSLintNetPackageDir)"
+      Files="@(JSLintNetConsolePackageFiles)"
+      ZipFileName="$(JSLintNetBuildDir)$(MSBuildProjectName).$(JSLintNetInformationalVersion).zip" />
+
+    <RemoveDir Directories="$(JSLintNetPackageDir)" />
+  </Target>
+
+  <Target Name="JSLintNetMSBuildPackage">
+    <PropertyGroup>
+      <JSLintMSBuildAssetPath>$(MSBuildThisFileDirectory)..\MSBuild\JSLintNet.MSBuild</JSLintMSBuildAssetPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <JSLintMSBuildRootFiles Include="$(JSLintMSBuildAssetPath).nuspec" />
+      <JSLintMSBuildBuildFiles Include="$(JSLintMSBuildAssetPath).targets" />
+      <JSLintMSBuildTools Include="$(TargetPath);$(TargetDir)License.txt;$(TargetDir)**\*.dll" KeepDuplicates="false" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(JSLintMSBuildRootFiles)" DestinationFolder="$(JSLintMSBuildTargetDir)" />
+    <Copy SourceFiles="@(JSLintMSBuildBuildFiles)" DestinationFolder="$(JSLintMSBuildTargetDir)build\" />
+    <Copy SourceFiles="@(JSLintMSBuildTools)" DestinationFolder="$(JSLintMSBuildTargetDir)tools\%(RecursiveDir)" />
+
+    <Exec Command="$(SolutionDir).nuget\NuGet.exe pack -Version $(JSLintNetInformationalVersion) -Verbosity quiet -OutputDirectory $(JSLintNetBuildDir)" WorkingDirectory="$(JSLintMSBuildTargetDir)" />
+  </Target>
+
+  <Target Name="JSLintNetConsolePostCleanup">
+    <RemoveDir Directories="$(JSLintMSBuildTargetDir)" />
+  </Target>
+</Project>

@@ -15,6 +15,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)JSLintNet.props" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -74,8 +75,7 @@
     <None Include="App.config" />
     <None Include="MSBuild\JSLintNet.MSBuild.nuspec" />
     <None Include="MSBuild\JSLintNet.MSBuild.targets" />
-    <None Include="Targets\NuGetPackage.targets" />
-    <None Include="Targets\ZipPackage.targets">
+    <None Include="JSLintNet.Console.targets">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -101,8 +101,11 @@
   </Target>
   -->
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="Targets\ZipPackage.targets" Condition="$(Configuration) == Release" />
-  <Import Project="Targets\NuGetPackage.targets" Condition="$(Configuration) == Release" />
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\packages\MSBuildTasks.1.4.0.65\tools</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  <Import Project="JSLintNet.Console.targets" Condition="$(Configuration) == Release" />
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.47.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>

@@ -16,6 +16,7 @@
     <RestorePackages>true</RestorePackages>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)JSLintNet.props" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -143,8 +144,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="Resources\jslint.js" />
-    <None Include="Targets\CleanupPackages.targets" />
-    <None Include="Targets\ZipPackage.targets" />
+    <None Include="JSLintNet.targets" />
     <None Include="UI\ViewModels\SettingsViewModel.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SettingsViewModel.generated.cs</LastGenOutput>
@@ -214,8 +214,11 @@
   </Target>
   -->
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="Targets\CleanupPackages.targets" Condition="$(Configuration) == Release" />
-  <Import Project="Targets\ZipPackage.targets" Condition="$(Configuration) == Release" />
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\packages\MSBuildTasks.1.4.0.65\tools</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  <Import Project="JSLintNet.targets" Condition="$(Configuration) == Release" />
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.47.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
