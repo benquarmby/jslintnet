@@ -8,14 +8,14 @@
     <owners>JSLint.NET Contributors</owners>
     <licenseUrl>https://jslintnet.codeplex.com/license</licenseUrl>
     <projectUrl>https://jslintnet.codeplex.com/</projectUrl>
-    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=jslintnet&amp;DownloadId=771961</iconUrl>
+    <iconUrl>https://download-codeplex.sec.s-msft.com/Download?ProjectName=jslintnet&amp;DownloadId=771961</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>JSLint.NET for MSBuild adds JavaScript validation targets to any Visual Studio project.</description>
     <summary>JSLint.NET MSBuild targets.</summary>
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
-1.4.0 - Made targets even more configurable. Supports 64-bit MSBuild. Added console app to tools for settings editor.
+1.4.0 - Added support for 64-bit MSBuild. Made targets even more configurable. Included console app in tools for settings editor.
 1.3.1 - Added configurable properties to JSLint.NET targets.
 For the full changelog see:
 https://jslintnet.codeplex.com/wikipage?title=Change%20Log
