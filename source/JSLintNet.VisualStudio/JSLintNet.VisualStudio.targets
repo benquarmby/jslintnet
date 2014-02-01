@@ -18,6 +18,13 @@
       TargetDirectory="$(JSLintNetPackageDir)"
       ZipFileName="$(TargetDir)$(MSBuildProjectName).vsix" />
 
+    <XmlUpdate
+      XmlFileName="$(JSLintNetPackageDir)\extension.vsixmanifest"
+      Namespace="http://schemas.microsoft.com/developer/vsx-schema/2011"
+      Prefix="n"
+      XPath="/n:PackageManifest/n:Metadata/n:Identity/@Version"
+      Value="$(JSLintNetInformationalVersion)" />
+
     <ItemGroup>
       <JSLintNetVisualStudioPackageFiles Include="$(JSLintNetPackageDir)**\*.*" />
     </ItemGroup>
