@@ -107,7 +107,7 @@
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
   <Import Project="JSLintNet.Console.targets" Condition="$(Configuration) == Release" />
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.47.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.48.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>
