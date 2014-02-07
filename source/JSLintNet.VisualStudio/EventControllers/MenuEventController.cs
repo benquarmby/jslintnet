@@ -194,14 +194,14 @@
             var menuCommand = (OleMenuCommand)sender;
             var document = this.Environment.ActiveDocument;
 
-            menuCommand.Visible = JSLint.CanLint(document.Name);
+            menuCommand.Visible = document != null && JSLint.CanLint(document.Name);
         }
 
         private void OnCodeWindowRun(object sender, EventArgs e)
         {
             var document = this.Environment.ActiveDocument;
 
-            if (JSLint.CanLint(document.Name))
+            if (document != null && JSLint.CanLint(document.Name))
             {
                 this.VisualStudioJSLintProvider.LintDocument(document);
             }
