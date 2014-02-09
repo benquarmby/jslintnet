@@ -43,5 +43,22 @@
 
             this.RaisePropertyChanged(memberExpression.Member.Name);
         }
+
+        protected virtual void HandleAndClose(EventHandler handler)
+        {
+            this.HandleAndClose(handler, null);
+        }
+
+        protected virtual void HandleAndClose(EventHandler handler, bool? result)
+        {
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+
+            var view = this.View;
+            view.DialogResult = result;
+            view.Close();
+        }
     }
 }

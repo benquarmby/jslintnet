@@ -79,6 +79,11 @@
     <Compile Include="Abstractions\AbstractionFactory.cs" />
     <Compile Include="Helpers\ExecutionHelper.cs" />
     <Compile Include="JSLintNetSettings.cs" />
+    <Compile Include="JSLintNetSettings.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JSLintNetSettings.generated.tt</DependentUpon>
+    </Compile>
     <Compile Include="JSLintOptions.cs" />
     <Compile Include="JSLintParameters.cs" />
     <Compile Include="IJSLintFactory.cs" />
@@ -138,10 +143,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="JSLintNetSettings.generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JSLintNetSettings.generated.cs</LastGenOutput>
+    </None>
+    <None Include="JSLintNetSettings.t4" />
     <None Include="JSLintOptions.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JSLintOptions.generated.cs</LastGenOutput>
     </None>
+    <None Include="JSLintOptions.t4" />
     <None Include="packages.config" />
     <None Include="Resources\jslint.js" />
     <None Include="JSLintNet.targets" />

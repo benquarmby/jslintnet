@@ -42,7 +42,7 @@
         {
             get
             {
-                return this.Model.Output == Output.Error;
+                return !this.Model.Output.HasValue || this.Model.Output == Output.Error;
             }
 
             set
@@ -89,85 +89,6 @@
                 }
 
                 this.RaisePropertyChanged(() => this.OutputMessage);
-            }
-        }
-
-        public bool RunOnSave
-        {
-            get
-            {
-                return this.Model.RunOnSave;
-            }
-
-            set
-            {
-                this.Model.RunOnSave = value;
-
-                this.RaisePropertyChanged(() => this.RunOnSave);
-            }
-        }
-
-        public bool RunOnBuild
-        {
-            get
-            {
-                return this.Model.RunOnBuild;
-            }
-
-            set
-            {
-                this.Model.RunOnBuild = value;
-
-                this.RaisePropertyChanged(() => this.RunOnBuild);
-            }
-        }
-
-        public bool CancelBuild
-        {
-            get
-            {
-                return this.Model.CancelBuild;
-            }
-
-            set
-            {
-                this.Model.CancelBuild = value;
-
-                this.RaisePropertyChanged(() => this.CancelBuild);
-            }
-        }
-
-        public string ErrorLimit
-        {
-            get
-            {
-                var nullable = this.Model.ErrorLimit;
-
-                return nullable.HasValue ? nullable.ToString() : null;
-            }
-
-            set
-            {
-                this.Model.ErrorLimit = ParseIntFromString(value);
-
-                this.RaisePropertyChanged(() => this.ErrorLimit);
-            }
-        }
-
-        public string FileLimit
-        {
-            get
-            {
-                var nullable = this.Model.FileLimit;
-
-                return nullable.HasValue ? nullable.ToString() : null;
-            }
-
-            set
-            {
-                this.Model.FileLimit = ParseIntFromString(value);
-
-                this.RaisePropertyChanged(() => this.FileLimit);
             }
         }
 
@@ -230,30 +151,12 @@
 
         private void OnSettingsSaved(object param)
         {
-            var handler = this.SettingsSaved;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-
-            var view = this.View;
-            view.DialogResult = true;
-            view.Close();
+            this.HandleAndClose(this.SettingsSaved, true);
         }
 
         private void OnSettingsCanceled(object param)
         {
-            var handler = this.SettingsCanceled;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-
-            var view = this.View;
-            view.DialogResult = false;
-            view.Close();
+            this.HandleAndClose(this.SettingsCanceled, false);
         }
 
         private void OnIgnoreAdd(TextBox param)

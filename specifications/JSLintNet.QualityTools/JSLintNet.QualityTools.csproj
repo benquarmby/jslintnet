@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Expectations\ExpectationActionExtensions.cs" />
     <Compile Include="Expectations\ExpectationBooleanExtensions.cs" />
+    <Compile Include="Expectations\ExpectationDictionaryExtensions.cs" />
     <Compile Include="Expectations\ExpectationEnumerableExtensions.cs" />
     <Compile Include="Expectations\ExpectationHelper.cs" />
     <Compile Include="Expectations\ExpectationInt32Extensions.cs" />

@@ -4,7 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8743E3F5-4E10-44C0-AC6C-D6CA77DB5423}"
 	ProjectSection(SolutionItems) = preProject
 		JSLintNet.props = JSLintNet.props
-		JSLintOptions.t4 = JSLintOptions.t4
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject

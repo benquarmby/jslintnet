@@ -18,9 +18,9 @@
                     </GroupBox>
                     <GroupBox Header="Visual Studio" HorizontalAlignment="Left" Margin="10,115,0,0" Width="240" Height="100" VerticalAlignment="Top">
                         <Canvas>
-                            <CheckBox Content="Run on save" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding RunOnSave}" />
-                            <CheckBox Content="Run on build" Canvas.Left="10" Name="RunOnBuild" Canvas.Top="31" IsChecked="{Binding RunOnBuild}" />
-                            <CheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
+                            <local:InvertedCheckBox Content="Run on save" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding RunOnSave}" IsThreeState="True" />
+                            <local:InvertedCheckBox Content="Run on build" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding RunOnBuild}" IsThreeState="True" />
+                            <local:InvertedCheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsThreeState="True" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
                         </Canvas>
                     </GroupBox>
                     <GroupBox Header="Ignore" HorizontalAlignment="Right" Margin="0,10,10,10" Width="480">

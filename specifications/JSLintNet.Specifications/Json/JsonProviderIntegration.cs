@@ -32,19 +32,21 @@
                 I.Expect(actual).ToContain(@"""output"": ""Warning""");
             }
 
-            [Fact(DisplayName = "Should correctly serialize booleans")]
+            [Fact(DisplayName = "Should correctly serialize nullable booleans")]
             public void Spec02()
             {
                 var settings = new JSLintNetSettings()
                 {
-                    RunOnBuild = true
+                    RunOnSave = false,
+                    RunOnBuild = true,
+                    CancelBuild = null
                 };
 
                 var actual = this.Instance.SerializeSettings(settings);
 
                 I.Expect(actual).ToContain(@"""runOnSave"": false");
                 I.Expect(actual).ToContain(@"""runOnBuild"": true");
-                I.Expect(actual).ToContain(@"""cancelBuild"": false");
+                I.Expect(actual).Not.ToContain(@"""cancelBuild"": false");
             }
 
             [Fact(DisplayName = "Should correctly serialize ignore list")]
@@ -98,9 +100,9 @@
 
                 var actual = this.Instance.DeserializeSettings(value);
 
-                I.Expect(actual.RunOnSave).ToBeFalse();
+                I.Expect(actual.RunOnSave).ToBeNullOrFalse();
                 I.Expect(actual.RunOnBuild).ToBeTrue();
-                I.Expect(actual.CancelBuild).ToBeFalse();
+                I.Expect(actual.CancelBuild).ToBeNullOrFalse();
             }
 
             [Fact(DisplayName = "Should correctly deserialize ignore list")]

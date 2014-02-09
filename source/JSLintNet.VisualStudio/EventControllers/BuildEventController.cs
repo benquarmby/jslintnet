@@ -49,7 +49,7 @@
 
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
 
-            if (!settings.RunOnBuild)
+            if (!settings.RunOnBuild.GetValueOrDefault())
             {
                 return;
             }
@@ -60,7 +60,7 @@
             var items = project.ProjectItems.FindLintable(ignored);
             var errors = this.VisualStudioJSLintProvider.LintProjectItems(items, settings);
 
-            if (errors > 0 && settings.CancelBuild)
+            if (errors > 0 && settings.CancelBuild.GetValueOrDefault())
             {
                 this.Environment.ExecuteCommand("Build.Cancel");
                 this.ErrorListProvider.AddCustomError(Resources.BuildCanceled);

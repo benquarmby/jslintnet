@@ -1,0 +1,36 @@
+<#+
+    private static readonly List<SettingDefinition> SettingDefinitions =  new List<SettingDefinition>()
+    {
+        new SettingDefinition("RunOnSave", "JSLint should run on save"),
+        new SettingDefinition("RunOnBuild", "JSLint should run on build"),
+        new SettingDefinition("CancelBuild", "the build should be canceled for JSLint errors"),
+        new SettingDefinition("ErrorLimit", "the total error limit", "int"),
+        new SettingDefinition("FileLimit", "the total file limit", "int")
+    };
+
+    private class SettingDefinition
+    {
+        public SettingDefinition(string propertyName, string description)
+            : this(propertyName, description, "bool")
+        {
+        }
+
+        public SettingDefinition(string propertyName, string description, string propertyType)
+        {
+            this.PropertyName = propertyName;
+            this.Description = description;
+            this.PropertyType = propertyType;
+        }
+
+        public string PropertyName { get; set; }
+
+        public string PropertyType { get; set; }
+
+        public string Description { get; set; }
+
+        public string GetFieldName()
+        {
+            return this.PropertyName.Substring(0, 1).ToLowerInvariant() + this.PropertyName.Substring(1);
+        }
+    }
+#>

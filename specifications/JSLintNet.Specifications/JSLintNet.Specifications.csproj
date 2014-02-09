@@ -80,6 +80,7 @@
     <Compile Include="JSLintContextIntegration.cs" />
     <Compile Include="JSLintContextUnit.cs" />
     <Compile Include="JSLintNetSettingsUnit.cs" />
+    <Compile Include="JSLintOptionsUnit.cs" />
     <Compile Include="Json\JsonProviderIntegration.cs" />
     <Compile Include="JSLintTaskIntegration.cs" />
     <Compile Include="JSLintTaskUnit.cs" />

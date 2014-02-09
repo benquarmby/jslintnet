@@ -1,5 +1,5 @@
 <#+
-    private static readonly List<OptionDefinition> definitions =  new List<OptionDefinition>()
+    private static readonly List<OptionDefinition> OptionDefinitions =  new List<OptionDefinition>()
     {
         new OptionDefinition("ass", "TolerateAssignmentExpressions", "assignment expressions should be allowed"),
         new OptionDefinition("bitwise", "TolerateBitwiseOperators", "bitwise operators should be allowed"),
@@ -54,10 +54,5 @@
         public string PropertyType { get; set; }
 
         public string Description { get; set; }
-
-        private string GetFieldName()
-        {
-            return this.PropertyName.Substring(0, 1).ToLowerInvariant() + this.PropertyName.Substring(1);
-        }
     }
 #>

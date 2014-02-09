@@ -155,7 +155,7 @@
             Output output;
             if (!Enum.TryParse(this.OutputOverride, out output))
             {
-                output = settings.Output;
+                output = settings.Output.HasValue ? settings.Output.Value : default(Output);
             }
 
             if (sourceFiles.Count > 0)

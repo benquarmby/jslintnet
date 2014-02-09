@@ -28,7 +28,7 @@
     /// <summary>
     /// Represents the settings available to the JSLint.NET suite.
     /// </summary>
-    internal class JSLintNetSettings
+    internal partial class JSLintNetSettings
     {
         /// <summary>
         /// The standard file name for JSLint.NET settings.
@@ -74,34 +74,7 @@
         /// The output type.
         /// </value>
         [JsonProperty("output")]
-        public Output Output { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether JSLint should run on save.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if JSLint should run on save; otherwise, <c>false</c>.
-        /// </value>
-        [JsonProperty("runOnSave")]
-        public bool RunOnSave { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether JSLint should run on build.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if JSLint should run on build; otherwise, <c>false</c>.
-        /// </value>
-        [JsonProperty("runOnBuild")]
-        public bool RunOnBuild { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the build should be canceled for JSLint errors.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the build should be canceled for JSLint errors; otherwise, <c>false</c>.
-        /// </value>
-        [JsonProperty("cancelBuild")]
-        public bool CancelBuild { get; set; }
+        public Output? Output { get; set; }
 
         /// <summary>
         /// Gets the list of paths to ignore.
@@ -120,24 +93,6 @@
         /// </value>
         [JsonProperty("options")]
         public JSLintOptions Options { get; set; }
-
-        /// <summary>
-        /// Gets or sets the total error limit.
-        /// </summary>
-        /// <value>
-        /// The total error limit.
-        /// </value>
-        [JsonProperty("errorLimit")]
-        public int? ErrorLimit { get; set; }
-
-        /// <summary>
-        /// Gets or sets the total file limit.
-        /// </summary>
-        /// <value>
-        /// The total file limit.
-        /// </value>
-        [JsonProperty("fileLimit")]
-        public int? FileLimit { get; set; }
 
         /// <summary>
         /// Normalizes the ignore list to a new clone.
@@ -180,7 +135,7 @@
         /// <returns>
         /// The error limit for this instance or the default if one was not defined.
         /// </returns>
-        internal int ErrorLimitOrDefault()
+        public int ErrorLimitOrDefault()
         {
             var nullable = this.ErrorLimit;
 
@@ -193,11 +148,71 @@
         /// <returns>
         /// The file limit for this instance or the default if one was not defined.
         /// </returns>
-        internal int FileLimitOrDefault()
+        public int FileLimitOrDefault()
         {
             var nullable = this.FileLimit;
 
             return nullable.HasValue && nullable.Value > 0 ? nullable.Value : JSLintNetSettings.DefaultFileLimit;
+        }
+
+        /// <summary>
+        /// Merges the specified settings into this instance.
+        /// </summary>
+        /// <param name="merge">The settings to merge.</param>
+        public void Merge(JSLintNetSettings merge)
+        {
+            this.MergeOutput(merge);
+            this.MergeOptions(merge);
+            this.MergeIgnore(merge);
+            this.MergeRoot(merge);
+        }
+
+        private void MergeOutput(JSLintNetSettings merge)
+        {
+            if (merge.Output.HasValue)
+            {
+                this.Output = merge.Output;
+            }
+        }
+
+        private void MergeOptions(JSLintNetSettings merge)
+        {
+            if (merge.Options == null)
+            {
+                return;
+            }
+
+            if (this.Options == null)
+            {
+                this.Options = merge.Options;
+
+                return;
+            }
+
+            this.Options.Merge(merge.Options);
+        }
+
+        private void MergeIgnore(JSLintNetSettings merge)
+        {
+            if (merge.Ignore == null || merge.Ignore.Count < 1)
+            {
+                return;
+            }
+
+            if (this.Ignore == null || this.Ignore.Count < 1)
+            {
+                this.Ignore = merge.Ignore;
+
+                return;
+            }
+
+            foreach (var ignore in merge.Ignore)
+            {
+                if (!this.Ignore.Contains(ignore))
+                {
+                    this.Ignore.Add(ignore);
+                }
+            }
         }
     }
 }

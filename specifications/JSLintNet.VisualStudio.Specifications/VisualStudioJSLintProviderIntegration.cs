@@ -56,9 +56,9 @@
                         var actual = testable.Instance.LoadSettings(testable.Project);
 
                         I.Expect(actual).Not.ToBeNull();
-                        I.Expect(actual.RunOnBuild).ToBeFalse();
-                        I.Expect(actual.RunOnSave).ToBeFalse();
-                        I.Expect(actual.CancelBuild).ToBeFalse();
+                        I.Expect(actual.RunOnBuild).ToBeNullOrFalse();
+                        I.Expect(actual.RunOnSave).ToBeNullOrFalse();
+                        I.Expect(actual.CancelBuild).ToBeNullOrFalse();
                         I.Expect(actual.Options).ToBeNull();
                     }
                     finally
@@ -78,9 +78,9 @@
                     var actual = testable.Instance.LoadSettings(testable.Project);
 
                     I.Expect(actual).Not.ToBeNull();
-                    I.Expect(actual.RunOnBuild).ToBeFalse();
-                    I.Expect(actual.RunOnSave).ToBeFalse();
-                    I.Expect(actual.CancelBuild).ToBeFalse();
+                    I.Expect(actual.RunOnBuild).ToBeNullOrFalse();
+                    I.Expect(actual.RunOnSave).ToBeNullOrFalse();
+                    I.Expect(actual.CancelBuild).ToBeNullOrFalse();
                     I.Expect(actual.Options).ToBeNull();
                 }
             }

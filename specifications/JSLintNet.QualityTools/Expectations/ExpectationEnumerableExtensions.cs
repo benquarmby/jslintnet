@@ -9,13 +9,13 @@
         public static void ToBeEmpty<E>(this IExpectation<E> expectation)
             where E : IEnumerable
         {
-            ExpectationHelper.PassFail(!expectation.Actual.GetEnumerator().MoveNext(), expectation, expectation.Actual.ToString());
+            ExpectationHelper.PassFail(!expectation.Actual.GetEnumerator().MoveNext(), expectation);
         }
 
         public static void ToContain<E, T>(this IExpectation<E> expectation, T expected)
             where E : IEnumerable<T>
         {
-            ExpectationHelper.PassFail(expectation.Actual.Contains(expected), expectation, expectation.Actual.ToString());
+            ExpectationHelper.PassFail(expectation.Actual.Contains(expected), expectation, expected.ToString());
         }
     }
 }

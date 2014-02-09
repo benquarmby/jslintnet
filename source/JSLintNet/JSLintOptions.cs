@@ -34,5 +34,28 @@
                 return this.predefinedGlobals;
             }
         }
+
+        /// <summary>
+        /// Merges the specified options into this instance.
+        /// </summary>
+        /// <param name="merge">The options to merge.</param>
+        public void Merge(JSLintOptions merge)
+        {
+            this.MergeGlobals(merge);
+            this.MergeRoot(merge);
+        }
+
+        private void MergeGlobals(JSLintOptions merge)
+        {
+            if (merge.PredefinedGlobals == null)
+            {
+                return;
+            }
+
+            foreach (var global in merge.PredefinedGlobals)
+            {
+                this.predefinedGlobals[global.Key] = global.Value;
+            }
+        }
     }
 }
