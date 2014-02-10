@@ -7,6 +7,15 @@
 
     public class ProjectItemsFake : EnumerableFake<ProjectItem>, ProjectItems
     {
+        public ProjectItemsFake()
+        {
+        }
+
+        public ProjectItemsFake(Project containingProject)
+        {
+            this.ContainingProject = containingProject;
+        }
+
         public string Kind { get; set; }
 
         public object Parent { get; set; }

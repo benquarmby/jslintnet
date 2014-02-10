@@ -233,20 +233,20 @@
         /// </returns>
         public JSLintNetSettings LoadSettings(Project project)
         {
-            JSLintNetSettings settings = null;
-            var settingsPath = GetSettingsPath(project);
+            JSLintNetSettings settings;
 
-            if (this.fileSystemWrapper.FileExists(settingsPath))
+            if (this.TryGetSettings(project, false, out settings))
             {
-                var settingsSource = this.fileSystemWrapper.ReadAllText(settingsPath, Encoding.UTF8);
-
-                if (!string.IsNullOrEmpty(settingsSource))
+                JSLintNetSettings merge = null;
+                if (this.TryGetSettings(project, true, out merge))
                 {
-                    settings = this.jsonProvider.DeserializeSettings(settingsSource);
+                    settings.Merge(merge);
                 }
+
+                return settings;
             }
 
-            return settings ?? new JSLintNetSettings();
+            return new JSLintNetSettings();
         }
 
         /// <summary>
@@ -256,7 +256,7 @@
         /// <param name="settings">The settings.</param>
         public void SaveSettings(Project project, JSLintNetSettings settings)
         {
-            var settingsPath = GetSettingsPath(project);
+            var settingsPath = GetSettingsPath(project, false);
             var settingsJson = this.jsonProvider.SerializeSettings(settings);
 
             this.fileSystemWrapper.WriteAllText(settingsPath, settingsJson, Encoding.UTF8);
@@ -267,7 +267,7 @@
             }
         }
 
-        private static string GetSettingsPath(Project project)
+        private static string GetSettingsPath(Project project, bool config)
         {
             var path = project.Properties.Get<string>("FullPath");
 
@@ -276,14 +276,24 @@
                 return null;
             }
 
-            ProjectItem settingsItem;
+            var fileName = JSLintNetSettings.FileName;
 
-            if (project.ProjectItems.TryFindItem(JSLintNetSettings.FileName, out settingsItem))
+            if (config)
+            {
+                fileName = string.Concat(
+                    Path.GetFileNameWithoutExtension(fileName),
+                    '.',
+                    project.ConfigurationManager.ActiveConfiguration.ConfigurationName,
+                    Path.GetExtension(fileName));
+            }
+
+            ProjectItem settingsItem;
+            if (project.ProjectItems.TryFindItem(fileName, out settingsItem))
             {
                 return settingsItem.GetFileName();
             }
 
-            return Path.Combine(path, JSLintNetSettings.FileName);
+            return Path.Combine(path, fileName);
         }
 
         private static string GetMessageText(int errors)
@@ -314,6 +324,25 @@
                 errors,
                 " ",
                 errorsText);
+        }
+
+        private bool TryGetSettings(Project project, bool config, out JSLintNetSettings settings)
+        {
+            var settingsPath = GetSettingsPath(project, config);
+
+            if (this.fileSystemWrapper.FileExists(settingsPath))
+            {
+                var settingsSource = this.fileSystemWrapper.ReadAllText(settingsPath, Encoding.UTF8);
+
+                if (!string.IsNullOrEmpty(settingsSource))
+                {
+                    settings = this.jsonProvider.DeserializeSettings(settingsSource);
+                    return settings != null;
+                }
+            }
+
+            settings = null;
+            return false;
         }
 
         private void SetStatusBar(string text)
