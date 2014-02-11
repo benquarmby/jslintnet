@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <JSLintNetSourceDirectory Condition="'$(JSLintNetSourceDirectory)' == ''">$(MSBuildProjectDirectory)</JSLintNetSourceDirectory>
+    <JSLintNetConfiguration Condition="'$(JSLintNetConfiguration)' == ''">$(Configuration)</JSLintNetConfiguration>
 
     <BuildDependsOn>
       JSLintNet;
@@ -21,6 +22,7 @@
       SourceFiles="@(JSLintNetSourceFiles)"
       ReportFile="$(JSLintNetReportFile)"
       SettingsFile="$(JSLintNetSettingsFile)"
-      OutputOverride="$(JSLintNetOutputOverride)" />
+      OutputOverride="$(JSLintNetOutputOverride)"
+      Configuration="$(JSLintNetConfiguration)" />
   </Target>
 </Project>

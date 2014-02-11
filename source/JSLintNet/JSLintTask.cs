@@ -25,6 +25,8 @@
 
         private ITaskItem[] sourceFiles;
 
+        private string outputOverride;
+
         private bool sourceFilesSet;
 
         /// <summary>
@@ -88,7 +90,19 @@
         /// <value>
         /// The output override.
         /// </value>
-        public string OutputOverride { get; set; }
+        [Obsolete("Use the Configuration property together with a matching JSLintNet.CONFIGURATION.json file to override settings.")]
+        public string OutputOverride
+        {
+            get
+            {
+                return this.outputOverride;
+            }
+
+            set
+            {
+                this.outputOverride = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the build configuration.
@@ -161,7 +175,7 @@
             var sourceFiles = this.GetSourceFiles(settings);
 
             Output output;
-            if (!Enum.TryParse(this.OutputOverride, out output))
+            if (!Enum.TryParse(this.outputOverride, out output))
             {
                 output = settings.Output.HasValue ? settings.Output.Value : default(Output);
             }
