@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\bin\Debug\JSLintNet.dll" TaskName="JSLintTask" />
+
+  <PropertyGroup>
+    <JSLintNetConfiguration Condition="'$(JSLintNetConfiguration)' == ''">$(Configuration)</JSLintNetConfiguration>
+  </PropertyGroup>
+
+  <Target Name="JSLintNetTest">
+    <JSLintTask
+      SourceDirectory="$(JSLintNetSourceDirectory)"
+      SourceFiles="@(JSLintNetSourceFiles)"
+      ReportFile="$(JSLintNetReportFile)"
+      SettingsFile="$(JSLintNetSettingsFile)"
+      OutputOverride="$(JSLintNetOutputOverride)"
+      Configuration="$(JSLintNetConfiguration)"
+      ContinueOnError="ErrorAndContinue">
+      <Output TaskParameter="ErrorCount" PropertyName="JSLintNetErrorCount" />
+      <Output TaskParameter="ErrorFileCount" PropertyName="JSLintNetErrorFileCount" />
+      <Output TaskParameter="ProcessedFileCount" PropertyName="JSLintNetProcessedFileCount" />
+    </JSLintTask>
+
+    <Message Text="JSLINTERRORCOUNT=$(JSLintNetErrorCount)=JSLINTERRORCOUNT"></Message>
+    <Message Text="JSLINTERRORFILECOUNT=$(JSLintNetErrorFileCount)=JSLINTERRORFILECOUNT"></Message>
+    <Message Text="JSLINTPROCESSEDFILECOUNT=$(JSLintNetProcessedFileCount)=JSLINTPROCESSEDFILECOUNT"></Message>
+  </Target>
+</Project>

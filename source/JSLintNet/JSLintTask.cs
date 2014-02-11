@@ -91,6 +91,14 @@
         public string OutputOverride { get; set; }
 
         /// <summary>
+        /// Gets or sets the build configuration.
+        /// </summary>
+        /// <value>
+        /// The build configuration.
+        /// </value>
+        public string Configuration { get; set; }
+
+        /// <summary>
         /// Gets or sets a custom path to a JSLint.NET settings file if it is not located in the root of the source directory.
         /// </summary>
         /// <value>
@@ -149,7 +157,7 @@
         /// </returns>
         public override bool Execute()
         {
-            var settings = this.GetSettings();
+            var settings = this.LoadSettings();
             var sourceFiles = this.GetSourceFiles(settings);
 
             Output output;
@@ -312,9 +320,9 @@
             return taskFiles;
         }
 
-        private JSLintNetSettings GetSettings()
+        private JSLintNetSettings LoadSettings()
         {
-            JSLintNetSettings settings = null;
+            JSLintNetSettings settings;
             var settingsPath = this.SettingsFile;
 
             if (string.IsNullOrEmpty(settingsPath))
@@ -326,19 +334,47 @@
                 settingsPath = Path.Combine(this.SourceDirectory, settingsPath);
             }
 
-            if (this.fileSystemWrapper.FileExists(settingsPath))
+            if (this.TryGetSettings(settingsPath, out settings))
             {
-                var settingsSource = this.fileSystemWrapper.ReadAllText(settingsPath, Encoding.UTF8);
+                settings.File = settingsPath;
 
-                settings = this.jsonProvider.DeserializeSettings(settingsSource);
-
-                if (settings != null)
+                if (!string.IsNullOrEmpty(this.Configuration))
                 {
-                    settings.File = settingsPath;
+                    var settingsFile = string.Concat(
+                        Path.GetFileNameWithoutExtension(settingsPath),
+                        '.',
+                        this.Configuration + Path.GetExtension(settingsPath));
+
+                    settingsPath = Path.Combine(Path.GetDirectoryName(settingsPath), settingsFile);
+
+                    JSLintNetSettings merge;
+                    if (this.TryGetSettings(settingsPath, out merge))
+                    {
+                        settings.Merge(merge);
+                    }
+                }
+
+                return settings;
+            }
+
+            return new JSLintNetSettings();
+        }
+
+        private bool TryGetSettings(string path, out JSLintNetSettings settings)
+        {
+            if (this.fileSystemWrapper.FileExists(path))
+            {
+                var settingsSource = this.fileSystemWrapper.ReadAllText(path, Encoding.UTF8);
+
+                if (!string.IsNullOrEmpty(settingsSource))
+                {
+                    settings = this.jsonProvider.DeserializeSettings(settingsSource);
+                    return settings != null;
                 }
             }
 
-            return settings ?? new JSLintNetSettings();
+            settings = null;
+            return false;
         }
     }
 }

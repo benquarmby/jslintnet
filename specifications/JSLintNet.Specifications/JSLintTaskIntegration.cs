@@ -72,6 +72,15 @@
             I.Expect(actual.ErrorCount).ToBe(12);
         }
 
+        [Fact(DisplayName = "Should merge settings from configuration version")]
+        public void Spec07()
+        {
+            var actual = JSLintTaskHelper.ExecuteMSBuildProject("Configuration", "/p:Configuration=Release");
+
+            I.Expect(actual.Success).ToBeFalse();
+            I.Expect(actual.ErrorCount).ToBe(12);
+        }
+
         private static class JSLintTaskHelper
         {
             public static readonly string MSBuildExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Microsoft.NET\Framework\v4.0.30319\MSBuild.exe");
@@ -103,15 +112,24 @@
 
             public static JSLintTaskResult ExecuteMSBuildProject(string projectName)
             {
-                var result = ProcessHelper.Execute(MSBuildExecutable, projectName + ".proj", ProjectRoot);
+                return ExecuteMSBuildProject(projectName, null);
+            }
+
+            public static JSLintTaskResult ExecuteMSBuildProject(string projectName, string args)
+            {
+                var arguments = projectName + ".proj";
+
+                if (!string.IsNullOrEmpty(args))
+                {
+                    arguments += " " + args;
+                }
+
+                var result = ProcessHelper.Execute(MSBuildExecutable, arguments, ProjectRoot);
                 var exitCode = result.ExitCode;
                 var output = result.Output;
 
-                return new JSLintTaskResult()
+                return new JSLintTaskResult(result)
                 {
-                    ExitCode = result.ExitCode,
-                    Output = result.Output,
-                    Error = result.Error,
                     ErrorCount = ParseCount(ErrorCountPattern, output),
                     ErrorFileCount = ParseCount(ErrorFileCountPattern, output),
                     ProcessedFileCount = ParseCount(ProcessedFileCountPattern, output),
@@ -121,6 +139,17 @@
 
             public class JSLintTaskResult : ProcessResult
             {
+                public JSLintTaskResult()
+                {
+                }
+
+                public JSLintTaskResult(ProcessResult result)
+                {
+                    this.ExitCode = result.ExitCode;
+                    this.Output = result.Output;
+                    this.Error = result.Error;
+                }
+
                 public int ErrorCount { get; set; }
 
                 public int ErrorFileCount { get; set; }

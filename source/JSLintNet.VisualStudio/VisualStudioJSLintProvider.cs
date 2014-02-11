@@ -234,10 +234,9 @@
         public JSLintNetSettings LoadSettings(Project project)
         {
             JSLintNetSettings settings;
-
             if (this.TryGetSettings(project, false, out settings))
             {
-                JSLintNetSettings merge = null;
+                JSLintNetSettings merge;
                 if (this.TryGetSettings(project, true, out merge))
                 {
                     settings.Merge(merge);

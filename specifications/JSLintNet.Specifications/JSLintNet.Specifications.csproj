@@ -90,12 +90,17 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Resources\Configuration.json" />
+    <None Include="Resources\Configuration.proj" />
+    <None Include="Resources\Configuration.Release.json" />
+    <None Include="Resources\JSLintNetTest.targets" />
     <None Include="Resources\OutputOverride.proj" />
     <None Include="Resources\SourceFiles.proj" />
     <None Include="Resources\Errors.proj" />
     <None Include="Resources\HtmlReport.proj" />
     <None Include="Resources\Scripts\JSLintNet.json" />
     <None Include="Resources\SourceFiles.json" />
+    <None Include="Resources\SourceFiles.props" />
     <None Include="Resources\Warnings.json" />
     <None Include="Resources\NoSourceDirectory.proj" />
     <None Include="Resources\Warnings.proj" />

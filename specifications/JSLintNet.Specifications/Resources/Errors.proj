@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="JSLint" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\bin\Debug\JSLintNet.dll" TaskName="JSLintNet.JSLintTask" />
-  <Target Name="JSLint">
-    <JSLintNet.JSLintTask SourceDirectory="$(MSBuildProjectDirectory)\Scripts\" ContinueOnError="ErrorAndContinue">
-      <Output TaskParameter="ErrorCount" ItemName="JSLintErrorCount" />
-      <Output TaskParameter="ErrorFileCount" ItemName="JSLintErrorFileCount" />
-      <Output TaskParameter="ProcessedFileCount" ItemName="JSLintProcessedFileCount" />
-    </JSLintNet.JSLintTask>
-    <Message Text="JSLINTERRORCOUNT=@(JSLintErrorCount)=JSLINTERRORCOUNT"></Message>
-    <Message Text="JSLINTERRORFILECOUNT=@(JSLintErrorFileCount)=JSLINTERRORFILECOUNT"></Message>
-    <Message Text="JSLINTPROCESSEDFILECOUNT=@(JSLintProcessedFileCount)=JSLINTPROCESSEDFILECOUNT"></Message>
-  </Target>
+<Project DefaultTargets="JSLintNetTest" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <JSLintNetSourceDirectory>$(MSBuildProjectDirectory)\Scripts\</JSLintNetSourceDirectory>
+  </PropertyGroup>
+
+  <Import Project="JSLintNetTest.targets" />
 </Project>

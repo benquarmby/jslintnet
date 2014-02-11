@@ -417,6 +417,10 @@
                         .Setup(x => x.FileExists(settingsPath))
                         .Returns(() => this.SettingsExist);
 
+                    this.GetMock<IFileSystemWrapper>()
+                        .Setup(x => x.ReadAllText(settingsPath, Encoding.UTF8))
+                        .Returns("SETTINGS");
+
                     this.GetMock<IJsonProvider>()
                         .Setup(x => x.DeserializeSettings(It.IsAny<string>()))
                         .Returns(this.Settings);

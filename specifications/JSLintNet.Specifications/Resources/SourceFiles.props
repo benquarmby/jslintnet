@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <Content Include="Scripts\iife.js" />
+    <Content Include="Scripts\jasmine.js" />
+    <Content Include="Scripts\objectliteral.js" />
+    <Content Include="Scripts\ignored.js" />
+    <Content Include="Scripts\Modules\Calculator.js">
+      <Link>Scripts\Calculator.js</Link>
+    </Content>
+
+    <JSLintNetSourceFiles Include="@(Content)" />
+  </ItemGroup>
+</Project>
