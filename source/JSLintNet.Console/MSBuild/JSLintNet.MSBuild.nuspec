@@ -16,6 +16,7 @@
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+1.5.0 - All settings can be overriden with a build configuration specific JSON file. Deprecated OutputOverride property. Upgraded JSLint to 2014-02-06.
 1.4.1 - NuGet 2.8 is now required. Marked package as a development dependency. Upgraded JSLint to 2014-01-26.
 1.4.0 - Added support for 64-bit MSBuild. Made targets even more configurable. Included console app in tools for settings editor.
 1.3.1 - Added configurable properties to JSLint.NET targets.
