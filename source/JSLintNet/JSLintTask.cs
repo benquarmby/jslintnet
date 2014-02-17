@@ -6,9 +6,9 @@
     using System.Text;
     using JSLintNet.Abstractions;
     using JSLintNet.Helpers;
-    using JSLintNet.Json;
     using JSLintNet.Models;
     using JSLintNet.Properties;
+    using JSLintNet.Settings;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
 
@@ -21,7 +21,7 @@
 
         private IFileSystemWrapper fileSystemWrapper;
 
-        private IJsonProvider jsonProvider;
+        private ISettingsRepository settingsRepository;
 
         private ITaskItem[] sourceFiles;
 
@@ -33,7 +33,7 @@
         /// Initializes a new instance of the <see cref="JSLintTask"/> class with default services.
         /// </summary>
         public JSLintTask()
-            : this(new JSLintFactory(), new FileSystemWrapper(), new AbstractionFactory(), new JsonProvider())
+            : this(new JSLintFactory(), new FileSystemWrapper(), new AbstractionFactory(), new SettingsRepository())
         {
         }
 
@@ -43,12 +43,12 @@
         /// <param name="jsLintFactory">The JSLint factory.</param>
         /// <param name="fileSystemWrapper">The file system wrapper.</param>
         /// <param name="abstractionFactory">The task logging helper factory.</param>
-        /// <param name="jsonProvider">The JSON provider.</param>
-        internal JSLintTask(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IAbstractionFactory abstractionFactory, IJsonProvider jsonProvider)
+        /// <param name="settingsRepository">The settings repository.</param>
+        internal JSLintTask(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IAbstractionFactory abstractionFactory, ISettingsRepository settingsRepository)
         {
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
-            this.jsonProvider = jsonProvider;
+            this.settingsRepository = settingsRepository;
 
             this.LoggingHelper = abstractionFactory.CreateTaskLoggingHelper(this);
         }
@@ -336,7 +336,6 @@
 
         private JSLintNetSettings LoadSettings()
         {
-            JSLintNetSettings settings;
             var settingsPath = this.SettingsFile;
 
             if (string.IsNullOrEmpty(settingsPath))
@@ -348,47 +347,7 @@
                 settingsPath = Path.Combine(this.SourceDirectory, settingsPath);
             }
 
-            if (this.TryGetSettings(settingsPath, out settings))
-            {
-                settings.File = settingsPath;
-
-                if (!string.IsNullOrEmpty(this.Configuration))
-                {
-                    var settingsFile = string.Concat(
-                        Path.GetFileNameWithoutExtension(settingsPath),
-                        '.',
-                        this.Configuration + Path.GetExtension(settingsPath));
-
-                    settingsPath = Path.Combine(Path.GetDirectoryName(settingsPath), settingsFile);
-
-                    JSLintNetSettings merge;
-                    if (this.TryGetSettings(settingsPath, out merge))
-                    {
-                        settings.Merge(merge);
-                    }
-                }
-
-                return settings;
-            }
-
-            return new JSLintNetSettings();
-        }
-
-        private bool TryGetSettings(string path, out JSLintNetSettings settings)
-        {
-            if (this.fileSystemWrapper.FileExists(path))
-            {
-                var settingsSource = this.fileSystemWrapper.ReadAllText(path, Encoding.UTF8);
-
-                if (!string.IsNullOrEmpty(settingsSource))
-                {
-                    settings = this.jsonProvider.DeserializeSettings(settingsSource);
-                    return settings != null;
-                }
-            }
-
-            settings = null;
-            return false;
+            return this.settingsRepository.Load(settingsPath, this.Configuration);
         }
     }
 }

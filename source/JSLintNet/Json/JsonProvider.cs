@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using JSLintNet.Models;
+    using JSLintNet.Settings;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;

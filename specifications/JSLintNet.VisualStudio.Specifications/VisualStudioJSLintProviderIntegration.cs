@@ -6,6 +6,7 @@
     using EnvDTE;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
+    using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Specifications.Helpers;
     using Microsoft.VisualStudio.Shell;

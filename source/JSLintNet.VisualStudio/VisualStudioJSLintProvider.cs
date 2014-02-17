@@ -7,7 +7,7 @@
     using EnvDTE;
     using JSLintNet.Abstractions;
     using JSLintNet.Helpers;
-    using JSLintNet.Json;
+    using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Properties;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -26,7 +26,7 @@
 
         private IFileSystemWrapper fileSystemWrapper;
 
-        private IJsonProvider jsonProvider;
+        private ISettingsRepository settingsRepository;
 
         private IVsStatusbar statusBar;
 
@@ -38,25 +38,25 @@
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="errorListProvider">The error list provider.</param>
         public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider)
-            : this(serviceProvider, errorListProvider, new JSLintFactory(), new FileSystemWrapper(), new JsonProvider())
+            : this(serviceProvider, errorListProvider, new JSLintFactory(), new FileSystemWrapper(), new SettingsRepository())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VisualStudioJSLintProvider"/> class.
+        /// Initializes a new instance of the <see cref="VisualStudioJSLintProvider" /> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="errorListProvider">The error list provider.</param>
         /// <param name="jsLintFactory">The JSLint factory.</param>
         /// <param name="fileSystemWrapper">The file system wrapper.</param>
-        /// <param name="jsonProvider">The JSON provider.</param>
-        public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IJsonProvider jsonProvider)
+        /// <param name="settingsRepository">The settings repository.</param>
+        public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingsRepository)
         {
             this.serviceProvider = serviceProvider;
             this.errorListProvider = errorListProvider;
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
-            this.jsonProvider = jsonProvider;
+            this.settingsRepository = settingsRepository;
 
             this.statusBar = this.serviceProvider.GetService<SVsStatusbar, IVsStatusbar>();
             this.solutionService = this.serviceProvider.GetService<SVsSolution, IVsSolution>();
@@ -233,19 +233,10 @@
         /// </returns>
         public JSLintNetSettings LoadSettings(Project project)
         {
-            JSLintNetSettings settings;
-            if (this.TryGetSettings(project, false, out settings))
-            {
-                JSLintNetSettings merge;
-                if (this.TryGetSettings(project, true, out merge))
-                {
-                    settings.Merge(merge);
-                }
+            var settingsPath = GetSettingsPath(project);
+            var configuration = project.ConfigurationManager.ActiveConfiguration.ConfigurationName;
 
-                return settings;
-            }
-
-            return new JSLintNetSettings();
+            return this.settingsRepository.Load(settingsPath, configuration);
         }
 
         /// <summary>
@@ -255,10 +246,9 @@
         /// <param name="settings">The settings.</param>
         public void SaveSettings(Project project, JSLintNetSettings settings)
         {
-            var settingsPath = GetSettingsPath(project, false);
-            var settingsJson = this.jsonProvider.SerializeSettings(settings);
+            var settingsPath = GetSettingsPath(project);
 
-            this.fileSystemWrapper.WriteAllText(settingsPath, settingsJson, Encoding.UTF8);
+            this.settingsRepository.Save(settings, settingsPath);
 
             if (!project.ProjectItems.ItemExists(JSLintNetSettings.FileName))
             {
@@ -266,7 +256,7 @@
             }
         }
 
-        private static string GetSettingsPath(Project project, bool config)
+        private static string GetSettingsPath(Project project)
         {
             var path = project.Properties.Get<string>("FullPath");
 
@@ -276,15 +266,6 @@
             }
 
             var fileName = JSLintNetSettings.FileName;
-
-            if (config)
-            {
-                fileName = string.Concat(
-                    Path.GetFileNameWithoutExtension(fileName),
-                    '.',
-                    project.ConfigurationManager.ActiveConfiguration.ConfigurationName,
-                    Path.GetExtension(fileName));
-            }
 
             ProjectItem settingsItem;
             if (project.ProjectItems.TryFindItem(fileName, out settingsItem))
@@ -323,25 +304,6 @@
                 errors,
                 " ",
                 errorsText);
-        }
-
-        private bool TryGetSettings(Project project, bool config, out JSLintNetSettings settings)
-        {
-            var settingsPath = GetSettingsPath(project, config);
-
-            if (this.fileSystemWrapper.FileExists(settingsPath))
-            {
-                var settingsSource = this.fileSystemWrapper.ReadAllText(settingsPath, Encoding.UTF8);
-
-                if (!string.IsNullOrEmpty(settingsSource))
-                {
-                    settings = this.jsonProvider.DeserializeSettings(settingsSource);
-                    return settings != null;
-                }
-            }
-
-            settings = null;
-            return false;
         }
 
         private void SetStatusBar(string text)

@@ -9,7 +9,7 @@
     using JSLintNet.Abstractions;
     using JSLintNet.Console.Properties;
     using JSLintNet.Helpers;
-    using JSLintNet.Json;
+    using JSLintNet.Settings;
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;
     using CoreResources = JSLintNet.Properties.Resources;
@@ -22,22 +22,22 @@
 
         private IFileSystemWrapper fileSystemWrapper;
 
-        private IJsonProvider jsonProvider;
+        private ISettingsRepository settingRepository;
 
         private IConsoleWriter consoleWriter;
 
         private IViewFactory viewFactory;
 
         public ConsoleJSLintProvider()
-            : this(new JSLintFactory(), new FileSystemWrapper(), new JsonProvider(), new ConsoleWriter(), new ViewFactory())
+            : this(new JSLintFactory(), new FileSystemWrapper(), new SettingsRepository(), new ConsoleWriter(), new ViewFactory())
         {
         }
 
-        public ConsoleJSLintProvider(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IJsonProvider jsonProvider, IConsoleWriter consoleWriter, IViewFactory viewFactory)
+        public ConsoleJSLintProvider(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingRepository, IConsoleWriter consoleWriter, IViewFactory viewFactory)
         {
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
-            this.jsonProvider = jsonProvider;
+            this.settingRepository = settingRepository;
             this.consoleWriter = consoleWriter;
             this.viewFactory = viewFactory;
         }
@@ -96,7 +96,7 @@
 
         public int EditSettings(ConsoleOptions options)
         {
-            var model = options.Settings;
+            var settings = this.settingRepository.Load(options.SettingsFile);
             var message = string.Empty;
 
             this.consoleWriter
@@ -104,14 +104,15 @@
                 .WriteLine(Resources.SettingsEditorLaunching)
                 .WriteLine(Resources.SettingsEditorCloseWarning);
 
-            using (var viewModel = new SettingsViewModel(model))
+            using (var viewModel = new SettingsViewModel(settings))
             {
                 var view = this.viewFactory.CreateSettings(viewModel);
                 var result = view.ShowDialog();
 
                 if (result.HasValue && result.Value)
                 {
-                    this.SaveSettings(options.SettingsFile, model);
+                    this.settingRepository.Save(settings, options.SettingsFile);
+
                     message = string.Format(Resources.SettingsEditorSavedFormat, options.SettingsFile);
                 }
                 else
@@ -130,7 +131,7 @@
         public int Lint(ConsoleOptions options)
         {
             var sourceDirectory = options.SourceDirectory;
-            var settings = options.Settings;
+            var settings = this.settingRepository.Load(options.SettingsFile);
             var ignored = settings.NormalizeIgnore();
             var sourceFiles = options.SourceFiles.Where(x => JSLint.CanLint(x) && !IsIgnored(sourceDirectory, x, ignored)).ToArray();
             var errorLimit = settings.ErrorLimitOrDefault();
@@ -260,13 +261,6 @@
             var relative = GetRelativePath(sourceDirectory, file);
 
             return ignore.Any(x => relative.StartsWith(x, StringComparison.OrdinalIgnoreCase));
-        }
-
-        private void SaveSettings(string settingsPath, JSLintNetSettings model)
-        {
-            var settingsJson = this.jsonProvider.SerializeSettings(model);
-
-            this.fileSystemWrapper.WriteAllText(settingsPath, settingsJson, Encoding.UTF8);
         }
     }
 }

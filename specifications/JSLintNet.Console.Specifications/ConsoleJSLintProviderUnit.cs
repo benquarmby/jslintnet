@@ -5,9 +5,9 @@
     using System.IO;
     using System.Text;
     using JSLintNet.Abstractions;
-    using JSLintNet.Json;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Fakes;
+    using JSLintNet.Settings;
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;
     using Moq;
@@ -26,14 +26,14 @@
                     testable.SetupFile("some1.js", 2);
                     testable.SetupFile("some2.js", 2);
 
-                    testable.Options.Settings.ErrorLimit = 10;
+                    testable.Settings.ErrorLimit = 10;
                     testable.ErrorCount = 11;
 
                     testable.Instance.Lint(testable.Options);
 
                     testable.ConsoleWriterMock.Verify(x => x.WriteErrorLine(CoreResources.ErrorLimitReachedFormat, 11));
-                    testable.FileSystemWrapperMock.Verify(x => x.ReadAllText(testable.Options.SourceFiles[0], Encoding.UTF8));
-                    testable.FileSystemWrapperMock.Verify(x => x.ReadAllText(testable.Options.SourceFiles[1], Encoding.UTF8), Times.Never());
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[0], Encoding.UTF8));
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[1], Encoding.UTF8), Times.Never());
                 }
             }
 
@@ -45,14 +45,14 @@
                     testable.SetupFile("some1.js", 2);
                     testable.SetupFile("some2.js", 2);
 
-                    testable.Options.Settings.FileLimit = 10;
+                    testable.Settings.FileLimit = 10;
                     testable.ProcessedFileCount = 11;
 
                     testable.Instance.Lint(testable.Options);
 
                     testable.ConsoleWriterMock.Verify(x => x.WriteErrorLine(CoreResources.FileLimitReachedFormat, 11));
-                    testable.FileSystemWrapperMock.Verify(x => x.ReadAllText(testable.Options.SourceFiles[0], Encoding.UTF8));
-                    testable.FileSystemWrapperMock.Verify(x => x.ReadAllText(testable.Options.SourceFiles[1], Encoding.UTF8), Times.Never());
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[0], Encoding.UTF8));
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[1], Encoding.UTF8), Times.Never());
                 }
             }
 
@@ -74,8 +74,8 @@
                     testable.Instance.Lint(testable.Options);
 
                     testable.ConsoleWriterMock.Verify(x => x.WriteErrorLine(CoreResources.ExceptionLimitReachedFormat, JSLintNetSettings.ExceptionLimit));
-                    testable.FileSystemWrapperMock.Verify(x => x.ReadAllText(testable.Options.SourceFiles[49], Encoding.UTF8));
-                    testable.FileSystemWrapperMock.Verify(x => x.ReadAllText(testable.Options.SourceFiles[50], Encoding.UTF8), Times.Never());
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[49], Encoding.UTF8));
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[50], Encoding.UTF8), Times.Never());
                 }
             }
 
@@ -86,21 +86,12 @@
                     this.JSLintContextMock = new Mock<IJSLintContext>();
                     this.JSLintReportBuilderMock = new Mock<IJSLintReportBuilder>();
 
-                    this.Options = new ConsoleOptions()
-                    {
-                        SourceDirectory = "Source Directory",
-                        Settings = new JSLintNetSettings(),
-                        SourceFiles = new List<string>()
-                    };
-
                     this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public Mock<IJSLintContext> JSLintContextMock { get; set; }
 
                 public Mock<IJSLintReportBuilder> JSLintReportBuilderMock { get; set; }
-
-                public ConsoleOptions Options { get; set; }
 
                 public int ErrorCount { get; set; }
 
@@ -112,7 +103,7 @@
                     var fake = new JSLintDataFake(fileName, errorCount);
                     var source = fileName + " contents";
 
-                    this.FileSystemWrapperMock
+                    this.GetMock<IFileSystemWrapper>()
                         .Setup(x => x.ReadAllText(filePath, Encoding.UTF8))
                         .Returns(source);
 
@@ -127,11 +118,11 @@
 
                 private void OnBeforeInit(object sender, EventArgs e)
                 {
-                    this.JSLintFactoryMock
+                    this.GetMock<IJSLintFactory>()
                         .Setup(x => x.CreateContext())
                         .Returns(this.JSLintContextMock.Object);
 
-                    this.JSLintFactoryMock
+                    this.GetMock<IJSLintFactory>()
                         .Setup(x => x.CreateReportBuilder())
                         .Returns(this.JSLintReportBuilderMock.Object);
 
@@ -170,7 +161,7 @@
 
                     testable.Instance.EditSettings(testable.Options);
 
-                    testable.FileSystemWrapperMock.Verify(x => x.WriteAllText(testable.Options.SettingsFile, It.IsAny<string>(), It.IsAny<Encoding>()));
+                    testable.Verify<ISettingsRepository>(x => x.Save(testable.Settings, testable.Options.SettingsFile));
                 }
             }
 
@@ -185,7 +176,7 @@
 
                     testable.Instance.EditSettings(testable.Options);
 
-                    testable.FileSystemWrapperMock.Verify(x => x.WriteAllText(testable.Options.SettingsFile, It.IsAny<string>(), It.IsAny<Encoding>()), Times.Never());
+                    testable.Verify<IFileSystemWrapper>(x => x.WriteAllText(testable.Options.SettingsFile, It.IsAny<string>(), It.IsAny<Encoding>()), Times.Never());
                 }
             }
 
@@ -195,17 +186,8 @@
                 {
                     this.ViewMock = new Mock<IView>();
 
-                    this.Options = new ConsoleOptions()
-                    {
-                        SettingsEditor = true,
-                        SettingsFile = @"D:\path\to\file.json",
-                        Settings = new JSLintNetSettings()
-                    };
-
                     this.BeforeInit += this.OnBeforeInit;
                 }
-
-                public ConsoleOptions Options { get; set; }
 
                 public Mock<IView> ViewMock { get; set; }
 
@@ -222,21 +204,26 @@
         {
             public ConsoleJSLintProviderTestableBase()
             {
-                this.JSLintFactoryMock = this.GetMock<IJSLintFactory>();
-                this.FileSystemWrapperMock = this.GetMock<IFileSystemWrapper>();
-                this.JsonProviderMock = this.GetMock<IJsonProvider>();
                 this.ConsoleWriterMock = this.GetMock<IConsoleWriter>();
+
+                this.Options = new ConsoleOptions()
+                {
+                    SettingsEditor = true,
+                    SettingsFile = @"D:\path\to\file.json",
+                    SourceDirectory = @"D:\path\to",
+                    SourceFiles = new List<string>()
+                };
+
+                this.Settings = new JSLintNetSettings();
 
                 this.BeforeInit += this.OnBeforeInit;
             }
 
-            public Mock<IJSLintFactory> JSLintFactoryMock { get; set; }
-
-            public Mock<IFileSystemWrapper> FileSystemWrapperMock { get; set; }
-
-            public Mock<IJsonProvider> JsonProviderMock { get; set; }
-
             public Mock<IConsoleWriter> ConsoleWriterMock { get; set; }
+
+            public ConsoleOptions Options { get; set; }
+
+            public JSLintNetSettings Settings { get; set; }
 
             private void OnBeforeInit(object sender, EventArgs e)
             {
@@ -255,6 +242,10 @@
                 this.ConsoleWriterMock
                     .Setup(x => x.WriteErrorLine(It.IsAny<string>(), It.IsAny<object[]>()))
                     .Returns(this.ConsoleWriterMock.Object);
+
+                this.GetMock<ISettingsRepository>()
+                    .Setup(x => x.Load(this.Options.SettingsFile))
+                    .Returns(this.Settings);
             }
         }
     }

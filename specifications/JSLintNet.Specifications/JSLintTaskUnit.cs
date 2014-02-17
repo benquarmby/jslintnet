@@ -6,12 +6,12 @@
     using System.Text;
     using JSLintNet;
     using JSLintNet.Abstractions;
-    using JSLintNet.Json;
     using JSLintNet.Models;
     using JSLintNet.Properties;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
+    using JSLintNet.Settings;
     using Microsoft.Build.Framework;
     using Moq;
     using Xunit;
@@ -421,8 +421,8 @@
                         .Setup(x => x.ReadAllText(settingsPath, Encoding.UTF8))
                         .Returns("SETTINGS");
 
-                    this.GetMock<IJsonProvider>()
-                        .Setup(x => x.DeserializeSettings(It.IsAny<string>()))
+                    this.GetMock<ISettingsRepository>()
+                        .Setup(x => x.Load(It.IsAny<string>(), It.IsAny<string>()))
                         .Returns(this.Settings);
                 }
 

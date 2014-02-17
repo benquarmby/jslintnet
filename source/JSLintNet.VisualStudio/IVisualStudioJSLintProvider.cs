@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EnvDTE;
+    using JSLintNet.Settings;
 
     /// <summary>
     /// Provides JSLint services specific to a Visual Studio environment.

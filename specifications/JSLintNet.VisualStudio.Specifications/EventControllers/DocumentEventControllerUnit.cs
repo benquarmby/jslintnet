@@ -3,6 +3,7 @@
     using System.IO;
     using EnvDTE;
     using JSLintNet.QualityTools;
+    using JSLintNet.Settings;
     using JSLintNet.VisualStudio.EventControllers;
     using JSLintNet.VisualStudio.Specifications.Fakes;
     using Moq;

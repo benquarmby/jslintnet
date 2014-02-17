@@ -3,26 +3,22 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
     using JSLintNet.Abstractions;
     using JSLintNet.Console.Properties;
-    using JSLintNet.Json;
+    using JSLintNet.Settings;
 
     internal class ConsoleOptionsFactory
     {
         private IFileSystemWrapper fileSystemWrapper;
 
-        private IJsonProvider jsonProvider;
-
         public ConsoleOptionsFactory()
-            : this(new FileSystemWrapper(), new JsonProvider())
+            : this(new FileSystemWrapper())
         {
         }
 
-        public ConsoleOptionsFactory(IFileSystemWrapper fileSystemWrapper, IJsonProvider jsonProvider)
+        public ConsoleOptionsFactory(IFileSystemWrapper fileSystemWrapper)
         {
             this.fileSystemWrapper = fileSystemWrapper;
-            this.jsonProvider = jsonProvider;
         }
 
         public ConsoleOptions Create(string[] args)
@@ -172,7 +168,6 @@
 
         private void ResolveSettings(ConsoleOptions options)
         {
-            JSLintNetSettings settings = null;
             var settingsPath = options.SettingsFile;
 
             if (string.IsNullOrEmpty(settingsPath))
@@ -185,20 +180,6 @@
             }
 
             options.SettingsFile = settingsPath;
-
-            if (this.fileSystemWrapper.FileExists(settingsPath))
-            {
-                var settingsSource = this.fileSystemWrapper.ReadAllText(settingsPath, Encoding.UTF8);
-
-                settings = this.jsonProvider.DeserializeSettings(settingsSource);
-
-                if (settings != null)
-                {
-                    settings.File = settingsPath;
-                }
-            }
-
-            options.Settings = settings ?? new JSLintNetSettings();
         }
 
         private void ResolveSourceFiles(ConsoleOptions options)

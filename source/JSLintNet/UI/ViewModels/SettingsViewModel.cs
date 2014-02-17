@@ -6,6 +6,7 @@
     using System.Text.RegularExpressions;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using JSLintNet.Settings;
 
     internal partial class SettingsViewModel : ViewModelBase
     {

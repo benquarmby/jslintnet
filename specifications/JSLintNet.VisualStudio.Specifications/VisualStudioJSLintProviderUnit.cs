@@ -6,11 +6,10 @@
     using System.Text;
     using EnvDTE;
     using JSLintNet.Abstractions;
-    using JSLintNet.Json;
     using JSLintNet.Properties;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
+    using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Specifications.Fakes;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -28,11 +27,11 @@
                 {
                     var settingsPath = Path.Combine(@"some\path", JSLintNetSettings.FileName);
                     testable.ProjectItemsFake.AddProjectItem(settingsPath, true);
-                    testable.PrimaryExists = true;
+                    testable.SettingsExists = true;
 
                     testable.Instance.LoadSettings(testable.ProjectMock.Object);
 
-                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(settingsPath, Encoding.UTF8));
+                    testable.Verify<ISettingsRepository>(x => x.Load(settingsPath, testable.ConfigurationName));
                 }
             }
 
@@ -41,66 +40,11 @@
             {
                 using (var testable = new LoadSettingsTestable())
                 {
-                    testable.PrimaryExists = true;
+                    testable.SettingsExists = true;
 
                     testable.Instance.LoadSettings(testable.ProjectMock.Object);
 
-                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(It.Is<string>(y => y.EndsWith(JSLintNetSettings.FileName)), Encoding.UTF8));
-                }
-            }
-
-            [Fact(DisplayName = "Should deserialize settings file if it exists")]
-            public void Spec03()
-            {
-                using (var testable = new LoadSettingsTestable())
-                {
-                    testable.PrimaryExists = true;
-
-                    testable.Instance.LoadSettings(testable.ProjectMock.Object);
-
-                    testable.Verify<IJsonProvider>(x => x.DeserializeSettings("PRIMARY SETTINGS"));
-                }
-            }
-
-            [Fact(DisplayName = "Should merge settings with active configuration version if it exists")]
-            public void Spec04()
-            {
-                using (var testable = new LoadSettingsTestable())
-                {
-                    testable.PrimaryExists = true;
-                    testable.PrimarySettings.CancelBuild = false;
-
-                    testable.ConfigurationExists = true;
-                    testable.ConfigurationName = "Release";
-                    testable.ConfigurationSettings.CancelBuild = true;
-
-                    testable.Instance.LoadSettings(testable.ProjectMock.Object);
-
-                    I.Expect(testable.PrimarySettings.CancelBuild).ToBeTrue();
-                }
-            }
-
-            [Fact(DisplayName = "Should merge settings with linked configuration version if it exists")]
-            public void Spec05()
-            {
-                using (var testable = new LoadSettingsTestable())
-                {
-                    testable.PrimaryExists = true;
-                    testable.PrimarySettings.ErrorLimit = 10;
-                    testable.PrimarySettings.FileLimit = 10;
-
-                    var settingsPath = Path.Combine(@"some\path", "JSLintNet.Debug.json");
-                    testable.ProjectItemsFake.AddProjectItem(settingsPath, true);
-
-                    testable.ConfigurationExists = true;
-                    testable.ConfigurationName = "Debug";
-                    testable.ConfigurationSettings.FileLimit = 100;
-
-                    testable.Instance.LoadSettings(testable.ProjectMock.Object);
-
-                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(settingsPath, Encoding.UTF8));
-                    I.Expect(testable.PrimarySettings.ErrorLimit).ToBe(10);
-                    I.Expect(testable.PrimarySettings.FileLimit).ToBe(100);
+                    testable.Verify<ISettingsRepository>(x => x.Load(It.Is<string>(y => y.EndsWith(JSLintNetSettings.FileName)), testable.ConfigurationName));
                 }
             }
 
@@ -109,8 +53,7 @@
                 public LoadSettingsTestable()
                 {
                     this.ProjectItemsFake = new ProjectItemsFake(this.ProjectMock.Object);
-                    this.PrimarySettings = new JSLintNetSettings();
-                    this.ConfigurationSettings = new JSLintNetSettings();
+                    this.Settings = new JSLintNetSettings();
 
                     this.BeforeInit += this.OnBeforeInit;
                 }
@@ -119,13 +62,9 @@
 
                 public string ConfigurationName { get; set; }
 
-                public JSLintNetSettings PrimarySettings { get; set; }
+                public JSLintNetSettings Settings { get; set; }
 
-                public JSLintNetSettings ConfigurationSettings { get; set; }
-
-                public bool PrimaryExists { get; set; }
-
-                public bool ConfigurationExists { get; set; }
+                public bool SettingsExists { get; set; }
 
                 private void OnBeforeInit(object sender, EventArgs e)
                 {
@@ -147,29 +86,9 @@
                         .SetupGet(x => x.ConfigurationManager)
                         .Returns(managerMock.Object);
 
-                    this.GetMock<IFileSystemWrapper>()
-                        .Setup(x => x.FileExists(It.Is<string>(y => y.EndsWith(JSLintNetSettings.FileName))))
-                        .Returns(() => this.PrimaryExists);
-
-                    this.GetMock<IFileSystemWrapper>()
-                        .Setup(x => x.ReadAllText(It.Is<string>(y => y.EndsWith(JSLintNetSettings.FileName)), Encoding.UTF8))
-                        .Returns("PRIMARY SETTINGS");
-
-                    this.GetMock<IJsonProvider>()
-                        .Setup(x => x.DeserializeSettings("PRIMARY SETTINGS"))
-                        .Returns(this.PrimarySettings);
-
-                    this.GetMock<IFileSystemWrapper>()
-                        .Setup(x => x.FileExists(It.Is<string>(y => y.EndsWith("JSLintNet." + this.ConfigurationName + ".json"))))
-                        .Returns(() => this.ConfigurationExists);
-
-                    this.GetMock<IFileSystemWrapper>()
-                        .Setup(x => x.ReadAllText(It.Is<string>(y => y.EndsWith("JSLintNet." + this.ConfigurationName + ".json")), Encoding.UTF8))
-                        .Returns("CONFIGURATION SETTINGS");
-
-                    this.GetMock<IJsonProvider>()
-                        .Setup(x => x.DeserializeSettings("CONFIGURATION SETTINGS"))
-                        .Returns(this.ConfigurationSettings);
+                    this.GetMock<ISettingsRepository>()
+                        .Setup(x => x.Load(It.IsAny<string>(), It.IsAny<string>()))
+                        .Returns(this.Settings);
                 }
             }
         }

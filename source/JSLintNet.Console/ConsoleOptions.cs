@@ -23,8 +23,6 @@
 
         public bool SettingsEditor { get; set; }
 
-        public JSLintNetSettings Settings { get; set; }
-
         public IList<string> SourceFiles { get; set; }
     }
 }

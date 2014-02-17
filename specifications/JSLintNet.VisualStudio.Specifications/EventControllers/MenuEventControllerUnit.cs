@@ -9,6 +9,7 @@
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
+    using JSLintNet.Settings;
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;
     using JSLintNet.VisualStudio.Errors;

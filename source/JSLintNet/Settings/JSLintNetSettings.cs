@@ -1,4 +1,4 @@
-﻿namespace JSLintNet
+﻿namespace JSLintNet.Settings
 {
     using System.Collections.Generic;
     using System.IO;

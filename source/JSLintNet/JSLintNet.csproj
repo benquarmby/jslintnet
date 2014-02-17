@@ -78,8 +78,9 @@
     <Compile Include="Abstractions\TaskLoggingHelper.cs" />
     <Compile Include="Abstractions\AbstractionFactory.cs" />
     <Compile Include="Helpers\ExecutionHelper.cs" />
-    <Compile Include="JSLintNetSettings.cs" />
-    <Compile Include="JSLintNetSettings.generated.cs">
+    <Compile Include="Settings\ISettingsRepository.cs" />
+    <Compile Include="Settings\JSLintNetSettings.cs" />
+    <Compile Include="Settings\JSLintNetSettings.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JSLintNetSettings.generated.tt</DependentUpon>
@@ -118,6 +119,7 @@
     </Compile>
     <Compile Include="JSLintReportBuilder.cs" />
     <Compile Include="IJSLintReportBuilder.cs" />
+    <Compile Include="Settings\SettingsRepository.cs" />
     <Compile Include="UI\InvertedCheckBox.cs" />
     <Compile Include="UI\Views\IView.cs" />
     <Compile Include="UI\Views\IViewFactory.cs" />
@@ -143,11 +145,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="JSLintNetSettings.generated.tt">
+    <None Include="Settings\JSLintNetSettings.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JSLintNetSettings.generated.cs</LastGenOutput>
     </None>
-    <None Include="JSLintNetSettings.t4" />
+    <None Include="Settings\JSLintNetSettings.t4" />
     <None Include="JSLintOptions.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JSLintOptions.generated.cs</LastGenOutput>

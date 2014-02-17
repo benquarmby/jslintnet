@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using JSLintNet.Models;
+    using JSLintNet.Settings;
     using Microsoft.VisualStudio.Shell.Interop;
 
     internal delegate void ErrorListChangeHandler(object sender, ErrorListChangeEventArgs e);

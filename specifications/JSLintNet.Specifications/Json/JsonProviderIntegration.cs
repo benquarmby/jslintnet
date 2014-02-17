@@ -3,6 +3,7 @@
     using JSLintNet.Json;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
+    using JSLintNet.Settings;
     using Xunit;
 
     public class JsonProviderIntegration

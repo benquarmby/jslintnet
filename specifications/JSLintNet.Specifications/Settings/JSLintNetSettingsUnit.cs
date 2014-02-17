@@ -1,7 +1,8 @@
-﻿namespace JSLintNet.Specifications
+﻿namespace JSLintNet.Specifications.Settings
 {
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
+    using JSLintNet.Settings;
     using Xunit;
 
     public class JSLintNetSettingsUnit
