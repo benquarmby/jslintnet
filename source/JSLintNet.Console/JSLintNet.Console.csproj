@@ -103,8 +103,15 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)\packages\MSBuildTasks.1.4.0.65\tools</MSBuildCommunityTasksPath>
+    <MSBuildCommunityTasksTargets>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets</MSBuildCommunityTasksTargets>
   </PropertyGroup>
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  <Import Project="$(MSBuildCommunityTasksTargets)" Condition="Exists('$(MSBuildCommunityTasksTargets)')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(MSBuildCommunityTasksTargets)')" Text="$([System.String]::Format('$(ErrorText)', '$(MSBuildCommunityTasksTargets)'))" />
+  </Target>
   <Import Project="JSLintNet.Console.targets" Condition="$(Configuration) == Release" />
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.48.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
