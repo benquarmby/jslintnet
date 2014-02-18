@@ -85,6 +85,22 @@
                 }
             }
 
+            [Fact(DisplayName = "Should always attach files to settings instance")]
+            public void Spec06()
+            {
+                using (var testable = new LoadTestable())
+                {
+                    testable.PrimaryExists = false;
+                    testable.ConfigurationExists = false;
+
+                    var actual = testable.Instance.Load(JSLintNetSettings.FileName, "Release");
+
+                    I.Expect(actual.Files).ToContain(JSLintNetSettings.FileName);
+                    I.Expect(actual.Files).ToContain("JSLintNet.Release.json");
+                    I.Expect(actual.Files.Count).ToBe(2);
+                }
+            }
+
             private class LoadTestable : SettingsRepositoryTestableBase
             {
                 public LoadTestable()

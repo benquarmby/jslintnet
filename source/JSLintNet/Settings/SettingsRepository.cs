@@ -29,36 +29,29 @@
 
         public JSLintNetSettings Load(string settingsPath, string configuration)
         {
+            var mergePath = GetMergePath(settingsPath, configuration);
+
             JSLintNetSettings settings;
             if (this.TryGetSettings(settingsPath, out settings))
             {
-                settings.Files.Add(settingsPath);
-
-                if (!string.IsNullOrEmpty(configuration))
+                JSLintNetSettings merge;
+                if (!string.IsNullOrEmpty(mergePath) && this.TryGetSettings(mergePath, out merge))
                 {
-                    var mergeFile = string.Concat(
-                        Path.GetFileNameWithoutExtension(settingsPath),
-                        '.',
-                        configuration,
-                        Path.GetExtension(settingsPath));
-
-                    var mergePath = Path.Combine(
-                        Path.GetDirectoryName(settingsPath),
-                        mergeFile);
-
-                    settings.Files.Add(mergePath);
-
-                    JSLintNetSettings merge;
-                    if (this.TryGetSettings(mergePath, out merge))
-                    {
-                        settings.Merge(merge);
-                    }
+                    settings.Merge(merge);
                 }
-
-                return settings;
+            }
+            else
+            {
+                settings = new JSLintNetSettings();
             }
 
-            return new JSLintNetSettings();
+            settings.Files.Add(settingsPath);
+            if (!string.IsNullOrEmpty(mergePath))
+            {
+                settings.Files.Add(mergePath);
+            }
+
+            return settings;
         }
 
         public void Save(JSLintNetSettings settings, string settingsPath)
@@ -66,6 +59,24 @@
             var settingsJson = this.jsonProvider.SerializeSettings(settings);
 
             this.fileSystemWrapper.WriteAllText(settingsPath, settingsJson, Encoding.UTF8);
+        }
+
+        private static string GetMergePath(string settingsPath, string configuration)
+        {
+            if (string.IsNullOrEmpty(configuration))
+            {
+                return null;
+            }
+
+            var mergeFile = string.Concat(
+                Path.GetFileNameWithoutExtension(settingsPath),
+                '.',
+                configuration,
+                Path.GetExtension(settingsPath));
+
+            return Path.Combine(
+                Path.GetDirectoryName(settingsPath),
+                mergeFile);
         }
 
         private bool TryGetSettings(string settingsPath, out JSLintNetSettings settings)

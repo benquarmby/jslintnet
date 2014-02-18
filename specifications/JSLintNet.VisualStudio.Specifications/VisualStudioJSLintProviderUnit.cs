@@ -27,7 +27,6 @@
                 {
                     var settingsPath = Path.Combine(@"some\path", JSLintNetSettings.FileName);
                     testable.ProjectItemsFake.AddProjectItem(settingsPath, true);
-                    testable.SettingsExists = true;
 
                     testable.Instance.LoadSettings(testable.ProjectMock.Object);
 
@@ -40,11 +39,45 @@
             {
                 using (var testable = new LoadSettingsTestable())
                 {
-                    testable.SettingsExists = true;
-
                     testable.Instance.LoadSettings(testable.ProjectMock.Object);
 
                     testable.Verify<ISettingsRepository>(x => x.Load(It.Is<string>(y => y.EndsWith(JSLintNetSettings.FileName)), testable.ConfigurationName));
+                }
+            }
+
+            [Fact(DisplayName = "Should check if settings exist in cache")]
+            public void Spec03()
+            {
+                using (var testable = new LoadSettingsTestable())
+                {
+                    testable.Instance.LoadSettings(testable.ProjectMock.Object);
+
+                    testable.Verify<ICacheProvider>(x => x.Contains(It.IsAny<string>()));
+                }
+            }
+
+            [Fact(DisplayName = "Should get from cache if it contains settings")]
+            public void Spec04()
+            {
+                using (var testable = new LoadSettingsTestable())
+                {
+                    testable.CacheContains = true;
+                    testable.Instance.LoadSettings(testable.ProjectMock.Object);
+
+                    testable.Verify<ICacheProvider>(x => x.Get<JSLintNetSettings>(It.IsAny<string>()));
+                }
+            }
+
+            [Fact(DisplayName = "Should set to cache if it does not contain settings")]
+            public void Spec05()
+            {
+                using (var testable = new LoadSettingsTestable())
+                {
+                    testable.CacheContains = false;
+                    testable.Instance.LoadSettings(testable.ProjectMock.Object);
+
+                    testable.Verify<ICacheProvider>(x => x.Set(It.IsAny<string>(), testable.Settings, It.IsAny<int>(), It.IsAny<string[]>()));
+                    testable.Verify<ICacheProvider>(x => x.Get<JSLintNetSettings>(It.IsAny<string>()), Times.Never());
                 }
             }
 
@@ -64,7 +97,7 @@
 
                 public JSLintNetSettings Settings { get; set; }
 
-                public bool SettingsExists { get; set; }
+                public bool CacheContains { get; set; }
 
                 private void OnBeforeInit(object sender, EventArgs e)
                 {
@@ -88,6 +121,14 @@
 
                     this.GetMock<ISettingsRepository>()
                         .Setup(x => x.Load(It.IsAny<string>(), It.IsAny<string>()))
+                        .Returns(this.Settings);
+
+                    this.GetMock<ICacheProvider>()
+                        .Setup(x => x.Contains(It.IsAny<string>()))
+                        .Returns(() => this.CacheContains);
+
+                    this.GetMock<ICacheProvider>()
+                        .Setup(x => x.Get<JSLintNetSettings>(It.IsAny<string>()))
                         .Returns(this.Settings);
                 }
             }

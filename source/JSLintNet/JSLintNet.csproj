@@ -64,6 +64,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
@@ -77,7 +78,9 @@
     <Compile Include="Abstractions\JavaScriptContext.cs" />
     <Compile Include="Abstractions\TaskLoggingHelper.cs" />
     <Compile Include="Abstractions\AbstractionFactory.cs" />
+    <Compile Include="CacheProvider.cs" />
     <Compile Include="Helpers\ExecutionHelper.cs" />
+    <Compile Include="ICacheProvider.cs" />
     <Compile Include="Settings\ISettingsRepository.cs" />
     <Compile Include="Settings\JSLintNetSettings.cs" />
     <Compile Include="Settings\JSLintNetSettings.generated.cs">

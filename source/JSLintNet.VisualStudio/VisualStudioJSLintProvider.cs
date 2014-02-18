@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using EnvDTE;
     using JSLintNet.Abstractions;
@@ -28,6 +29,8 @@
 
         private ISettingsRepository settingsRepository;
 
+        private ICacheProvider cacheProvider;
+
         private IVsStatusbar statusBar;
 
         private IVsSolution solutionService;
@@ -38,7 +41,7 @@
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="errorListProvider">The error list provider.</param>
         public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider)
-            : this(serviceProvider, errorListProvider, new JSLintFactory(), new FileSystemWrapper(), new SettingsRepository())
+            : this(serviceProvider, errorListProvider, new JSLintFactory(), new FileSystemWrapper(), new SettingsRepository(), new CacheProvider())
         {
         }
 
@@ -50,13 +53,15 @@
         /// <param name="jsLintFactory">The JSLint factory.</param>
         /// <param name="fileSystemWrapper">The file system wrapper.</param>
         /// <param name="settingsRepository">The settings repository.</param>
-        public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingsRepository)
+        /// <param name="cacheProvider">The cache provider.</param>
+        public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingsRepository, ICacheProvider cacheProvider)
         {
             this.serviceProvider = serviceProvider;
             this.errorListProvider = errorListProvider;
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
             this.settingsRepository = settingsRepository;
+            this.cacheProvider = cacheProvider;
 
             this.statusBar = this.serviceProvider.GetService<SVsStatusbar, IVsStatusbar>();
             this.solutionService = this.serviceProvider.GetService<SVsSolution, IVsSolution>();
@@ -234,9 +239,25 @@
         public JSLintNetSettings LoadSettings(Project project)
         {
             var settingsPath = GetSettingsPath(project);
-            var configuration = project.ConfigurationManager.ActiveConfiguration.ConfigurationName;
 
-            return this.settingsRepository.Load(settingsPath, configuration);
+            if (string.IsNullOrEmpty(settingsPath))
+            {
+                return new JSLintNetSettings();
+            }
+
+            var configuration = project.ConfigurationManager == null ? null : project.ConfigurationManager.ActiveConfiguration.ConfigurationName;
+            var settingsKey = configuration + "_" + settingsPath;
+
+            if (this.cacheProvider.Contains(settingsKey))
+            {
+                return this.cacheProvider.Get<JSLintNetSettings>(settingsKey);
+            }
+
+            var settings = this.settingsRepository.Load(settingsPath, configuration);
+
+            this.cacheProvider.Set(settingsKey, settings, 10, settings.Files.ToArray());
+
+            return settings;
         }
 
         /// <summary>
