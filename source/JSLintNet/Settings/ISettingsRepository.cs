@@ -6,8 +6,6 @@
 
         JSLintNetSettings Load(string settingsPath, string configuration);
 
-        void Save(JSLintNetSettings settings);
-
         void Save(JSLintNetSettings settings, string settingsPath);
     }
 }

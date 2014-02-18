@@ -160,4 +160,10 @@
   <data name="ErrorTextPrefix" xml:space="preserve">
     <value>JSLint : </value>
   </data>
+  <data name="ReportNoSettingsFiles" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>JSLint Report</value>
+  </data>
 </root>

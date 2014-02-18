@@ -57,7 +57,7 @@
                 }
             }
 
-            [Fact(DisplayName = "Should attach file name to settings instance")]
+            [Fact(DisplayName = "Should attach primary file name to settings instance")]
             public void Spec04()
             {
                 using (var testable = new LoadTestable())
@@ -66,7 +66,22 @@
 
                     var actual = testable.Instance.Load(JSLintNetSettings.FileName);
 
-                    I.Expect(actual.File).ToBe(JSLintNetSettings.FileName);
+                    I.Expect(actual.Files).ToContain(JSLintNetSettings.FileName);
+                }
+            }
+
+            [Fact(DisplayName = "Should attach merged file name to settings instance")]
+            public void Spec05()
+            {
+                using (var testable = new LoadTestable())
+                {
+                    testable.PrimaryExists = true;
+                    testable.ConfigurationExists = true;
+
+                    var actual = testable.Instance.Load(JSLintNetSettings.FileName, "Release");
+
+                    I.Expect(actual.Files).ToContain("JSLintNet.Release.json");
+                    I.Expect(actual.Files.Count).ToBe(2);
                 }
             }
 

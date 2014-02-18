@@ -14,12 +14,15 @@
     {
         private Dictionary<string, ReportFile> files;
 
+        private List<string> settingsFiles;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JSLintReportBuilder"/> class.
         /// </summary>
         public JSLintReportBuilder()
         {
             this.files = new Dictionary<string, ReportFile>();
+            this.settingsFiles = new List<string>();
         }
 
         /// <summary>
@@ -36,7 +39,36 @@
         /// <value>
         /// The settings file.
         /// </value>
-        public string SettingsFile { get; set; }
+        [Obsolete("Use the SettingsFiles property.")]
+        public string SettingsFile
+        {
+            get
+            {
+                return this.settingsFiles.Count > 0 ? this.settingsFiles[0] : null;
+            }
+
+            set
+            {
+                if (this.settingsFiles.Count > 0)
+                {
+                    this.settingsFiles[0] = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the settings files.
+        /// </summary>
+        /// <value>
+        /// The settings files.
+        /// </value>
+        public IList<string> SettingsFiles
+        {
+            get
+            {
+                return this.settingsFiles;
+            }
+        }
 
         /// <summary>
         /// Gets the processed file count.
@@ -87,6 +119,15 @@
         }
 
         /// <summary>
+        /// Adds the settings files.
+        /// </summary>
+        /// <param name="settingsFiles">The settings files.</param>
+        public void AddSettings(IList<string> settingsFiles)
+        {
+            this.settingsFiles.AddRange(settingsFiles);
+        }
+
+        /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>
@@ -110,10 +151,10 @@
             return string.Format(
                 Resources.ReportDocumentFormat,
                 Resources.ReportDocumentStyle,
-                "JSLint Report",
+                Resources.ReportTitle,
                 DateTime.Now.ToString("s"),
                 this.SourceDirectory,
-                string.IsNullOrEmpty(this.SettingsFile) ? "None" : this.SettingsFile,
+                this.SettingsFiles.Count > 0 ? string.Join(", ", this.SettingsFiles) : Resources.ReportNoSettingsFiles,
                 this.ProcessedFileCount,
                 this.ErrorFileCount,
                 this.ErrorCount,

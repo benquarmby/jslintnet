@@ -1,6 +1,7 @@
 ﻿namespace JSLintNet
 {
     using System;
+    using System.Collections.Generic;
     using JSLintNet.Models;
 
     /// <summary>
@@ -22,7 +23,16 @@
         /// <value>
         /// The settings file.
         /// </value>
+        [Obsolete("Use the SettingsFiles property.")]
         string SettingsFile { get; set; }
+
+        /// <summary>
+        /// Gets the settings files.
+        /// </summary>
+        /// <value>
+        /// The settings files.
+        /// </value>
+        IList<string> SettingsFiles { get; }
 
         /// <summary>
         /// Gets the processed file count.
@@ -54,6 +64,12 @@
         /// <param name="file">The file.</param>
         /// <param name="data">The JSLint data.</param>
         void AddFile(string file, IJSLintData data);
+
+        /// <summary>
+        /// Adds the settings files.
+        /// </summary>
+        /// <param name="settingsFiles">The settings files.</param>
+        void AddSettings(IList<string> settingsFiles);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

@@ -56,16 +56,17 @@
         public JSLintNetSettings()
         {
             this.Ignore = new List<string>();
+            this.Files = new List<string>();
         }
 
         /// <summary>
-        /// Gets or sets the full path and name of the settings file.
+        /// Gets the list of all files used to create this instance.
         /// </summary>
         /// <value>
-        /// The full path and name of the settings file.
+        /// The list of all files used to create this instance.
         /// </value>
         [JsonIgnore]
-        public string File { get; set; }
+        public IList<string> Files { get; private set; }
 
         /// <summary>
         /// Gets or sets the output type.

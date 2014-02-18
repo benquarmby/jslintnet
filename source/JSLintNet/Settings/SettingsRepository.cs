@@ -32,22 +32,24 @@
             JSLintNetSettings settings;
             if (this.TryGetSettings(settingsPath, out settings))
             {
-                settings.File = settingsPath;
+                settings.Files.Add(settingsPath);
 
                 if (!string.IsNullOrEmpty(configuration))
                 {
-                    var fileName = string.Concat(
+                    var mergeFile = string.Concat(
                         Path.GetFileNameWithoutExtension(settingsPath),
                         '.',
                         configuration,
                         Path.GetExtension(settingsPath));
 
-                    settingsPath = Path.Combine(
+                    var mergePath = Path.Combine(
                         Path.GetDirectoryName(settingsPath),
-                        fileName);
+                        mergeFile);
+
+                    settings.Files.Add(mergePath);
 
                     JSLintNetSettings merge;
-                    if (this.TryGetSettings(settingsPath, out merge))
+                    if (this.TryGetSettings(mergePath, out merge))
                     {
                         settings.Merge(merge);
                     }
@@ -57,11 +59,6 @@
             }
 
             return new JSLintNetSettings();
-        }
-
-        public void Save(JSLintNetSettings settings)
-        {
-            this.Save(settings, settings.File);
         }
 
         public void Save(JSLintNetSettings settings, string settingsPath)

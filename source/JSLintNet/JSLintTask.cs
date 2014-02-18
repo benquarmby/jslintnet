@@ -192,7 +192,7 @@
                 using (var reportBuilder = this.jsLintFactory.CreateReportBuilder())
                 {
                     reportBuilder.SourceDirectory = this.SourceDirectory;
-                    reportBuilder.SettingsFile = settings.File;
+                    reportBuilder.AddSettings(settings.Files);
 
                     foreach (var file in sourceFiles)
                     {

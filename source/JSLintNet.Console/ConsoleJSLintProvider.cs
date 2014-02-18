@@ -142,7 +142,7 @@
             using (var reportBuilder = this.jsLintFactory.CreateReportBuilder())
             {
                 reportBuilder.SourceDirectory = sourceDirectory;
-                reportBuilder.SettingsFile = settings.File;
+                reportBuilder.AddSettings(settings.Files);
 
                 foreach (var file in sourceFiles)
                 {
@@ -219,7 +219,7 @@
                     this.consoleWriter
                         .WriteLine()
                         .WriteLine(Resources.SummarySourceDirectoryFormat, reportBuilder.SourceDirectory)
-                        .WriteLine(Resources.SummarySettingsFileFormat, reportBuilder.SettingsFile)
+                        .WriteLine(Resources.SummarySettingsFileFormat, string.Join(", ", reportBuilder.SettingsFiles))
                         .WriteLine(Resources.SummaryProcessedFileCountFormat, reportBuilder.ProcessedFileCount)
                         .WriteLine(Resources.SummaryErrorFileCountFormat, reportBuilder.ErrorFileCount)
                         .WriteLine(Resources.SummaryErrorCountFormat, reportBuilder.ErrorCount);

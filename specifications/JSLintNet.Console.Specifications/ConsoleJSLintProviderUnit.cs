@@ -133,6 +133,10 @@
                     this.JSLintReportBuilderMock
                         .SetupGet(x => x.ProcessedFileCount)
                         .Returns(() => this.ProcessedFileCount);
+
+                    this.JSLintReportBuilderMock
+                        .SetupGet(x => x.SettingsFiles)
+                        .Returns(new List<string>());
                 }
             }
         }
