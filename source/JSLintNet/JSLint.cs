@@ -47,7 +47,7 @@
         {
             var extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-            return extension == ".js" || extension == ".json";
+            return extension == ".js" || extension == ".json" || extension == "._js";
         }
     }
 }
