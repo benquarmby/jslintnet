@@ -14,11 +14,23 @@
 
     internal static class ProjectItemExtensions
     {
+        public const string FolderKind = "{6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C}";
+
         public const string SolutionFolderKind = "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}";
+
+        public static bool IsFolder(this ProjectItem projectItem)
+        {
+            return FolderKind.Equals(projectItem.Kind, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsInSolutionFolder(this ProjectItem projectItem)
+        {
+            return SolutionFolderKind.Equals(projectItem.ContainingProject.Kind, StringComparison.OrdinalIgnoreCase);
+        }
 
         public static bool IsIgnored(this ProjectItem projectItem, IList<string> ignore)
         {
-            if (ignore != null && projectItem.ContainingProject.Kind != SolutionFolderKind)
+            if (ignore != null && !projectItem.IsInSolutionFolder())
             {
                 var relative = projectItem.GetRelativePath();
 
@@ -30,7 +42,7 @@
 
         public static IgnoreState GetIgnoreState(this ProjectItem projectItem, IList<string> ignore)
         {
-            if (ignore != null && projectItem.ContainingProject.Kind != SolutionFolderKind)
+            if (ignore != null && !projectItem.IsInSolutionFolder())
             {
                 var relative = projectItem.GetRelativePath();
 
@@ -64,7 +76,7 @@
 
         public static bool IsLink(this ProjectItem projectItem)
         {
-            if (projectItem.Kind == ProjectItemsExtensions.FolderKind)
+            if (projectItem.IsFolder())
             {
                 return false;
             }
@@ -74,7 +86,7 @@
 
         public static string GetFileName(this ProjectItem projectItem)
         {
-            if (projectItem.ContainingProject.Kind == SolutionFolderKind)
+            if (projectItem.IsInSolutionFolder())
             {
                 return projectItem.FileNames[1];
             }

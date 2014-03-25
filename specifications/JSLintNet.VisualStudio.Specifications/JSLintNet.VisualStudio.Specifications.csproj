@@ -82,6 +82,7 @@
     <Compile Include="EventControllers\DocumentEventControllerUnit.cs" />
     <Compile Include="EventControllers\EventControllerTestableBase.cs" />
     <Compile Include="EventControllers\MenuEventControllerUnit.cs" />
+    <Compile Include="Extensions\ProjectItemExtensionsUnit.cs" />
     <Compile Include="Fakes\DocumentMockContainer.cs" />
     <Compile Include="Fakes\EnumerableFake.cs" />
     <Compile Include="Fakes\ProjectItemsFake.cs" />

@@ -5,8 +5,6 @@
 
     internal static class ProjectItemsExtensions
     {
-        internal const string FolderKind = "{6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C}";
-
         public static bool ItemExists(this ProjectItems projectItems, string itemName)
         {
             return projectItems.FindItem(itemName) != null;
@@ -53,7 +51,7 @@
         {
             var fileName = projectItem.GetFileName();
 
-            if (projectItem.Kind != FolderKind)
+            if (!projectItem.IsFolder())
             {
                 if (JSLint.CanLint(fileName) && !projectItem.IsIgnored(ignore))
                 {
