@@ -283,7 +283,7 @@
 
             if (string.IsNullOrEmpty(path))
             {
-                return null;
+                path = Path.GetDirectoryName(project.FullName);
             }
 
             var fileName = JSLintNetSettings.FileName;
