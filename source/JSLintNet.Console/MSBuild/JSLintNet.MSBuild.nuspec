@@ -16,6 +16,7 @@
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+1.6.0 - Added support for streamline.js files.
 1.5.1 - Added minClientVersion attribute for NuGet 2.8.0.
 1.5.0 - All settings can be overriden with a build configuration specific JSON file. Deprecated OutputOverride property. Upgraded JSLint to 2014-02-06.
 1.4.1 - NuGet 2.8 is now required. Marked package as a development dependency. Upgraded JSLint to 2014-01-26.
