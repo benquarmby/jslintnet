@@ -6,6 +6,8 @@
     <Description xml:space="preserve">JSLint.NET is a wrapper for Douglas Crockford's JSLint, the JavaScript code quality tool. It can validate JavaScript anywhere .NET runs.</Description>
     <MoreInfo>https://jslintnet.codeplex.com/</MoreInfo>
     <License>License.txt</License>
+    <GettingStartedGuide>https://jslintnet.codeplex.com/wikipage?title=Change+Log</GettingStartedGuide>
+    <ReleaseNotes>https://jslintnet.codeplex.com/wikipage?title=Change+Log</ReleaseNotes>
     <Icon>Resources\JSLint.NET.ico</Icon>
     <PreviewImage>Resources\JSLint.NET-256.png</PreviewImage>
   </Metadata>
