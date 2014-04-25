@@ -16,6 +16,7 @@
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+1.6.2 - JSLint 2014-04-21 (leading semicolon).
 1.6.1 - JSLint 2014-04-08.
 1.6.0 - Added support for streamline.js files.
 1.5.1 - Added minClientVersion attribute for NuGet 2.8.0.
