@@ -2,6 +2,14 @@
 {
     internal static class PropertiesExtensions
     {
+        /// <summary>
+        /// Gets a named item from the <see cref="Properties"/> collection.
+        /// </summary>
+        /// <typeparam name="T">The expected value type. If the actual value cannot be unboxed to this type, a runtime exception will occur.</typeparam>
+        /// <param name="properties">The properties collection.</param>
+        /// <param name="key">The key.</param>
+        /// <remarks>This may look like a good candidate for Linq or another functional approach. But manual iteration has proven itself to be the most efficient way to fetch a named item from the very limited <see cref="Properties"/> collection.</remarks>
+        /// <returns>The value of the item.</returns>
         public static T Get<T>(this Properties properties, string key)
         {
             if (properties != null)

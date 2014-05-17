@@ -279,10 +279,19 @@
 
         private static string GetSettingsPath(Project project)
         {
+            // Most web project types have a FullPath
             var path = project.Properties.Get<string>("FullPath");
 
             if (string.IsNullOrEmpty(path))
             {
+                if (string.IsNullOrEmpty(project.FullName))
+                {
+                    // If neither the FullPath nor FullName exist, then this is
+                    // most likely a "Misc Files" project with no usable path
+                    return null;
+                }
+
+                // Other project types can use the project file's root directory
                 path = Path.GetDirectoryName(project.FullName);
             }
 

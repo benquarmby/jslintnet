@@ -8,6 +8,7 @@
     using JSLintNet.Abstractions;
     using JSLintNet.Properties;
     using JSLintNet.QualityTools;
+    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
@@ -78,6 +79,26 @@
 
                     testable.Verify<ICacheProvider>(x => x.Set(It.IsAny<string>(), testable.Settings, It.IsAny<int>(), It.IsAny<string[]>()));
                     testable.Verify<ICacheProvider>(x => x.Get<JSLintNetSettings>(It.IsAny<string>()), Times.Never());
+                }
+            }
+
+            [Fact(DisplayName = "Should not throw when there is no project FullName or FullPath")]
+            public void Spec06()
+            {
+                using (var testable = new LoadSettingsTestable())
+                {
+                    testable.Init();
+
+                    testable.ProjectMock
+                        .SetupGet(x => x.FullName)
+                        .Returns((string)null);
+
+                    testable.ProjectPropertiesFake.Items.Remove("FullPath");
+
+                    I.Expect(() =>
+                    {
+                        testable.Instance.LoadSettings(testable.ProjectMock.Object);
+                    }).Not.ToThrow();
                 }
             }
 
