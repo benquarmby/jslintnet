@@ -1,5 +1,7 @@
 ﻿namespace EnvDTE
 {
+    using System.Diagnostics.CodeAnalysis;
+
     internal static class PropertiesExtensions
     {
         /// <summary>
@@ -10,6 +12,7 @@
         /// <param name="key">The key.</param>
         /// <remarks>This may look like a good candidate for Linq or another functional approach. But manual iteration has proven itself to be the most efficient way to fetch a named item from the very limited <see cref="Properties"/> collection.</remarks>
         /// <returns>The value of the item.</returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Linq is a word.")]
         public static T Get<T>(this Properties properties, string key)
         {
             if (properties != null)
