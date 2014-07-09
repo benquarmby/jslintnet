@@ -1,5 +1,5 @@
 // jslint.js
-// 2014-07-05
+// 2014-07-08
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2183,6 +2183,8 @@ klass:              do {
                 if (s === '=') {
                     master.init = true;
                 }
+            } else if (that.reserved) {
+                that.warn('expected_identifier_a_reserved');
             }
         } else if (that.id === '.' || that.id === '[') {
             if (!that.first || that.first.string === 'arguments') {
@@ -3043,7 +3045,7 @@ klass:              do {
             tally_property(e.string);
             break;
         }
-        if (left && (left.id === '{' || left.id === '[')) {
+        if (left && (left.id === '{' || (left.id === '[' && left.arity === 'prefix'))) {
             that.warn('unexpected_a');
         }
         step_out(']', that);
@@ -3123,6 +3125,9 @@ klass:              do {
             for (;;) {
                 edge();
                 id = identifier();
+                if (token.reserved) {
+                    token.warn('expected_identifier_a_reserved');
+                }
                 define('parameter', token);
                 parameters.push(id);
                 token.init = true;
@@ -4277,7 +4282,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2014-07-05';
+    itself.edition = '2014-07-08';
 
     return itself;
 }());
