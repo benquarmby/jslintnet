@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="JSLintNetTest" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <JSLintNetSourceDirectory>$(MSBuildProjectDirectory)</JSLintNetSourceDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Settings\JSLintNet.json">
+      <Link>jslintnet.json</Link>
+    </Content>
+  </ItemGroup>
+
+  <Import Project="SourceFiles.props" />
+  <Import Project="JSLintNetTest.targets" />
+</Project>

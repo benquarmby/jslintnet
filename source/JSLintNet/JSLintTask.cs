@@ -336,18 +336,49 @@
 
         private JSLintNetSettings LoadSettings()
         {
-            var settingsPath = this.SettingsFile;
+            var settingsPath = this.ResolveSettingsPath();
 
-            if (string.IsNullOrEmpty(settingsPath))
-            {
-                settingsPath = Path.Combine(this.SourceDirectory, JSLintNetSettings.FileName);
-            }
-            else if (!Path.IsPathRooted(settingsPath))
+            if (!Path.IsPathRooted(settingsPath))
             {
                 settingsPath = Path.Combine(this.SourceDirectory, settingsPath);
             }
 
             return this.settingsRepository.Load(settingsPath, this.Configuration);
+        }
+
+        private string ResolveSettingsPath()
+        {
+            var settingsPath = this.SettingsFile;
+
+            if (!string.IsNullOrEmpty(settingsPath))
+            {
+                // There is an explicit settings path, return it
+                return settingsPath;
+            }
+
+            if (this.sourceFilesSet)
+            {
+                // Try to find settings in the source files
+                foreach (var item in this.SourceFiles)
+                {
+                    if (JSLintNetSettings.IsSettingsFile(item.ItemSpec))
+                    {
+                        // The item spec matches exactly, short circuit
+                        break;
+                    }
+
+                    var link = item.GetMetadata("Link");
+
+                    if (JSLintNetSettings.IsSettingsFile(link))
+                    {
+                        // Matching link found, return the absolute path
+                        return item.ItemSpec;
+                    }
+                }
+            }
+
+            // Fall back to the default
+            return JSLintNetSettings.FileName;
         }
     }
 }

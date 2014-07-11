@@ -6,6 +6,7 @@
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
+    using JSLintNet.Settings;
     using Xunit;
 
     public class JSLintTaskIntegration : IntegrationBase
@@ -81,6 +82,16 @@
             I.Expect(actual.ErrorCount).ToBe(12);
         }
 
+        [Fact(DisplayName = "Should load settings from linked JSLintNet.json file")]
+        public void Spec08()
+        {
+            var actual = JSLintTaskHelper.ExecuteMSBuildProject("LinkedSettings");
+
+            I.Expect(actual.Success).ToBeTrue();
+            I.Expect(actual.OutputType).ToBe(Output.Warning);
+            I.Expect(actual.ProcessedFileCount).ToBe(6);
+        }
+
         private static class JSLintTaskHelper
         {
             public static readonly string MSBuildExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Microsoft.NET\Framework\v4.0.30319\MSBuild.exe");
@@ -92,6 +103,8 @@
             public static readonly Regex ErrorFileCountPattern = new Regex(@"JSLINTERRORFILECOUNT=(?<Count>[\d]+)=JSLINTERRORFILECOUNT", RegexOptions.Compiled);
 
             public static readonly Regex ProcessedFileCountPattern = new Regex(@"JSLINTPROCESSEDFILECOUNT=(?<Count>[\d]+)=JSLINTPROCESSEDFILECOUNT", RegexOptions.Compiled);
+
+            public static readonly Regex OutputPattern = new Regex(AssemblyInfo.Product + " (error|warning|message) :", RegexOptions.Compiled);
 
             public static int ParseCount(Regex pattern, string input)
             {
@@ -133,8 +146,27 @@
                     ErrorCount = ParseCount(ErrorCountPattern, output),
                     ErrorFileCount = ParseCount(ErrorFileCountPattern, output),
                     ProcessedFileCount = ParseCount(ProcessedFileCountPattern, output),
-                    Success = exitCode == 0 && output.Contains("Build succeeded.")
+                    Success = exitCode == 0 && output.Contains("Build succeeded."),
+                    OutputType = DetectOutputType(output)
                 };
+            }
+
+            private static Output? DetectOutputType(string output)
+            {
+                var match = OutputPattern.Match(output);
+
+                if (match.Success && match.Groups.Count == 2)
+                {
+                    var rawType = match.Groups[1].Value;
+                    Output outputType;
+
+                    if (Enum.TryParse<Output>(rawType, true, out outputType))
+                    {
+                        return outputType;
+                    }
+                }
+
+                return null;
             }
 
             public class JSLintTaskResult : ProcessResult
@@ -157,6 +189,8 @@
                 public int ProcessedFileCount { get; set; }
 
                 public bool Success { get; set; }
+
+                public Output? OutputType { get; set; }
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿namespace JSLintNet.Settings
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using Newtonsoft.Json;
@@ -94,6 +95,18 @@
         /// </value>
         [JsonProperty("options")]
         public JSLintOptions Options { get; set; }
+
+        /// <summary>
+        /// Determines whether the specified file name matches the JSLint.NET settings file.
+        /// </summary>
+        /// <param name="fileName">The file name.</param>
+        /// <returns>
+        ///   <c>true</c> if the file name matches the JSLint.NET settings file; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsSettingsFile(string fileName)
+        {
+            return FileName.Equals(fileName, StringComparison.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         /// Normalizes the ignore list to a new clone.
