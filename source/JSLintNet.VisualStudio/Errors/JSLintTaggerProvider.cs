@@ -10,7 +10,7 @@
     [TagType(typeof(IErrorTag))]
     internal class JSLintTaggerProvider : ITaggerProvider
     {
-        [Import]
+        [Import(typeof(IJSLintErrorListProvider))]
         public IJSLintErrorListProvider ErrorListProvider { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer)

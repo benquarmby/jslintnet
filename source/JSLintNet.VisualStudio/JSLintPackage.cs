@@ -25,7 +25,7 @@
 
         private IEventController buildEventController;
 
-        [Export]
+        [Export(typeof(IJSLintErrorListProvider))]
         internal static IJSLintErrorListProvider CurrentErrorListProvider { get; private set; }
 
         /// <summary>
