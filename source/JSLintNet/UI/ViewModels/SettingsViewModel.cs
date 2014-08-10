@@ -122,19 +122,31 @@
 
         private static void PopulateDictionaryFromString(Dictionary<string, bool> dictionary, string value)
         {
-            dictionary.Clear();
-
-            if (!string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
-                var keys = Regex.Split(value, @"[\s,;'""]+");
+                dictionary.Clear();
+                return;
+            }
 
-                foreach (var key in keys)
+            var keys = Regex.Split(value, @"[\s,;'""]+");
+
+            // Add new keys
+            foreach (var key in keys)
+            {
+                if (!string.IsNullOrWhiteSpace(key) && !dictionary.ContainsKey(key))
                 {
-                    if (!string.IsNullOrWhiteSpace(key))
-                    {
-                        dictionary.Add(key, false);
-                    }
+                    dictionary.Add(key, false);
                 }
+            }
+
+            // Remove missing keys
+            var removeKeys = dictionary.Keys
+                .Where(x => !keys.Contains(x))
+                .ToArray();
+
+            foreach (var key in removeKeys)
+            {
+                dictionary.Remove(key);
             }
         }
 
