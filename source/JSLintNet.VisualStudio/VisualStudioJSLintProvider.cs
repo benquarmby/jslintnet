@@ -230,13 +230,26 @@
         }
 
         /// <summary>
-        /// Loads the settings for the specified project.
+        /// Loads the settings for the specified project, automatically merging from the current build configuration.
         /// </summary>
         /// <param name="project">The project.</param>
         /// <returns>
         /// Settings for the specified project, or null if none could be found.
         /// </returns>
         public JSLintNetSettings LoadSettings(Project project)
+        {
+            return this.LoadSettings(project, true);
+        }
+
+        /// <summary>
+        /// Loads the settings for the specified project and optionally merging from the current build configuration.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <param name="merge">Set to <c>true</c> to merge the settings from the current build configuration, otherwise <c>false</c>.</param>
+        /// <returns>
+        /// Settings for the specified project, or null if none could be found.
+        /// </returns>
+        public JSLintNetSettings LoadSettings(Project project, bool merge)
         {
             var settingsPath = GetSettingsPath(project);
 
@@ -245,8 +258,13 @@
                 return new JSLintNetSettings();
             }
 
-            var configuration = project.ConfigurationManager == null ? null : project.ConfigurationManager.ActiveConfiguration.ConfigurationName;
-            var settingsKey = configuration + "_" + settingsPath;
+            var configuration = merge && project.ConfigurationManager != null ?
+                project.ConfigurationManager.ActiveConfiguration.ConfigurationName :
+                null;
+
+            var settingsKey = string.IsNullOrEmpty(configuration) ?
+                settingsPath :
+                configuration + "_" + settingsPath;
 
             if (this.cacheProvider.Contains(settingsKey))
             {

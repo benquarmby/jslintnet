@@ -48,13 +48,23 @@
         int LintProjectItems(IList<ProjectItem> projectItems, JSLintNetSettings settings);
 
         /// <summary>
-        /// Loads the settings for the specified project.
+        /// Loads the settings for the specified project, automatically merging from the current build configuration.
         /// </summary>
         /// <param name="project">The project.</param>
         /// <returns>
         /// Settings for the specified project, or null if none could be found.
         /// </returns>
         JSLintNetSettings LoadSettings(Project project);
+
+        /// <summary>
+        /// Loads the settings for the specified project and optionally merging from the current build configuration.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <param name="merge">Set to <c>true</c> to merge the settings from the current build configuration, otherwise <c>false</c>.</param>
+        /// <returns>
+        /// Settings for the specified project, or null if none could be found.
+        /// </returns>
+        JSLintNetSettings LoadSettings(Project project, bool merge);
 
         /// <summary>
         /// Saves the settings for the specified project.

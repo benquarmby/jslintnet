@@ -637,6 +637,18 @@
 
         public class OnProjectNodeSettings : UnitBase
         {
+            [Fact(DisplayName = "Should load unmerged configuration settings from repository")]
+            public void Spec00()
+            {
+                using (var testable = new OnProjectNodeSettingsTestable())
+                {
+                    testable.Init();
+                    testable.MenuCommand.Invoke(testable.MenuCommand);
+
+                    testable.Verify<IVisualStudioJSLintProvider>(x => x.LoadSettings(testable.ProjectMock.Object, false));
+                }
+            }
+
             [Fact(DisplayName = "Should always show editor window")]
             public void Spec01()
             {
@@ -705,6 +717,10 @@
                     this.GetMock<IViewFactory>()
                         .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
                         .Returns(this.ViewMock.Object);
+
+                    this.GetMock<IVisualStudioJSLintProvider>()
+                        .Setup(x => x.LoadSettings(It.IsAny<Project>(), It.IsAny<bool>()))
+                        .Returns(this.Settings);
                 }
             }
         }

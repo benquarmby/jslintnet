@@ -102,6 +102,19 @@
                 }
             }
 
+            [Fact(DisplayName = "Should not pass configuration name to repository when merge is false")]
+            public void Spec07()
+            {
+                using (var testable = new LoadSettingsTestable())
+                {
+                    testable.ConfigurationName = "Release";
+
+                    testable.Instance.LoadSettings(testable.ProjectMock.Object, false);
+
+                    testable.Verify<ISettingsRepository>(x => x.Load(It.IsAny<string>(), null));
+                }
+            }
+
             private class LoadSettingsTestable : VisualStudioJSLintProviderTestableBase
             {
                 public LoadSettingsTestable()

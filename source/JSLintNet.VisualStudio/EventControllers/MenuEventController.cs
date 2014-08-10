@@ -175,7 +175,7 @@
         private void OnProjectNodeSettings(object sender, EventArgs e)
         {
             var project = this.Environment.GetSelectedProject();
-            var model = this.VisualStudioJSLintProvider.LoadSettings(project);
+            var model = this.VisualStudioJSLintProvider.LoadSettings(project, false);
 
             using (var viewModel = new SettingsViewModel(model))
             {
