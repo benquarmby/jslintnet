@@ -108,6 +108,20 @@
                     I.Expect(actual.Count).ToBe(0);
                 }
             }
+
+            [Fact(DisplayName = "Should add new globals with a writable state of true")]
+            public void Spec07()
+            {
+                using (var testable = new PredefinedGlobalsTestable())
+                {
+                    var actual = testable.Model.Options.PredefinedGlobals;
+
+                    testable.Instance.PredefinedGlobals = "a b";
+
+                    I.Expect(actual["a"]).ToBeTrue();
+                    I.Expect(actual["b"]).ToBeTrue();
+                }
+            }
         }
 
         private class PredefinedGlobalsTestable : TestableBase<SettingsViewModel>

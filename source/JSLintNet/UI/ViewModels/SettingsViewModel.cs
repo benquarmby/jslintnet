@@ -135,7 +135,7 @@
             {
                 if (!string.IsNullOrWhiteSpace(key) && !dictionary.ContainsKey(key))
                 {
-                    dictionary.Add(key, false);
+                    dictionary.Add(key, true);
                 }
             }
 
