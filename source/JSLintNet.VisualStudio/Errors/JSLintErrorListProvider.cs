@@ -3,7 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using EnvDTE;
+    using EnvDTE80;
     using JSLintNet.Models;
+    using JSLintNet.Properties;
     using JSLintNet.Settings;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
@@ -19,6 +22,8 @@
     {
         private IServiceProvider serviceProvider;
 
+        private DTE2 environment;
+
         private IVsTextManager textManager;
 
         /// <summary>
@@ -30,6 +35,7 @@
         {
             this.serviceProvider = serviceProvider;
 
+            this.environment = this.serviceProvider.GetService<DTE, DTE2>();
             this.textManager = this.serviceProvider.GetService<VsTextManagerClass, IVsTextManager>();
         }
 
@@ -75,15 +81,19 @@
         {
             Action batch = () =>
             {
+                var existing = this.GetExistingErrors(fileName);
                 TaskErrorCategory category;
                 Enum.TryParse(output.ToString(), out category);
 
                 foreach (var jsLintError in jsLintErrors)
                 {
-                    var error = new JSLintErrorTask(fileName, jsLintError, category, hierarchy);
-                    error.Navigate += this.OnTaskNavigate;
+                    if (!existing.Any(x => ErrorsEqual(x, jsLintError)))
+                    {
+                        var error = new JSLintErrorTask(fileName, jsLintError, category, hierarchy);
+                        error.Navigate += this.OnTaskNavigate;
 
-                    this.Tasks.Add(error);
+                        this.Tasks.Add(error);
+                    }
                 }
             };
 
@@ -244,6 +254,21 @@
         }
 
         /// <summary>
+        /// Determines whether the errors are equal.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="error">The error.</param>
+        /// <returns>True if the errors are equal; otherwise false.</returns>
+        private static bool ErrorsEqual(ErrorItem item, IJSLintError error)
+        {
+            var description = string.Concat(Resources.ErrorTextPrefix, error.Reason);
+
+            return item.Description.Equals(description, StringComparison.OrdinalIgnoreCase) &&
+                item.Line == error.Line &&
+                item.Column == error.Character;
+        }
+
+        /// <summary>
         /// Wrapper that suspends error list refreshes for the duration of the batch function.
         /// </summary>
         /// <param name="action">The action.</param>
@@ -270,6 +295,32 @@
             {
                 this.ResumeRefresh();
             }
+        }
+
+        /// <summary>
+        /// Gets any existing JSLint errors for the specified file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>The list of existing JSLint errors.</returns>
+        private IList<ErrorItem> GetExistingErrors(string fileName)
+        {
+            var list = new List<ErrorItem>();
+            var errorItems = this.environment.ToolWindows.ErrorList.ErrorItems;
+
+            if (errorItems.Count > 0)
+            {
+                for (int i = 1; i <= errorItems.Count; i += 1)
+                {
+                    var item = errorItems.Item(i);
+
+                    if (item.Description.StartsWith(Resources.ErrorTextPrefix) && fileName.Equals(item.FileName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        list.Add(errorItems.Item(i));
+                    }
+                }
+            }
+
+            return list;
         }
 
         /// <summary>
