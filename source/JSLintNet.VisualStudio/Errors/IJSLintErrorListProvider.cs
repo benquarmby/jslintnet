@@ -33,13 +33,13 @@
         int ErrorCount { get; }
 
         /// <summary>
-        /// Gets the list of errors for the specified file.
+        /// Gets the list of errors for the specified files.
         /// </summary>
-        /// <param name="fileName">The file name.</param>
+        /// <param name="fileNames">The file names.</param>
         /// <returns>
-        /// The list of errors for the specified file.
+        /// The list of errors for the specified files.
         /// </returns>
-        IList<JSLintErrorTask> GetErrors(string fileName);
+        IList<JSLintErrorTask> GetErrors(params string[] fileNames);
 
         /// <summary>
         /// Adds the JSLint errors to the collection.
@@ -58,10 +58,10 @@
         void AddCustomError(string message, params object[] args);
 
         /// <summary>
-        /// Clears errors for the specified file from the collection.
+        /// Clears errors for the specified files from the collection.
         /// </summary>
-        /// <param name="fileName">The file name.</param>
-        void ClearJSLintErrors(string fileName);
+        /// <param name="fileNames">The file names.</param>
+        void ClearJSLintErrors(params string[] fileNames);
 
         /// <summary>
         /// Clears the custom errors.

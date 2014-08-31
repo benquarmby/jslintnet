@@ -104,7 +104,7 @@
             {
                 case ErrorListAction.ClearFile:
                 case ErrorListAction.AddFile:
-                    return this.fileName == e.FileName;
+                    return e.ContainsFile(this.fileName);
                 case ErrorListAction.ClearAll:
                     return true;
             }

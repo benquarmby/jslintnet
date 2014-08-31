@@ -50,17 +50,17 @@
         }
 
         /// <summary>
-        /// Gets the list of errors for the specified file.
+        /// Gets the list of errors for the specified files.
         /// </summary>
-        /// <param name="fileName">The file name.</param>
+        /// <param name="fileNames">The file names.</param>
         /// <returns>
-        /// The list of errors for the specified file.
+        /// The list of errors for the specified files.
         /// </returns>
-        public IList<JSLintErrorTask> GetErrors(string fileName)
+        public IList<JSLintErrorTask> GetErrors(params string[] fileNames)
         {
             return this.Tasks
                 .OfType<JSLintErrorTask>()
-                .Where(x => x.Document == fileName)
+                .Where(x => fileNames.Contains(x.Document, StringComparer.OrdinalIgnoreCase))
                 .ToList();
         }
 
@@ -87,7 +87,7 @@
                 }
             };
 
-            this.BatchAction(ErrorListAction.AddFile, fileName, batch);
+            this.BatchAction(ErrorListAction.AddFile, new string[] { fileName }, batch);
         }
 
         /// <summary>
@@ -110,12 +110,17 @@
         /// <summary>
         /// Clears errors for the specified file from the collection.
         /// </summary>
-        /// <param name="fileName">The file name.</param>
-        public void ClearJSLintErrors(string fileName)
+        /// <param name="fileNames">The file names.</param>
+        public void ClearJSLintErrors(params string[] fileNames)
         {
+            if (fileNames == null || fileNames.Length == 0)
+            {
+                return;
+            }
+
             Action batch = () =>
             {
-                var tasks = this.GetErrors(fileName);
+                var tasks = this.GetErrors(fileNames);
 
                 foreach (var task in tasks)
                 {
@@ -123,7 +128,7 @@
                 }
             };
 
-            this.BatchAction(ErrorListAction.ClearFile, fileName, batch);
+            this.BatchAction(ErrorListAction.ClearFile, fileNames, batch);
         }
 
         /// <summary>
@@ -242,9 +247,9 @@
         /// Wrapper that suspends error list refreshes for the duration of the batch function.
         /// </summary>
         /// <param name="action">The action.</param>
-        /// <param name="fileName">Name of the file.</param>
+        /// <param name="fileNames">Names of the files.</param>
         /// <param name="batch">The batch.</param>
-        private void BatchAction(ErrorListAction action, string fileName, Action batch)
+        private void BatchAction(ErrorListAction action, IEnumerable<string> fileNames, Action batch)
         {
             this.SuspendRefresh();
 
@@ -256,7 +261,7 @@
 
                 if (handler != null)
                 {
-                    var e = new ErrorListChangeEventArgs(action, fileName);
+                    var e = new ErrorListChangeEventArgs(action, fileNames);
 
                     handler(this, e);
                 }

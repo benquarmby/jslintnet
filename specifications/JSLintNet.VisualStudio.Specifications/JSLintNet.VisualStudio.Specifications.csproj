@@ -78,6 +78,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Errors\JSLintErrorListProviderUnit.cs" />
     <Compile Include="EventControllers\BuildEventControllerUnit.cs" />
     <Compile Include="EventControllers\DocumentEventControllerUnit.cs" />
     <Compile Include="EventControllers\EventControllerTestableBase.cs" />
