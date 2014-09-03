@@ -1,6 +1,7 @@
 ﻿namespace JSLintNet.VisualStudio.Errors
 {
     using System.Collections.Generic;
+    using EnvDTE;
     using JSLintNet.Models;
     using JSLintNet.Settings;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -42,6 +43,23 @@
         IList<JSLintErrorTask> GetErrors(params string[] fileNames);
 
         /// <summary>
+        /// Gets the list of errors for the specified project.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>
+        /// The list of errors for the specified project.
+        /// </returns>
+        IList<JSLintErrorTask> GetErrors(Project project);
+
+        /// <summary>
+        /// Gets the list of custom errors.
+        /// </summary>
+        /// <returns>
+        /// The list of custom errors.
+        /// </returns>
+        IList<CustomErrorTask> GetCustomErrors();
+
+        /// <summary>
         /// Adds the JSLint errors to the collection.
         /// </summary>
         /// <param name="fileName">The file name.</param>
@@ -62,6 +80,12 @@
         /// </summary>
         /// <param name="fileNames">The file names.</param>
         void ClearJSLintErrors(params string[] fileNames);
+
+        /// <summary>
+        /// Clears errors for the specified project from the collection.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        void ClearJSLintErrors(Project project);
 
         /// <summary>
         /// Clears the custom errors.

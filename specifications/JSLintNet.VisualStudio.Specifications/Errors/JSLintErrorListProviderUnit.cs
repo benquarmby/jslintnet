@@ -1,11 +1,15 @@
 ﻿namespace JSLintNet.VisualStudio.Specifications.Errors
 {
+    using System;
     using System.Collections.Generic;
+    using EnvDTE;
+    using EnvDTE80;
     using JSLintNet.Models;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
+    using JSLintNet.VisualStudio.Specifications.Fakes;
     using Microsoft.VisualStudio.Shell.Interop;
     using Moq;
     using Xunit;
@@ -62,6 +66,18 @@
 
         private abstract class JSLintErrorListProviderTestableBase : TestableBase<JSLintErrorListProvider>
         {
+            public JSLintErrorListProviderTestableBase()
+            {
+                this.EnvironmentMock = new Mock<DTE>().As<DTE2>();
+                this.ErrorItemsFake = new ErrorItemsFake((DTE)this.EnvironmentMock.Object);
+
+                this.BeforeInit += this.OnBeforeInit;
+            }
+
+            public Mock<DTE2> EnvironmentMock { get; set; }
+
+            public ErrorItemsFake ErrorItemsFake { get; set; }
+
             public void AddErrors(string fileName, int errors)
             {
                 var errorList = new List<IJSLintError>();
@@ -72,6 +88,21 @@
                 }
 
                 this.Instance.AddJSLintErrors(fileName, errorList, Output.Error, Mock.Of<IVsHierarchy>());
+            }
+
+            private void OnBeforeInit(object sender, EventArgs e)
+            {
+                var toolWindows = Mock.Of<ToolWindows>(y =>
+                    y.ErrorList == Mock.Of<ErrorList>(z =>
+                        z.ErrorItems == this.ErrorItemsFake));
+
+                this.EnvironmentMock
+                    .SetupGet(x => x.ToolWindows)
+                    .Returns(toolWindows);
+
+                this.GetMock<IServiceProvider>()
+                    .Setup(x => x.GetService(typeof(DTE)))
+                    .Returns(this.EnvironmentMock.Object);
             }
         }
     }

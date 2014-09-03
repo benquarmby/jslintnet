@@ -1,24 +1,32 @@
 ﻿namespace JSLintNet.VisualStudio.EventControllers
 {
     using System;
+    using System.Linq;
     using EnvDTE;
+    using JSLintNet.Abstractions;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Properties;
+    using BuildProject = Microsoft.Build.Evaluation.Project;
 
     internal class BuildEventController : EventControllerBase
     {
+        private const string MSBuildImport = "JSLintNet.MSBuild.targets";
+
+        private IBuildProjectManager buildProjectManager;
+
         private BuildEvents buildEvents;
 
         private vsBuildAction currentBuildAction;
 
         public BuildEventController(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider)
-            : this(serviceProvider, errorListProvider, new VisualStudioJSLintProvider(serviceProvider, errorListProvider))
+            : this(serviceProvider, errorListProvider, new BuildProjectManager(), new VisualStudioJSLintProvider(serviceProvider, errorListProvider))
         {
         }
 
-        public BuildEventController(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IVisualStudioJSLintProvider visualStudioJSLintProvider)
+        public BuildEventController(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IBuildProjectManager buildProjectManager, IVisualStudioJSLintProvider visualStudioJSLintProvider)
             : base(serviceProvider, errorListProvider, visualStudioJSLintProvider)
         {
+            this.buildProjectManager = buildProjectManager;
             this.buildEvents = this.Environment.Events.BuildEvents;
         }
 
@@ -48,13 +56,21 @@
             }
 
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
+            var runOnBuild = settings.RunOnBuild.GetValueOrDefault();
+            var nuGetInstalled = this.NuGetInstalled(project.FullName);
 
-            if (!settings.RunOnBuild.GetValueOrDefault())
+            if (!(runOnBuild || nuGetInstalled))
             {
                 return;
             }
 
             this.ErrorListProvider.ClearCustomErrors();
+
+            if (nuGetInstalled)
+            {
+                this.ErrorListProvider.ClearJSLintErrors(project);
+                return;
+            }
 
             var ignored = settings.NormalizeIgnore();
             var items = project.ProjectItems.FindLintable(ignored);
@@ -65,6 +81,21 @@
                 this.Environment.ExecuteCommand("Build.Cancel");
                 this.ErrorListProvider.AddCustomError(Resources.BuildCanceled);
             }
+        }
+
+        private bool NuGetInstalled(string fullPath)
+        {
+            BuildProject project;
+
+            if (this.buildProjectManager.TryGetProject(fullPath, out project))
+            {
+                if (project.Imports.Any(x => x.ImportingElement.Project.EndsWith(MSBuildImport)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

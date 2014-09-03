@@ -86,6 +86,7 @@
     <Compile Include="Extensions\ProjectItemExtensionsUnit.cs" />
     <Compile Include="Fakes\DocumentMockContainer.cs" />
     <Compile Include="Fakes\EnumerableFake.cs" />
+    <Compile Include="Fakes\ErrorItemsFake.cs" />
     <Compile Include="Fakes\ProjectItemsFake.cs" />
     <Compile Include="Fakes\ProjectsFake.cs" />
     <Compile Include="Fakes\PropertiesFake.cs" />

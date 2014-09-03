@@ -71,6 +71,34 @@
         }
 
         /// <summary>
+        /// Gets the list of errors for the specified project.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>
+        /// The list of errors for the specified project.
+        /// </returns>
+        public IList<JSLintErrorTask> GetErrors(Project project)
+        {
+            return this.Tasks
+                .OfType<JSLintErrorTask>()
+                .Where(x => MatchesProject(x, project))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Gets the list of custom errors.
+        /// </summary>
+        /// <returns>
+        /// The list of custom errors.
+        /// </returns>
+        public IList<CustomErrorTask> GetCustomErrors()
+        {
+            return this.Tasks
+                .OfType<CustomErrorTask>()
+                .ToList();
+        }
+
+        /// <summary>
         /// Adds the JSLint errors to the collection.
         /// </summary>
         /// <param name="fileName">The file name.</param>
@@ -118,7 +146,7 @@
         }
 
         /// <summary>
-        /// Clears errors for the specified file from the collection.
+        /// Clears errors for the specified files from the collection.
         /// </summary>
         /// <param name="fileNames">The file names.</param>
         public void ClearJSLintErrors(params string[] fileNames)
@@ -128,17 +156,44 @@
                 return;
             }
 
-            Action batch = () =>
-            {
-                var tasks = this.GetErrors(fileNames);
+            var tasks = this.GetErrors(fileNames);
 
+            if (tasks.Count == 0)
+            {
+                return;
+            }
+
+            this.BatchAction(ErrorListAction.ClearFile, fileNames, () =>
+            {
                 foreach (var task in tasks)
                 {
                     this.Tasks.Remove(task);
                 }
-            };
+            });
+        }
 
-            this.BatchAction(ErrorListAction.ClearFile, fileNames, batch);
+        /// <summary>
+        /// Clears errors for the specified project from the collection.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        public void ClearJSLintErrors(Project project)
+        {
+            var tasks = this.GetErrors(project);
+
+            if (tasks.Count == 0)
+            {
+                return;
+            }
+
+            var fileNames = tasks.Select(x => x.Document).ToArray();
+
+            this.BatchAction(ErrorListAction.ClearFile, fileNames, () =>
+            {
+                foreach (var task in tasks)
+                {
+                    this.Tasks.Remove(task);
+                }
+            });
         }
 
         /// <summary>
@@ -146,19 +201,20 @@
         /// </summary>
         public void ClearCustomErrors()
         {
-            Action batch = () =>
-            {
-                var tasks = this.Tasks
-                    .OfType<CustomErrorTask>()
-                    .ToArray();
+            var tasks = this.GetCustomErrors();
 
+            if (tasks.Count == 0)
+            {
+                return;
+            }
+
+            this.BatchAction(ErrorListAction.ClearCustom, null, () =>
+            {
                 foreach (var task in tasks)
                 {
                     this.Tasks.Remove(task);
                 }
-            };
-
-            this.BatchAction(ErrorListAction.ClearCustom, null, batch);
+            });
         }
 
         /// <summary>
@@ -181,6 +237,31 @@
             }
 
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Determines whether the task matches the specified project.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <param name="project">The project.</param>
+        /// <returns>
+        /// <c>true</c> if the task matches the specified project, otherwise <c>false</c>.
+        /// </returns>
+        private static bool MatchesProject(JSLintErrorTask task, Project project)
+        {
+            if (task != null && task.HierarchyItem != null)
+            {
+                object raw;
+
+                task.HierarchyItem.GetProperty(
+                    (uint)VSConstants.VSITEMID.Root,
+                    (int)__VSHPROPID.VSHPROPID_ExtObject,
+                    out raw);
+
+                return raw == project;
+            }
+
+            return false;
         }
 
         /// <summary>

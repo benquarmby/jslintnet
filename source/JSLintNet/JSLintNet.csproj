@@ -48,6 +48,7 @@
     <AssemblyOriginatorKeyFile>..\..\JSLint.NET.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -70,7 +71,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\BuildProjectManager.cs" />
     <Compile Include="Abstractions\FileSystemWrapper.cs" />
+    <Compile Include="Abstractions\IBuildProjectManager.cs" />
     <Compile Include="Abstractions\IFileSystemWrapper.cs" />
     <Compile Include="Abstractions\IJavaScriptContext.cs" />
     <Compile Include="Abstractions\ITaskLoggingHelper.cs" />
