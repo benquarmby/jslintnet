@@ -1,8 +1,9 @@
 ﻿namespace EnvDTE
 {
     using System.Diagnostics.CodeAnalysis;
+    using PropertyCollection = EnvDTE.Properties;
 
-    internal static class PropertiesExtensions
+    internal static class PropertyCollectionExtensions
     {
         /// <summary>
         /// Gets a named item from the <see cref="Properties"/> collection.
@@ -13,7 +14,7 @@
         /// <remarks>This may look like a good candidate for Linq or another functional approach. But manual iteration has proven itself to be the most efficient way to fetch a named item from the very limited <see cref="Properties"/> collection.</remarks>
         /// <returns>The value of the item.</returns>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Linq is a word.")]
-        public static T Get<T>(this Properties properties, string key)
+        public static T Get<T>(this PropertyCollection properties, string key)
         {
             if (properties != null)
             {

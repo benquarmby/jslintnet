@@ -4,17 +4,18 @@
     using System.Linq;
     using EnvDTE;
     using JSLintNet;
+    using Environment = EnvDTE80.DTE2;
 
-    internal static class DTE2Extensions
+    internal static class EnvironmentExtensions
     {
-        public static bool AllSelectedAreLintable(this DTE2 environment)
+        public static bool AllSelectedAreLintable(this Environment environment)
         {
             var selectedItems = environment.GetSelectedItems();
 
             return selectedItems.Length > 0 && selectedItems.All(x => JSLint.CanLint(x.Name));
         }
 
-        public static IList<ProjectItem> FindSelectedLintables(this DTE2 environment)
+        public static IList<ProjectItem> FindSelectedLintables(this Environment environment)
         {
             var selectedItems = environment.GetSelectedItems();
             var projectItems = new List<ProjectItem>();
@@ -35,14 +36,14 @@
             return projectItems;
         }
 
-        public static UIHierarchyItem[] GetSelectedItems(this DTE2 environment)
+        public static UIHierarchyItem[] GetSelectedItems(this Environment environment)
         {
             var hierarchy = environment.ToolWindows.GetToolWindow(Constants.vsWindowKindSolutionExplorer) as UIHierarchy;
 
             return hierarchy.SelectedItems as UIHierarchyItem[];
         }
 
-        public static Project GetSelectedProject(this DTE2 environment)
+        public static Project GetSelectedProject(this Environment environment)
         {
             var items = environment.GetSelectedItems();
 

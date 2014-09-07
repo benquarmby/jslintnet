@@ -2,22 +2,23 @@
 {
     using System.Collections.Generic;
     using JSLintNet;
+    using ProjectItemCollection = EnvDTE.ProjectItems;
 
-    internal static class ProjectItemsExtensions
+    internal static class ProjectItemCollectionExtensions
     {
-        public static bool ItemExists(this ProjectItems projectItems, string itemName)
+        public static bool ItemExists(this ProjectItemCollection projectItems, string itemName)
         {
             return projectItems.FindItem(itemName) != null;
         }
 
-        public static bool TryFindItem(this ProjectItems projectItems, string itemName, out ProjectItem item)
+        public static bool TryFindItem(this ProjectItemCollection projectItems, string itemName, out ProjectItem item)
         {
             item = projectItems.FindItem(itemName);
 
             return item != null;
         }
 
-        public static ProjectItem FindItem(this ProjectItems projectItems, string itemName)
+        public static ProjectItem FindItem(this ProjectItemCollection projectItems, string itemName)
         {
             foreach (ProjectItem item in projectItems)
             {
@@ -30,12 +31,12 @@
             return null;
         }
 
-        public static IList<ProjectItem> FindLintable(this ProjectItems projectItems)
+        public static IList<ProjectItem> FindLintable(this ProjectItemCollection projectItems)
         {
             return FindLintable(projectItems, null);
         }
 
-        public static IList<ProjectItem> FindLintable(this ProjectItems projectItems, IList<string> ignore)
+        public static IList<ProjectItem> FindLintable(this ProjectItemCollection projectItems, IList<string> ignore)
         {
             var projectItemList = new List<ProjectItem>();
 

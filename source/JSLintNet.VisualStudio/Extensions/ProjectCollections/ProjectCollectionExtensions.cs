@@ -2,10 +2,11 @@
 {
     using System;
     using EnvDTE80;
+    using ProjectCollection = EnvDTE.Projects;
 
-    internal static class ProjectsExtensions
+    internal static class ProjectCollectionExtensions
     {
-        public static Project FindByUniqueName(this Projects projects, string uniqueName)
+        public static Project FindByUniqueName(this ProjectCollection projects, string uniqueName)
         {
             foreach (Project project in projects)
             {
