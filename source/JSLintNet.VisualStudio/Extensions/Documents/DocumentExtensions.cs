@@ -1,14 +1,19 @@
-﻿namespace EnvDTE
+﻿using System;
+using JSLintNet.VisualStudio.Extensions.Documents;
+namespace EnvDTE
 {
     internal static class DocumentExtensions
     {
-        public static string GetSource(this Document document)
+        static DocumentExtensions()
         {
-            var textDocument = (TextDocument)document.Object("TextDocument");
-            var editPoint = textDocument.StartPoint.CreateEditPoint();
-            var source = editPoint.GetText(textDocument.EndPoint);
+            AccessorFactory = x => new DocumentAccessor(x);
+        }
 
-            return source;
+        internal static Func<Document, IDocumentAccessor> AccessorFactory { get; set; }
+
+        public static IDocumentAccessor Access(this Document document)
+        {
+            return AccessorFactory(document);
         }
     }
 }

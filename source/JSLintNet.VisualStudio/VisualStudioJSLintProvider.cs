@@ -94,7 +94,7 @@
             this.errorListProvider.ClearJSLintErrors(document.FullName);
 
             int errors;
-            var source = document.GetSource();
+            var source = document.Access().Source;
             var hierarchy = this.GetHierarchy(document.ProjectItem.ContainingProject);
 
             using (var jsLintContext = this.jsLintFactory.CreateContext())
@@ -167,7 +167,7 @@
                         string source;
                         if (isOpen)
                         {
-                            source = item.Document.GetSource();
+                            source = item.Document.Access().Source;
                         }
                         else
                         {

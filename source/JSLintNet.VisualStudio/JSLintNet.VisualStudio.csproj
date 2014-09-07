@@ -150,7 +150,9 @@
     <Compile Include="EventControllers\DocumentEventController.cs" />
     <Compile Include="EventControllers\IEventController.cs" />
     <Compile Include="EventControllers\MenuEventController.cs" />
+    <Compile Include="Extensions\Documents\DocumentAccessor.cs" />
     <Compile Include="Extensions\Documents\DocumentExtensions.cs" />
+    <Compile Include="Extensions\Documents\IDocumentAccessor.cs" />
     <Compile Include="Extensions\Environments\EnvironmentExtensions.cs" />
     <Compile Include="Extensions\ProjectItems\ProjectItemExtensions.cs" />
     <Compile Include="Extensions\ProjectItemCollections\ProjectItemCollectionExtensions.cs" />
