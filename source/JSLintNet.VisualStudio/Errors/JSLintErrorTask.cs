@@ -1,7 +1,9 @@
 ﻿namespace JSLintNet.VisualStudio.Errors
 {
+    using EnvDTE;
     using JSLintNet.Models;
     using JSLintNet.Properties;
+    using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
@@ -26,6 +28,30 @@
             this.Column = jsLintError.Character - 1;
             this.Text = GetText(jsLintError);
             this.HierarchyItem = hierarchy;
+        }
+
+        /// <summary>
+        /// Determines whether the task matches the specified project.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>
+        /// <c>true</c> if the task matches the specified project, otherwise <c>false</c>.
+        /// </returns>
+        public bool MatchesProject(Project project)
+        {
+            if (this.HierarchyItem != null)
+            {
+                object raw;
+
+                this.HierarchyItem.GetProperty(
+                    (uint)VSConstants.VSITEMID.Root,
+                    (int)__VSHPROPID.VSHPROPID_ExtObject,
+                    out raw);
+
+                return raw == project;
+            }
+
+            return false;
         }
 
         /// <summary>

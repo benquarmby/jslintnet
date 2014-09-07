@@ -81,7 +81,7 @@
         {
             return this.Tasks
                 .OfType<JSLintErrorTask>()
-                .Where(x => MatchesProject(x, project))
+                .Where(x => x.MatchesProject(project))
                 .ToList();
         }
 
@@ -163,13 +163,15 @@
                 return;
             }
 
-            this.BatchAction(ErrorListAction.ClearFile, fileNames, () =>
+            Action batch = () =>
             {
                 foreach (var task in tasks)
                 {
                     this.Tasks.Remove(task);
                 }
-            });
+            };
+
+            this.BatchAction(ErrorListAction.ClearFile, fileNames, batch);
         }
 
         /// <summary>
@@ -187,13 +189,15 @@
 
             var fileNames = tasks.Select(x => x.Document).ToArray();
 
-            this.BatchAction(ErrorListAction.ClearFile, fileNames, () =>
+            Action batch = () =>
             {
                 foreach (var task in tasks)
                 {
                     this.Tasks.Remove(task);
                 }
-            });
+            };
+
+            this.BatchAction(ErrorListAction.ClearFile, fileNames, batch);
         }
 
         /// <summary>
@@ -208,13 +212,15 @@
                 return;
             }
 
-            this.BatchAction(ErrorListAction.ClearCustom, null, () =>
+            Action batch = () =>
             {
                 foreach (var task in tasks)
                 {
                     this.Tasks.Remove(task);
                 }
-            });
+            };
+
+            this.BatchAction(ErrorListAction.ClearCustom, null, batch);
         }
 
         /// <summary>
@@ -237,31 +243,6 @@
             }
 
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Determines whether the task matches the specified project.
-        /// </summary>
-        /// <param name="task">The task.</param>
-        /// <param name="project">The project.</param>
-        /// <returns>
-        /// <c>true</c> if the task matches the specified project, otherwise <c>false</c>.
-        /// </returns>
-        private static bool MatchesProject(JSLintErrorTask task, Project project)
-        {
-            if (task != null && task.HierarchyItem != null)
-            {
-                object raw;
-
-                task.HierarchyItem.GetProperty(
-                    (uint)VSConstants.VSITEMID.Root,
-                    (int)__VSHPROPID.VSHPROPID_ExtObject,
-                    out raw);
-
-                return raw == project;
-            }
-
-            return false;
         }
 
         /// <summary>

@@ -29,6 +29,7 @@
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
           <Value>js</Value>
+          <Value>nu</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
