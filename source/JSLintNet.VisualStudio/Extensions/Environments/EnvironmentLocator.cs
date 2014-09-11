@@ -1,13 +1,23 @@
-﻿namespace EnvDTE
+﻿namespace JSLintNet.VisualStudio.Extensions.Environments
 {
     using System;
+    using EnvDTE;
     using EnvDTE80;
-    using ProjectCollection = EnvDTE.Projects;
+    using Environment = EnvDTE80.DTE2;
 
-    internal static class ProjectCollectionExtensions
+    internal class EnvironmentLocator : IEnvironmentLocator
     {
-        public static Project FindByUniqueName(this ProjectCollection projects, string uniqueName)
+        private Environment environment;
+
+        public EnvironmentLocator(Environment environment)
         {
+            this.environment = environment;
+        }
+
+        public Project ProjectByUniqueName(string uniqueName)
+        {
+            var projects = this.environment.Solution.Projects;
+
             foreach (Project project in projects)
             {
                 Project match;

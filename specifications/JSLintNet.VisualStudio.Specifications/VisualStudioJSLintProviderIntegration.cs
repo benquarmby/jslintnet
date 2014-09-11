@@ -4,6 +4,7 @@
     using System.IO;
     using System.Text;
     using EnvDTE;
+    using EnvDTE80;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
@@ -113,13 +114,13 @@
                 var assemblyName = typeof(VisualStudioJSLintProviderIntegration).Assembly.GetName().Name;
                 var projectFile = string.Format(@"Specifications\{0}\{0}.csproj", assemblyName);
 
-                this.Project = this.Environment.Solution.Projects.FindByUniqueName(projectFile);
+                this.Project = this.Environment.Locate().ProjectByUniqueName(projectFile);
                 this.SettingsPath = Path.Combine(Path.GetDirectoryName(this.Project.FullName), "JSLintNet.json");
 
                 this.Instance = new VisualStudioJSLintProvider(serviceProvider, new JSLintErrorListProvider(serviceProvider));
             }
 
-            public DTE Environment { get; set; }
+            public DTE2 Environment { get; set; }
 
             public Project Project { get; set; }
 

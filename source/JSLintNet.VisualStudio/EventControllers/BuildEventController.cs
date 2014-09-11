@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using EnvDTE;
+    using EnvDTE80;
     using JSLintNet.Abstractions;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Properties;
@@ -48,7 +49,7 @@
                 return;
             }
 
-            var project = this.Environment.Solution.Projects.FindByUniqueName(projectName);
+            var project = this.Environment.Locate().ProjectByUniqueName(projectName);
 
             if (project == null)
             {
@@ -73,7 +74,7 @@
             }
 
             var ignored = settings.NormalizeIgnore();
-            var items = project.ProjectItems.FindLintable(ignored);
+            var items = project.ProjectItems.Locate().Lintables(ignored);
             var errors = this.VisualStudioJSLintProvider.LintProjectItems(items, settings);
 
             if (errors > 0 && settings.CancelBuild.GetValueOrDefault())

@@ -288,8 +288,9 @@
             var settingsPath = GetSettingsPath(project);
 
             this.settingsRepository.Save(settings, settingsPath);
+            var item = project.ProjectItems.Locate().Item(JSLintNetSettings.FileName);
 
-            if (!project.ProjectItems.ItemExists(JSLintNetSettings.FileName))
+            if (item == null)
             {
                 project.ProjectItems.AddFromFile(settingsPath);
             }
@@ -314,9 +315,9 @@
             }
 
             var fileName = JSLintNetSettings.FileName;
+            var settingsItem = project.ProjectItems.Locate().Item(fileName);
 
-            ProjectItem settingsItem;
-            if (project.ProjectItems.TryFindItem(fileName, out settingsItem))
+            if (settingsItem != null)
             {
                 return settingsItem.GetFileName();
             }

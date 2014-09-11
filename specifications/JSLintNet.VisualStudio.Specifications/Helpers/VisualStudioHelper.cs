@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Runtime.InteropServices.ComTypes;
-    using EnvDTE;
+    using EnvDTE80;
 
     public static class VisualStudioHelper
     {
-        public static IEnumerable<DTE> GetInstances()
+        public static IEnumerable<DTE2> GetInstances()
         {
             IRunningObjectTable runningObjectTable;
             var retVal = GetRunningObjectTable(0, out runningObjectTable);
@@ -37,13 +37,13 @@
                         object dte;
                         runningObjectTable.GetObject(moniker, out dte);
 
-                        yield return dte as DTE;
+                        yield return dte as DTE2;
                     }
                 }
             }
         }
 
-        public static DTE GetCurrentEnvironment()
+        public static DTE2 GetCurrentEnvironment()
         {
             return GetInstances().FirstOrDefault(x => x.Solution.FullName.Contains("JSLint.NET.VisualStudio"));
         }

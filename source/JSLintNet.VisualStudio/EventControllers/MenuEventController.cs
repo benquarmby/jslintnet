@@ -142,7 +142,7 @@
             var project = projectItem.ContainingProject;
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
             var ignored = settings.NormalizeIgnore();
-            var items = projectItem.ProjectItems.FindLintable(ignored);
+            var items = projectItem.ProjectItems.Locate().Lintables(ignored);
 
             this.VisualStudioJSLintProvider.LintProjectItems(items, settings);
         }
@@ -167,7 +167,7 @@
             var project = this.Environment.SelectedItems.Item(1).Project;
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
             var ignored = settings.NormalizeIgnore();
-            var items = project.ProjectItems.FindLintable(ignored);
+            var items = project.ProjectItems.Locate().Lintables(ignored);
 
             this.VisualStudioJSLintProvider.LintProjectItems(items, settings);
         }
