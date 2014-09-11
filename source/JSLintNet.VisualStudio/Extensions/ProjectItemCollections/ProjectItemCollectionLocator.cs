@@ -35,11 +35,11 @@
 
         private static void AddLintable(ProjectItem projectItem, List<ProjectItem> projectItemList, IList<string> ignore)
         {
-            var fileName = projectItem.GetFileName();
+            var fileName = projectItem.Access().FileName;
 
-            if (!projectItem.IsFolder())
+            if (!projectItem.Is().Folder)
             {
-                if (JSLint.CanLint(fileName) && !projectItem.IsIgnored(ignore))
+                if (JSLint.CanLint(fileName) && !projectItem.Is().Ignored(ignore))
                 {
                     projectItemList.Add(projectItem);
                 }

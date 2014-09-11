@@ -31,7 +31,7 @@
                 var settings = this.VisualStudioJSLintProvider.LoadSettings(document.ProjectItem.ContainingProject);
                 var ignored = settings.NormalizeIgnore();
 
-                if (settings.RunOnSave.GetValueOrDefault() && !document.ProjectItem.IsIgnored(ignored))
+                if (settings.RunOnSave.GetValueOrDefault() && !document.ProjectItem.Is().Ignored(ignored))
                 {
                     this.VisualStudioJSLintProvider.LintDocument(document, settings);
                 }

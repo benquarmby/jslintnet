@@ -158,8 +158,13 @@
     <Compile Include="Extensions\Environments\IEnvironmentLocator.cs" />
     <Compile Include="Extensions\ProjectItemCollections\IProjectItemCollectionLocator.cs" />
     <Compile Include="Extensions\ProjectItemCollections\ProjectItemCollectionLocator.cs" />
+    <Compile Include="Extensions\ProjectItems\IProjectItemAccessor.cs" />
+    <Compile Include="Extensions\ProjectItems\IProjectItemPredicator.cs" />
     <Compile Include="Extensions\ProjectItems\ProjectItemExtensions.cs" />
     <Compile Include="Extensions\ProjectItemCollections\ProjectItemCollectionExtensions.cs" />
+    <Compile Include="Extensions\ProjectItems\ProjectItemAccessor.cs" />
+    <Compile Include="Extensions\ProjectItems\ProjectItemIgnoreState.cs" />
+    <Compile Include="Extensions\ProjectItems\ProjectItemPredicator.cs" />
     <Compile Include="Extensions\PropertyCollections\PropertyCollectionExtensions.cs" />
     <Compile Include="Extensions\ServiceProviders\ServiceProviderExtensions.cs" />
     <Compile Include="Errors\JSLintTagger.cs" />

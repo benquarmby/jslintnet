@@ -8,6 +8,7 @@
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;
     using JSLintNet.VisualStudio.Errors;
+    using JSLintNet.VisualStudio.Extensions.ProjectItems;
     using Microsoft.VisualStudio.Shell;
 
     internal class MenuEventController : EventControllerBase
@@ -57,17 +58,17 @@
                 var projectItem = selections.Item(1).ProjectItem;
                 var settings = this.VisualStudioJSLintProvider.LoadSettings(projectItem.ContainingProject);
                 var ignored = settings.NormalizeIgnore();
-                var ignoreState = projectItem.GetIgnoreState(ignored);
+                var ignoreState = projectItem.Access().IgnoreState(ignored);
 
-                menuCommand.Checked = ignoreState != IgnoreState.None;
-                menuCommand.Enabled = ignoreState != IgnoreState.Implicit;
+                menuCommand.Checked = ignoreState != ProjectItemIgnoreState.None;
+                menuCommand.Enabled = ignoreState != ProjectItemIgnoreState.Implicit;
             }
         }
 
         private void ToggleIgnoreSelectedItem()
         {
             var projectItem = this.Environment.SelectedItems.Item(1).ProjectItem;
-            var relativePath = projectItem.GetRelativePath();
+            var relativePath = projectItem.Access().RelativePath;
             var project = projectItem.ContainingProject;
 
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
