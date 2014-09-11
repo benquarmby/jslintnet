@@ -12,7 +12,7 @@
     {
         public EventControllerTestableBase()
         {
-            this.EnvironmentMock = new Mock<DTE2>();
+            this.EnvironmentMock = new Mock<DTE>().As<DTE2>();
             this.EventsMock = new Mock<Events>();
 
             this.BeforeInit += this.OnBeforeInit;

@@ -50,7 +50,7 @@
                 .SetupGet(x => x.Properties)
                 .Returns(properties);
 
-            this.AddItem(mock.Object);
+            this.AddKeyedItem(mock.Object);
 
             return mock;
         }

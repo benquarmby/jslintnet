@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Design;
+    using System.Linq;
     using EnvDTE;
-    using EnvDTE80;
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;
     using JSLintNet.VisualStudio.Errors;
@@ -50,11 +50,11 @@
             this.menuService.AddCommand(new OleMenuCommand(invokeHandler, null, beforeHandler, commandId));
         }
 
-        private void SetIgnoreMenuItemState(OleMenuCommand menuCommand, UIHierarchyItem[] selections)
+        private void SetIgnoreMenuItemState(OleMenuCommand menuCommand, SelectedItems selections)
         {
             if (menuCommand.Visible)
             {
-                var projectItem = selections[0].Object as ProjectItem;
+                var projectItem = selections.Item(1).ProjectItem;
                 var settings = this.VisualStudioJSLintProvider.LoadSettings(projectItem.ContainingProject);
                 var ignored = settings.NormalizeIgnore();
                 var ignoreState = projectItem.GetIgnoreState(ignored);
@@ -66,7 +66,7 @@
 
         private void ToggleIgnoreSelectedItem()
         {
-            var projectItem = this.Environment.GetSelectedItems()[0].Object as ProjectItem;
+            var projectItem = this.Environment.SelectedItems.Item(1).ProjectItem;
             var relativePath = projectItem.GetRelativePath();
             var project = projectItem.ContainingProject;
 
@@ -103,12 +103,12 @@
         {
             var menuCommand = (OleMenuCommand)sender;
 
-            menuCommand.Visible = this.Environment.AllSelectedAreLintable();
+            menuCommand.Visible = this.IsSelectionLintable();
         }
 
         private void OnItemNodeRun(object sender, EventArgs e)
         {
-            var projectItems = this.Environment.FindSelectedLintables();
+            var projectItems = this.SelectedLintables();
 
             this.VisualStudioJSLintProvider.LintProjectItems(projectItems);
         }
@@ -116,9 +116,9 @@
         private void OnBeforeItemNodeIgnore(object sender, EventArgs e)
         {
             var menuCommand = (OleMenuCommand)sender;
-            var selections = this.Environment.GetSelectedItems();
+            var selections = this.Environment.SelectedItems;
 
-            menuCommand.Visible = selections.Length == 1 && JSLint.CanLint(selections[0].Name);
+            menuCommand.Visible = selections.Count == 1 && JSLint.CanLint(selections.Item(1).Name);
 
             this.SetIgnoreMenuItemState(menuCommand, selections);
         }
@@ -131,14 +131,14 @@
         private void OnBeforeFolderNodeRun(object sender, EventArgs e)
         {
             var menuCommand = (OleMenuCommand)sender;
-            var selections = this.Environment.GetSelectedItems();
+            var selections = this.Environment.SelectedItems;
 
-            menuCommand.Visible = selections.Length == 1;
+            menuCommand.Visible = !selections.MultiSelect;
         }
 
         private void OnFolderNodeRun(object sender, EventArgs e)
         {
-            var projectItem = this.Environment.GetSelectedItems()[0].Object as ProjectItem;
+            var projectItem = this.Environment.SelectedItems.Item(1).ProjectItem;
             var project = projectItem.ContainingProject;
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
             var ignored = settings.NormalizeIgnore();
@@ -150,9 +150,9 @@
         private void OnBeforeFolderNodeIgnore(object sender, EventArgs e)
         {
             var menuCommand = (OleMenuCommand)sender;
-            var selections = this.Environment.GetSelectedItems();
+            var selections = this.Environment.SelectedItems;
 
-            menuCommand.Visible = selections.Length == 1;
+            menuCommand.Visible = selections.Count == 1;
 
             this.SetIgnoreMenuItemState(menuCommand, selections);
         }
@@ -164,7 +164,7 @@
 
         private void OnProjectNodeRun(object sender, EventArgs e)
         {
-            var project = this.Environment.GetSelectedProject();
+            var project = this.Environment.SelectedItems.Item(1).Project;
             var settings = this.VisualStudioJSLintProvider.LoadSettings(project);
             var ignored = settings.NormalizeIgnore();
             var items = project.ProjectItems.FindLintable(ignored);
@@ -174,7 +174,7 @@
 
         private void OnProjectNodeSettings(object sender, EventArgs e)
         {
-            var project = this.Environment.GetSelectedProject();
+            var project = this.Environment.SelectedItems.Item(1).Project;
             var model = this.VisualStudioJSLintProvider.LoadSettings(project, false);
 
             using (var viewModel = new SettingsViewModel(model))
@@ -205,6 +205,37 @@
             {
                 this.VisualStudioJSLintProvider.LintDocument(document);
             }
+        }
+
+        private IList<ProjectItem> SelectedLintables()
+        {
+            var selectedItems = this.Environment.SelectedItems;
+            var projectItems = new List<ProjectItem>();
+
+            foreach (SelectedItem selectedItem in selectedItems)
+            {
+                if (JSLint.CanLint(selectedItem.Name))
+                {
+                    var projectItem = selectedItem.ProjectItem;
+
+                    if (projectItem != null)
+                    {
+                        projectItems.Add(projectItem);
+                    }
+                }
+            }
+
+            return projectItems;
+        }
+
+        private bool IsSelectionLintable()
+        {
+            var selectedItems = this.Environment.SelectedItems;
+
+            return selectedItems.Count > 0 &&
+                selectedItems
+                    .OfType<SelectedItem>()
+                    .All(x => JSLint.CanLint(x.Name));
         }
     }
 }

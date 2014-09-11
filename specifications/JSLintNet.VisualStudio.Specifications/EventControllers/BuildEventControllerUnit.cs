@@ -136,7 +136,7 @@
                         .SetupGet(x => x.Projects)
                         .Returns(this.ProjectsFake);
 
-                    this.ProjectsFake.AddItem(this.ProjectMock.Object);
+                    this.ProjectsFake.AddKeyedItem(this.ProjectMock.Object);
 
                     this.ProjectMock
                         .SetupGet(x => x.FullName)

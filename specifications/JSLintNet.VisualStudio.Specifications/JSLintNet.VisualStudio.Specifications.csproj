@@ -90,6 +90,7 @@
     <Compile Include="Fakes\ProjectItemsFake.cs" />
     <Compile Include="Fakes\ProjectsFake.cs" />
     <Compile Include="Fakes\PropertiesFake.cs" />
+    <Compile Include="Fakes\SelectedItemsFake.cs" />
     <Compile Include="Helpers\VisualStudioHelper.cs" />
     <Compile Include="VisualStudioJSLintProviderIntegration.cs" />
     <Compile Include="VisualStudioJSLintProviderUnit.cs" />

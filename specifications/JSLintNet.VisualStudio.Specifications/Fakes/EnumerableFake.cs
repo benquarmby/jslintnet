@@ -16,6 +16,8 @@
 
         public Dictionary<object, T> Items { get; set; }
 
+        public bool OneBased { get; set; }
+
         public int Count
         {
             get { return this.Items.Count; }
@@ -31,9 +33,16 @@
             return this.Items[index];
         }
 
-        public void AddItem(T value)
+        public void AddKeyedItem(T value)
         {
             this.AddItem(Guid.NewGuid(), value);
+        }
+
+        public void AddIndexedItem(T value)
+        {
+            var next = this.OneBased ? this.Items.Count + 1 : this.Items.Count;
+
+            this.Items.Add(next, value);
         }
 
         public void AddItem(object key, T value)

@@ -5,7 +5,6 @@
     using System.ComponentModel.Design;
     using System.IO;
     using EnvDTE;
-    using EnvDTE80;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
@@ -763,13 +762,17 @@
 
         private abstract class ItemNodeTestableBase : MenuEventControllerTestableBase
         {
-            private List<UIHierarchyItem> selectedItems = new List<UIHierarchyItem>();
+            private SelectedItemsFake selectedItems;
 
             public ItemNodeTestableBase()
             {
                 this.ProjectMock = new Mock<Project>();
                 this.ProjectFullName = @"c:\\full\path\to\project.csproj";
                 this.Settings = new JSLintNetSettings();
+                this.selectedItems = new SelectedItemsFake((DTE)this.EnvironmentMock.Object)
+                {
+                    OneBased = true
+                };
 
                 this.BeforeInit += this.OnBeforeInit;
             }
@@ -780,7 +783,7 @@
 
             protected string ProjectFullName { get; set; }
 
-            public Mock<UIHierarchyItem> AddSelectedItem(string fileName, bool isLink = false)
+            public Mock<SelectedItem> AddSelectedItem(string fileName, bool isLink = false)
             {
                 var name = Path.GetFileName(fileName);
                 var propertiesFake = new PropertiesFake();
@@ -794,19 +797,17 @@
                     x.Properties == propertiesFake &&
                     x.ContainingProject == this.ProjectMock.Object);
 
-                var hierarchyItem = Mock.Of<UIHierarchyItem>(x =>
+                var selectedItem = Mock.Of<SelectedItem>(x =>
                     x.Name == name &&
-                    x.Object == projectItem);
+                    x.ProjectItem == projectItem);
 
-                this.selectedItems.Add(hierarchyItem);
+                this.selectedItems.AddIndexedItem(selectedItem);
 
-                return Mock.Get(hierarchyItem);
+                return Mock.Get(selectedItem);
             }
 
             private void OnBeforeInit(object sender, EventArgs e)
             {
-                var solutionExplorerWindowMock = new Mock<UIHierarchy>();
-                var toolWindowsMock = new Mock<ToolWindows>();
                 var propertiesFake = new PropertiesFake();
 
                 propertiesFake.AddProperty("FullPath", Path.GetDirectoryName(this.ProjectFullName) + @"\");
@@ -819,17 +820,9 @@
                     .SetupGet(x => x.Properties)
                     .Returns(propertiesFake);
 
-                solutionExplorerWindowMock
-                    .SetupGet(x => x.SelectedItems)
-                    .Returns(() => this.selectedItems.ToArray());
-
-                toolWindowsMock
-                    .Setup(x => x.GetToolWindow(Constants.vsWindowKindSolutionExplorer))
-                    .Returns(solutionExplorerWindowMock.Object);
-
                 this.EnvironmentMock
-                    .SetupGet(x => x.ToolWindows)
-                    .Returns(toolWindowsMock.Object);
+                    .SetupGet(x => x.SelectedItems)
+                    .Returns(this.selectedItems);
 
                 this.GetMock<IVisualStudioJSLintProvider>()
                     .Setup(x => x.LoadSettings(It.IsAny<Project>()))
@@ -872,10 +865,16 @@
 
         private abstract class ProjectNodeTestableBase : MenuEventControllerTestableBase
         {
+            private SelectedItemsFake selectedItems;
+
             public ProjectNodeTestableBase()
             {
                 this.ProjectMock = new Mock<Project>();
                 this.Settings = new JSLintNetSettings();
+                this.selectedItems = new SelectedItemsFake((DTE)this.EnvironmentMock.Object)
+                {
+                    OneBased = true
+                };
 
                 this.BeforeInit += this.OnBeforeInit;
             }
@@ -886,21 +885,13 @@
 
             private void OnBeforeInit(object sender, EventArgs e)
             {
-                var solutionExplorerWindowMock = new Mock<UIHierarchy>();
-                var toolWindowsMock = new Mock<ToolWindows>();
-                var hierarchyItem = Mock.Of<UIHierarchyItem>(x => x.Object == this.ProjectMock.Object);
+                var selectedItem = Mock.Of<SelectedItem>(x => x.Project == this.ProjectMock.Object);
 
-                solutionExplorerWindowMock
-                    .SetupGet(x => x.SelectedItems)
-                    .Returns(new[] { hierarchyItem });
-
-                toolWindowsMock
-                    .Setup(x => x.GetToolWindow(Constants.vsWindowKindSolutionExplorer))
-                    .Returns(solutionExplorerWindowMock.Object);
+                this.selectedItems.AddIndexedItem(selectedItem);
 
                 this.EnvironmentMock
-                    .SetupGet(x => x.ToolWindows)
-                    .Returns(toolWindowsMock.Object);
+                    .SetupGet(x => x.SelectedItems)
+                    .Returns(this.selectedItems);
 
                 this.GetMock<IVisualStudioJSLintProvider>()
                     .Setup(x => x.LoadSettings(this.ProjectMock.Object))

@@ -1,7 +1,8 @@
-﻿using System;
-using JSLintNet.VisualStudio.Extensions.Documents;
-namespace EnvDTE
+﻿namespace EnvDTE
 {
+    using System;
+    using JSLintNet.VisualStudio.Extensions.Documents;
+
     internal static class DocumentExtensions
     {
         static DocumentExtensions()
