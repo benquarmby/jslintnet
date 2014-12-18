@@ -127,14 +127,8 @@
   <data name="jslint" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\jslint.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="jslintData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\jslintData.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="jslintEdition" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\jslintEdition.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="jslintRunFormat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\jslintRunFormat.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="jslintnet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jslintnet.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ReportDocumentStyle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ReportDocumentStyle.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

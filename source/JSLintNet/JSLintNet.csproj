@@ -14,7 +14,6 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
   </PropertyGroup>
   <Import Project="$(SolutionDir)JSLintNet.props" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,17 +47,16 @@
     <AssemblyOriginatorKeyFile>..\..\JSLint.NET.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClearScript, Version=5.3.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ClearScript.V8.5.3.10.0\lib\ClearScript.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Noesis.Javascript">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\x86\Noesis.Javascript.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -92,7 +90,6 @@
       <DependentUpon>JSLintNetSettings.generated.tt</DependentUpon>
     </Compile>
     <Compile Include="JSLintOptions.cs" />
-    <Compile Include="JSLintParameters.cs" />
     <Compile Include="IJSLintFactory.cs" />
     <Compile Include="IJSLintContext.cs" />
     <Compile Include="JSLint.cs" />
@@ -173,12 +170,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\jslintData.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\jslintRunFormat.js" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ReportFileFormat.html" />
     <None Include="Resources\ReportDocumentFormat.html" />
   </ItemGroup>
@@ -187,31 +178,23 @@
       <Link>License.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\amd64\Noesis.Javascript.dll">
-      <Link>amd64\Noesis.Javascript.dll</Link>
+    <Content Include="..\..\packages\ClearScript.V8.5.3.10.0\tools\native\amd64\ClearScriptV8-64.dll">
+      <Link>ClearScriptV8-64.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\amd64\Microsoft.VC100.CRT\msvcp100.dll">
-      <Link>amd64\Microsoft.VC100.CRT\msvcp100.dll</Link>
+    <Content Include="..\..\packages\ClearScript.V8.5.3.10.0\tools\native\amd64\v8-x64.dll">
+      <Link>v8-x64.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\amd64\Microsoft.VC100.CRT\msvcr100.dll">
-      <Link>amd64\Microsoft.VC100.CRT\msvcr100.dll</Link>
+    <Content Include="..\..\packages\ClearScript.V8.5.3.10.0\tools\native\x86\ClearScriptV8-32.dll">
+      <Link>ClearScriptV8-32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\lib\net40\x86\Noesis.Javascript.dll">
-      <Link>x86\Noesis.Javascript.dll</Link>
+    <Content Include="..\..\packages\ClearScript.V8.5.3.10.0\tools\native\x86\v8-ia32.dll">
+      <Link>v8-ia32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\x86\Microsoft.VC100.CRT\msvcp100.dll">
-      <Link>x86\Microsoft.VC100.CRT\msvcp100.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\packages\Noesis.Javascript.0.7.1.0\NativeBinaries\net40\x86\Microsoft.VC100.CRT\msvcr100.dll">
-      <Link>x86\Microsoft.VC100.CRT\msvcr100.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\jslintEdition.js" />
+    <None Include="Resources\jslintnet.js" />
     <None Include="Resources\ReportDocumentStyle.css" />
   </ItemGroup>
   <ItemGroup>

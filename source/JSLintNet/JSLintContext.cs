@@ -64,12 +64,9 @@
         /// </returns>
         public IJSLintData Lint(string source, JSLintOptions options)
         {
-            this.context.SetParameter(JSLintParameters.SourceParameter, source);
-            this.context.SetParameter(JSLintParameters.OptionsParameter, this.jsonProvider.SerializeOptions(options));
-
-            this.context.Run(string.Format(Resources.jslintRunFormat, JSLintParameters.SourceParameter, JSLintParameters.OptionsParameter));
-            var rawData = this.context.Run(Resources.jslintData) as string;
-            var data = this.jsonProvider.DeserializeData(rawData);
+            var jsonOptions = this.jsonProvider.SerializeOptions(options);
+            var jsonData = this.context.Script.JSLintNet.run(source, jsonOptions);
+            var data = this.jsonProvider.DeserializeData(jsonData);
 
             return data;
         }
@@ -100,6 +97,8 @@
 
         private void LoadJSLint()
         {
+            this.context.Run(Resources.jslintnet);
+
             var path = typeof(JSLintContext).Assembly.Location;
             path = Path.GetDirectoryName(path);
             path = Path.Combine(path, "jslint.js");
@@ -113,7 +112,7 @@
 
             var source = this.fileSystemWrapper.ReadAllText(path, Encoding.UTF8);
             this.context.Run(source);
-            var edition = this.context.Run(Resources.jslintEdition);
+            var edition = this.context.Script.JSLINT.edition;
 
             if (AssemblyInfo.Edition.CompareTo(edition) > 0)
             {

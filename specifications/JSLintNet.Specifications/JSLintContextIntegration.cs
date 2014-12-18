@@ -38,12 +38,14 @@
                 {
                     ConstructorHelper.CreateJSLint("not.actually.jslint;");
 
-                    var exception = I.Expect(() =>
+                    using (new JSLintContext())
                     {
-                        using (new JSLintContext())
-                        {
-                        }
-                    }).ToThrow();
+                    }
+
+                    Assert.True(false, "Expected exception given invalid JSLint file.");
+                }
+                catch
+                {
                 }
                 finally
                 {

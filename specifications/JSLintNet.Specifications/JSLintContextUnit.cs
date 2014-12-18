@@ -1,6 +1,8 @@
 ﻿namespace JSLintNet.Specifications
 {
+    using System;
     using System.Collections.Generic;
+    using System.Dynamic;
     using JSLintNet.Abstractions;
     using JSLintNet.Json;
     using JSLintNet.Models;
@@ -24,14 +26,25 @@
                 }
             }
 
-            [Fact(DisplayName = "Should setup jslint inside a javascript context")]
+            [Fact(DisplayName = "Should setup jslintnet script inside a javascript context")]
             public void Spec02()
             {
                 using (var testable = new ConstructorTestable())
                 {
                     testable.Init();
 
-                    I.Expect(testable.ContextRuns[0]).ToStartWith("// jslint.js");
+                    I.Expect(testable.ContextRuns[0]).ToStartWith("// jslintnet.js");
+                }
+            }
+
+            [Fact(DisplayName = "Should setup jslint inside a javascript context")]
+            public void Spec03()
+            {
+                using (var testable = new ConstructorTestable())
+                {
+                    testable.Init();
+
+                    I.Expect(testable.ContextRuns[1]).ToStartWith("// jslint.js");
                 }
             }
 
@@ -60,67 +73,54 @@
 
         public class Lint : UnitBase
         {
-            [Fact(DisplayName = "Should pass source to javascript context")]
+            [Fact(DisplayName = "Should run JSLint over source")]
             public void Spec01()
             {
                 using (var testable = new LintTestable())
                 {
+                    testable.GetMock<IJsonProvider>()
+                        .Setup(x => x.SerializeOptions(null))
+                        .Returns("null");
+
                     testable.Instance.Lint("some source");
 
-                    testable.JavaScriptContextMock.Verify(x => x.SetParameter(JSLintParameters.SourceParameter, "some source"));
+                    testable.Verify<IJsonProvider>(x => x.DeserializeData(@"some source_null"));
                 }
             }
 
-            [Fact(DisplayName = "Should pass serialized options to javascript context")]
+            [Fact(DisplayName = "Should run JSLint over source with serialized options")]
             public void Spec02()
             {
                 using (var testable = new LintTestable())
                 {
-                    testable.GetMock<IJsonProvider>()
-                        .Setup(x => x.SerializeOptions(It.IsAny<JSLintOptions>()))
-                        .Returns(@"{""some"":""json""}");
-
                     var options = new JSLintOptions()
                     {
                         TolerateStupidPractices = true
                     };
 
+                    testable.GetMock<IJsonProvider>()
+                        .Setup(x => x.SerializeOptions(options))
+                        .Returns(@"{""some"":""json""}");
+
                     testable.Instance.Lint("some source", options);
 
-                    testable.JavaScriptContextMock.Verify(x => x.SetParameter(JSLintParameters.OptionsParameter, @"{""some"":""json""}"));
+                    testable.Verify<IJsonProvider>(x => x.DeserializeData(@"some source_{""some"":""json""}"));
                 }
             }
 
-            [Fact(DisplayName = "Should run JSLint over source")]
+            [Fact(DisplayName = "Should return deserialized results")]
             public void Spec03()
             {
                 using (var testable = new LintTestable())
                 {
-                    testable.Instance.Lint("some source");
+                    testable.GetMock<IJsonProvider>()
+                        .Setup(x => x.SerializeOptions(null))
+                        .Returns("null");
 
-                    I.Expect(testable.ContextRuns[1]).ToStartWith("JSLINT(" + JSLintParameters.SourceParameter);
-                }
-            }
+                    var actual = testable.Instance.Lint("some source");
 
-            [Fact(DisplayName = "Should run JSLint with options")]
-            public void Spec04()
-            {
-                using (var testable = new LintTestable())
-                {
-                    testable.Instance.Lint("some source");
-
-                    I.Expect(testable.ContextRuns[1]).ToContain(JSLintParameters.OptionsParameter);
-                }
-            }
-
-            [Fact(DisplayName = "Should fetch data from JSLint run")]
-            public void Spec05()
-            {
-                using (var testable = new LintTestable())
-                {
-                    testable.Instance.Lint("some source");
-
-                    I.Expect(testable.ContextRuns[2]).ToContain("JSLINT.data()");
+                    testable.Verify<IJsonProvider>(x => x.DeserializeData(@"some source_null"));
+                    I.Expect(actual).Not.ToBeNull();
                 }
             }
 
@@ -135,22 +135,29 @@
             {
                 this.ContextRuns = new List<string>();
                 this.JavaScriptContextMock = new Mock<IJavaScriptContext>();
+                this.Script = new ExpandoObject();
+                this.Script.JSLintNet = new ExpandoObject();
+                this.Script.JSLintNet.run = new Func<string, string, string>((x, y) => x + "_" + y);
 
                 this.BeforeInit += this.OnBeforeInit;
             }
 
-            public List<string> ContextRuns { get; set; }
+            public List<string> ContextRuns { get; private set; }
 
-            public Mock<IJavaScriptContext> JavaScriptContextMock { get; set; }
+            public dynamic Script { get; private set; }
+
+            public Mock<IJavaScriptContext> JavaScriptContextMock { get; private set; }
 
             private void OnBeforeInit(object sender, System.EventArgs e)
             {
-                var mock = Mock.Of<IJavaScriptContext>(x => x.Run(It.IsAny<string>()) == new Dictionary<string, object>());
-
                 this.JavaScriptContextMock
                     .Setup(x => x.Run(It.IsAny<string>()))
                     .Callback((string x) => this.ContextRuns.Add(x))
                     .Returns(new Dictionary<string, object>());
+
+                this.JavaScriptContextMock
+                    .SetupGet(x => x.Script)
+                    .Returns(this.Script as ExpandoObject);
 
                 this.GetMock<IJsonProvider>()
                     .Setup(x => x.DeserializeData(It.IsAny<string>()))

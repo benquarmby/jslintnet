@@ -135,41 +135,6 @@ namespace JSLintNet.Properties
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to (function () {
-        ///    &apos;use strict&apos;;
-        ///
-        ///    var data = JSLINT.data();
-        ///
-        ///    return JSON.stringify({
-        ///        errors: data.errors,
-        ///        functions: data.functions,
-        ///        global: data.global,
-        ///        json: data.json,
-        ///        error_report: JSLINT.error_report(data)
-        ///    });
-        ///}());
-        ///.
-        /// </summary>
-        internal static string jslintData
-        {
-            get
-            {
-                return ResourceManager.GetString("jslintData", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to JSLINT.edition;.
-        /// </summary>
-        internal static string jslintEdition
-        {
-            get
-            {
-                return ResourceManager.GetString("jslintEdition", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to JSLint edition from file system ({0}) cannot be lower than built-in edition ({1})..
         /// </summary>
         internal static string JSLintEditionErrorFormat
@@ -181,13 +146,13 @@ namespace JSLintNet.Properties
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to JSLINT({0}, JSON.parse({1}));.
+        ///   Looks up a localized string similar to // jslintnet.js
         /// </summary>
-        internal static string jslintRunFormat
+        internal static string jslintnet
         {
             get
             {
-                return ResourceManager.GetString("jslintRunFormat", resourceCulture);
+                return ResourceManager.GetString("jslintnet", resourceCulture);
             }
         }
 
