@@ -16,6 +16,7 @@
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+1.8.0 - Visual Studio 2015 support.
 1.7.0 - Fix intermittent MSBuild failures.
 1.6.5 - Prevent duplicate warnings between NuGet and VSIX.
 1.6.4 - Support linked settings file.
