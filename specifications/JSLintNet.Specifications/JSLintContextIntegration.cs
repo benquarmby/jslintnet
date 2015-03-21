@@ -7,6 +7,7 @@
 
     public class JSLintContextIntegration : IntegrationBase
     {
+        [Collection("JSLintContextIntegration")]
         public class Constructor : IntegrationBase
         {
             [Fact(DisplayName = "Should throw given old jslint edition on file system")]
@@ -112,6 +113,7 @@
             }
         }
 
+        [Collection("JSLintContextIntegration")]
         public class Lint : IntegrationBase
         {
             [Fact(DisplayName = "Should fail given invalid source")]

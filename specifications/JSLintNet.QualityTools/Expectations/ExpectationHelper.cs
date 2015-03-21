@@ -13,7 +13,7 @@
                 var methodName = new StackTrace().GetFrame(1).GetMethod().Name;
                 var english = GetEnglishyPredicate(methodName, expectation, args);
 
-                throw new AssertException(english);
+                throw new XunitException(english);
             }
         }
 
