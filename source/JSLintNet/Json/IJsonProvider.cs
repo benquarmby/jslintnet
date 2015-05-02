@@ -1,5 +1,6 @@
 ﻿namespace JSLintNet.Json
 {
+    using System.Collections.Generic;
     using JSLintNet.Models;
     using JSLintNet.Settings;
 
@@ -31,7 +32,7 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
-        /// A serialized string.
+        /// A serialized JSON string.
         /// </returns>
         string SerializeOptions(JSLintOptions value);
 
@@ -40,8 +41,17 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
-        /// A serialized string.
+        /// A serialized JSON string.
         /// </returns>
         string SerializeSettings(JSLintNetSettings value);
+
+        /// <summary>
+        /// Serializes the global variables.
+        /// </summary>
+        /// <param name="global">The global variables.</param>
+        /// <returns>
+        /// A serialized JSON string.
+        /// </returns>
+        string SerializeGlobalVariables(IList<string> globalVariables);
     }
 }

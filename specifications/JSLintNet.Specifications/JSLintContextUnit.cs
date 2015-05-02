@@ -95,7 +95,7 @@
                 {
                     var options = new JSLintOptions()
                     {
-                        TolerateStupidPractices = true
+                        TolerateEval = true
                     };
 
                     testable.GetMock<IJsonProvider>()

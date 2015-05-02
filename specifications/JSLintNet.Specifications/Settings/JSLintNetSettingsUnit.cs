@@ -142,23 +142,23 @@
                 var target = new JSLintNetSettings();
                 target.Options = new JSLintOptions()
                 {
-                    IndentationFactor = 2,
+                    MaximumErrors = 2,
                     AssumeBrowser = true
                 };
 
                 var merge = new JSLintNetSettings();
                 merge.Options = new JSLintOptions()
                 {
-                    IndentationFactor = 4,
-                    TolerateUnusedParameters = true
+                    MaximumErrors = 4,
+                    AssumeES6 = true
                 };
 
                 target.Merge(merge);
 
-                I.Expect(target.Options.IndentationFactor).ToBe(4);
+                I.Expect(target.Options.MaximumErrors).ToBe(4);
                 I.Expect(target.Options.AssumeBrowser).ToBeTrue();
-                I.Expect(target.Options.TolerateUnusedParameters).ToBeTrue();
-                I.Expect(target.Options.TolerateUncapitalizedConstructors).ToBeNull();
+                I.Expect(target.Options.AssumeES6).ToBeTrue();
+                I.Expect(target.Options.TolerateEval).ToBeNull();
             }
 
             [Fact(DisplayName = "Should replace null target options")]

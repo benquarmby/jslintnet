@@ -7,13 +7,13 @@
     /// Contains the details of a JSLint error.
     /// </summary>
     [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Called by JSON serializer.")]
-    public class JSLintError : IJSLintError
+    public class JSLintWarning : IJSLintWarning
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JSLintError"/> class.
+        /// Initializes a new instance of the <see cref="JSLintWarning"/> class.
         /// </summary>
         [JsonConstructor]
-        internal JSLintError()
+        internal JSLintWarning()
         {
         }
 
@@ -24,16 +24,16 @@
         public int Line { get; private set; }
 
         /// <summary>
-        /// Gets the character (relative to 0) at which the lint was found.
+        /// Gets the column (relative to 0) at which the lint was found.
         /// </summary>
-        [JsonProperty("character")]
-        public int Character { get; private set; }
+        [JsonProperty("column")]
+        public int Column { get; private set; }
 
         /// <summary>
         /// Gets the problem.
         /// </summary>
-        [JsonProperty("reason")]
-        public string Reason { get; private set; }
+        [JsonProperty("message")]
+        public string Message { get; private set; }
 
         /// <summary>
         /// Gets the text line in which the problem occurred.

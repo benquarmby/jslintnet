@@ -1,6 +1,7 @@
 ﻿namespace JSLintNet
 {
     using System;
+    using System.Collections.Generic;
     using JSLintNet.Models;
 
     /// <summary>
@@ -13,7 +14,7 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>
-        /// A <see cref="IJSLintData"/> containing any validation errors.
+        /// A <see cref="IJSLintData" /> instance containing any validation warnings.
         /// </returns>
         IJSLintData Lint(string source);
 
@@ -23,8 +24,19 @@
         /// <param name="source">The source.</param>
         /// <param name="options">The options.</param>
         /// <returns>
-        /// A <see cref="IJSLintData" /> containing any validation errors.
+        /// A <see cref="IJSLintData" /> instance containing any validation warnings.
         /// </returns>
         IJSLintData Lint(string source, JSLintOptions options);
+
+        /// <summary>
+        /// Validates the specified source using JSLint with the provided options and global variables.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="options">The options.</param>
+        /// <param name="globalVariables">The global variables.</param>
+        /// <returns>
+        /// A <see cref="IJSLintData" /> instance containing any validation warnings.
+        /// </returns>
+        IJSLintData Lint(string source, JSLintOptions options, IList<string> globalVariables);
     }
 }

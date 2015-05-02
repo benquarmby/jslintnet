@@ -101,9 +101,9 @@
             {
                 var result = jsLintContext.Lint(source, settings.Options);
 
-                this.errorListProvider.AddJSLintErrors(document.FullName, result.Errors, settings.Output, hierarchy);
+                this.errorListProvider.AddJSLintErrors(document.FullName, result.Warnings, settings.Output, hierarchy);
 
-                errors = result.Errors.Count;
+                errors = result.Warnings.Count;
                 var text = GetMessageText(errors);
                 this.SetStatusBar(text);
             }
@@ -181,12 +181,12 @@
                     {
                         var data = result.Data;
 
-                        if (data.Errors.Count > 0)
+                        if (data.Warnings.Count > 0)
                         {
-                            errors += data.Errors.Count;
+                            errors += data.Warnings.Count;
                             errorFiles += 1;
 
-                            this.errorListProvider.AddJSLintErrors(fileName, data.Errors, settings.Output, hierarchy);
+                            this.errorListProvider.AddJSLintErrors(fileName, data.Warnings, settings.Output, hierarchy);
 
                             if (errors >= errorLimit)
                             {

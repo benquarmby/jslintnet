@@ -107,26 +107,26 @@
             }
         }
 
-        public string PredefinedGlobals
+        public string GlobalVariables
         {
             get
             {
-                return string.Join(" ", this.Model.Options.PredefinedGlobals.Keys);
+                return string.Join(" ", this.Model.GlobalVariables);
             }
 
             set
             {
-                PopulateDictionaryFromString(this.Model.Options.PredefinedGlobals, value);
+                PopulateListFromString(this.Model.GlobalVariables, value);
 
-                this.RaisePropertyChanged(() => this.PredefinedGlobals);
+                this.RaisePropertyChanged(() => this.GlobalVariables);
             }
         }
 
-        private static void PopulateDictionaryFromString(Dictionary<string, bool> dictionary, string value)
+        private static void PopulateListFromString(IList<string> list, string value)
         {
             if (string.IsNullOrEmpty(value))
             {
-                dictionary.Clear();
+                list.Clear();
                 return;
             }
 
@@ -135,20 +135,20 @@
             // Add new keys
             foreach (var key in keys)
             {
-                if (!string.IsNullOrWhiteSpace(key) && !dictionary.ContainsKey(key))
+                if (!string.IsNullOrWhiteSpace(key) && !list.Contains(key))
                 {
-                    dictionary.Add(key, true);
+                    list.Add(key);
                 }
             }
 
             // Remove missing keys
-            var removeKeys = dictionary.Keys
+            var removeKeys = list
                 .Where(x => !keys.Contains(x))
                 .ToArray();
 
             foreach (var key in removeKeys)
             {
-                dictionary.Remove(key);
+                list.Remove(key);
             }
         }
 

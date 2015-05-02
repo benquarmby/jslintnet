@@ -1,21 +1,16 @@
 ﻿// jslintnet.js
-/*global JSLINT*/
-var JSLintNet = (function () {
+/*global jslint, REPORT*/
+var jslintnet = function (source, options, globals) {
     'use strict';
 
-    return {
-        run: function (source, options) {
-            JSLINT(source, JSON.parse(options));
+    var data = jslint(source, JSON.parse(options), JSON.parse(globals));
 
-            var data = JSLINT.data();
-
-            return JSON.stringify({
-                errors: data.errors,
-                functions: data.functions,
-                global: data.global,
-                json: data.json,
-                error_report: JSLINT.error_report(data)
-            });
-        }
-    };
-}());
+    return JSON.stringify({
+        warnings: data.warnings,
+        functions: data.functions,
+        global: data.global,
+        json: data.json,
+        stop: data.stop,
+        report: REPORT.error(data)
+    });
+};

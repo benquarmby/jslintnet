@@ -14,7 +14,7 @@
         /// <value>
         /// The errors.
         /// </value>
-        IList<IJSLintError> Errors { get; }
+        IList<IJSLintWarning> Warnings { get; }
 
         /// <summary>
         /// Gets the functions.
@@ -55,6 +55,6 @@
         /// <value>
         ///   <c>true</c> if the last error in this instance is a stopping error; otherwise, <c>false</c>.
         /// </value>
-        bool HasStoppingError { get; }
+        bool Stop { get; }
     }
 }

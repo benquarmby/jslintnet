@@ -7,7 +7,7 @@
     /// <summary>
     /// Creates instances of the specified interface.
     /// </summary>
-    internal class JSLintErrorConverter : CustomCreationConverter<IJSLintError>
+    internal class JSLintWarningConverter : CustomCreationConverter<IJSLintWarning>
     {
         /// <summary>
         /// Creates the specified object type.
@@ -16,9 +16,9 @@
         /// <returns>
         /// A new instance of the specified type.
         /// </returns>
-        public override IJSLintError Create(Type objectType)
+        public override IJSLintWarning Create(Type objectType)
         {
-            return new JSLintError();
+            return new JSLintWarning();
         }
     }
 }

@@ -71,14 +71,14 @@
                     Options = new JSLintOptions()
                     {
                         AssumeBrowser = true,
-                        TolerateUnusedParameters = true
+                        TolerateMessyWhitespace = true
                     }
                 };
-                settings.Options.PredefinedGlobals.Add("MyGlobal", false);
+                settings.GlobalVariables.Add("MyGlobal");
 
                 var actual = this.Instance.SerializeSettings(settings);
 
-                I.Expect(actual).ToMatch(@"""options"": \{\s*""predef"": \{\s*""MyGlobal"": false\s*\},\s*""browser"": true,\s*""unparam"": true\s*\}");
+                I.Expect(actual).ToMatch(@"""options"": \{\s*""browser"": true,\s*""white"": true\s*\}, ""globalVariables"": \[""MyGlobal""\]");
             }
         }
 
@@ -121,14 +121,13 @@
             [Fact(DisplayName = "Should correctly deserialize options")]
             public void Spec04()
             {
-                var value = @"{""options"":{""predef"":{""MyGlobal"":true},""browser"":true,""unparam"":true}}";
+                var value = @"{""options"":{""browser"":true,""eval"":true}}";
 
                 var actual = this.Instance.DeserializeSettings(value);
                 var options = actual.Options;
 
-                I.Expect(options.PredefinedGlobals["MyGlobal"]).ToBeTrue();
                 I.Expect(options.AssumeBrowser.Value).ToBeTrue();
-                I.Expect(options.TolerateUnusedParameters.Value).ToBeTrue();
+                I.Expect(options.TolerateEval.Value).ToBeTrue();
             }
         }
     }

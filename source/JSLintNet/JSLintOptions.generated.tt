@@ -15,7 +15,7 @@ namespace JSLintNet
     /// <summary>
     /// Provides a simple way to create and manage the options used by JSLint.
     /// </summary>
-    public partial class JSLintOptions: ICloneable
+    public class JSLintOptions: ICloneable
     {
 <#
     var first = true;
@@ -75,7 +75,11 @@ namespace JSLintNet
 #>
         }
 
-        private void MergeRoot(JSLintOptions merge)
+        /// <summary>
+        /// Merges the specified options into this instance.
+        /// </summary>
+        /// <param name="merge">The options to merge.</param>
+        public void Merge(JSLintOptions merge)
         {
 <#
     first = true;

@@ -157,7 +157,7 @@
                     if (result.Success)
                     {
                         var data = result.Data;
-                        var count = data.Errors.Count;
+                        var count = data.Warnings.Count;
 
                         reportBuilder.AddFile(relative, data);
 
@@ -167,10 +167,10 @@
                                 .WriteErrorLine()
                                 .WriteErrorLine(Resources.ErrorFileSummaryFormat, relative, count);
 
-                            foreach (var error in data.Errors)
+                            foreach (var error in data.Warnings)
                             {
                                 this.consoleWriter
-                                    .WriteErrorLine(4, Resources.ErrorItemFormat, error.Reason, error.Line, error.Character);
+                                    .WriteErrorLine(4, Resources.ErrorItemFormat, error.Message, error.Line, error.Column);
                             }
                         }
 

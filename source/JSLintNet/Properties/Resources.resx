@@ -130,6 +130,9 @@
   <data name="jslintnet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\jslintnet.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\report.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ReportDocumentStyle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ReportDocumentStyle.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

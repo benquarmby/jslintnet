@@ -2,26 +2,13 @@
 
 namespace JSLintNet
 {
-    using System;
     using Newtonsoft.Json;
 
     /// <summary>
     /// Provides a simple way to create and manage the options used by JSLint.
     /// </summary>
-    public partial class JSLintOptions: ICloneable
+    public class JSLintOptions
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether assignment expressions should be allowed.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if assignment expressions should be allowed; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "ass" option.
-        /// </remarks>
-        [JsonProperty("ass")]
-        public bool? TolerateAssignmentExpressions { get; set; }
-
         /// <summary>
         /// Gets or sets a value indicating whether bitwise operators should be allowed.
         /// </summary>
@@ -47,30 +34,6 @@ namespace JSLintNet
         public bool? AssumeBrowser { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Google Closure idioms should be tolerated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if Google Closure idioms should be tolerated; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "closure" option.
-        /// </remarks>
-        [JsonProperty("closure")]
-        public bool? TolerateGoogleClosure { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the continuation statement should be tolerated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the continuation statement should be tolerated; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "continue" option.
-        /// </remarks>
-        [JsonProperty("continue")]
-        public bool? TolerateContinue { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether Couch DB globals should be predefined.
         /// </summary>
         /// <value>
@@ -83,40 +46,28 @@ namespace JSLintNet
         public bool? AssumeCouchDB { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether debugger statements should be allowed.
+        /// Gets or sets a value indicating whether browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed.
         /// </summary>
         /// <value>
-        /// <c>true</c> if debugger statements should be allowed; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "debug" option.
-        /// </remarks>
-        [JsonProperty("debug")]
-        public bool? TolerateDebuggerStatements { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether if browser globals that are useful in development should be predefined.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if if browser globals that are useful in development should be predefined; otherwise, <c>false</c>.
+        /// <c>true</c> if browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
         /// JSLint "devel" option.
         /// </remarks>
         [JsonProperty("devel")]
-        public bool? AssumeConsole { get; set; }
+        public bool? AssumeInDevelopment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether == should be allowed.
+        /// Gets or sets a value indicating whether using the good parts of ECMAScript Sixth Edition..
         /// </summary>
         /// <value>
-        /// <c>true</c> if == should be allowed; otherwise, <c>false</c>.
+        /// <c>true</c> if using the good parts of ECMAScript Sixth Edition.; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
-        /// JSLint "eqeq" option.
+        /// JSLint "es6" option.
         /// </remarks>
-        [JsonProperty("eqeq")]
-        public bool? TolerateDoubleEquals { get; set; }
+        [JsonProperty("es6")]
+        public bool? AssumeES6 { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether eval should be allowed.
@@ -125,40 +76,28 @@ namespace JSLintNet
         /// <c>true</c> if eval should be allowed; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
-        /// JSLint "evil" option.
+        /// JSLint "eval" option.
         /// </remarks>
-        [JsonProperty("evil")]
+        [JsonProperty("eval")]
         public bool? TolerateEval { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether for in statements need not filter.
+        /// Gets or sets a value indicating whether the for statement should be allowed.
         /// </summary>
         /// <value>
-        /// <c>true</c> if for in statements need not filter; otherwise, <c>false</c>.
+        /// <c>true</c> if the for statement should be allowed; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
-        /// JSLint "forin" option.
+        /// JSLint "for" option.
         /// </remarks>
-        [JsonProperty("forin")]
-        public bool? TolerateUnfilteredForIn { get; set; }
+        [JsonProperty("for")]
+        public bool? TolerateForStatement { get; set; }
 
         /// <summary>
-        /// Gets or sets the indentation factor.
+        /// Gets or sets the maximum number of warnings reported.
         /// </summary>
         /// <value>
-        /// The indentation factor.
-        /// </value>
-        /// <remarks>
-        /// JSLint "indent" option.
-        /// </remarks>
-        [JsonProperty("indent")]
-        public int? IndentationFactor { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum number of errors to allow.
-        /// </summary>
-        /// <value>
-        /// The maximum number of errors to allow.
+        /// The maximum number of warnings reported.
         /// </value>
         /// <remarks>
         /// JSLint "maxerr" option.
@@ -167,28 +106,16 @@ namespace JSLintNet
         public int? MaximumErrors { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum length of a source line.
+        /// Gets or sets the maximum number of characters in a line.
         /// </summary>
         /// <value>
-        /// The maximum length of a source line.
+        /// The maximum number of characters in a line.
         /// </value>
         /// <remarks>
         /// JSLint "maxlen" option.
         /// </remarks>
         [JsonProperty("maxlen")]
         public int? MaximumLineLength { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether constructor names capitalization is ignored.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if constructor names capitalization is ignored; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "newcap" option.
-        /// </remarks>
-        [JsonProperty("newcap")]
-        public bool? TolerateUncapitalizedConstructors { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Node.js globals should be predefined.
@@ -203,154 +130,22 @@ namespace JSLintNet
         public bool? AssumeNode { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether names may have dangling _.
+        /// Gets or sets a value indicating whether this should be allowed.
         /// </summary>
         /// <value>
-        /// <c>true</c> if names may have dangling _; otherwise, <c>false</c>.
+        /// <c>true</c> if this should be allowed; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
-        /// JSLint "nomen" option.
+        /// JSLint "this" option.
         /// </remarks>
-        [JsonProperty("nomen")]
-        public bool? TolerateDanglingUnderscores { get; set; }
+        [JsonProperty("this")]
+        public bool? TolerateThis { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the scan should stop on first error.
+        /// Gets or sets a value indicating whether strict whitespace rules should be ignored.
         /// </summary>
         /// <value>
-        /// <c>true</c> if the scan should stop on first error; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "passfail" option.
-        /// </remarks>
-        [JsonProperty("passfail")]
-        public bool? StopOnFirstError { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether increment/decrement should be allowed.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if increment/decrement should be allowed; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "plusplus" option.
-        /// </remarks>
-        [JsonProperty("plusplus")]
-        public bool? TolerateIncrementDecrement { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether all property names must be declared with /*properties*/.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if all property names must be declared with /*properties*/; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "properties" option.
-        /// </remarks>
-        [JsonProperty("properties")]
-        public bool? PropertiesDeclared { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the . should be allowed in regexp literals.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the . should be allowed in regexp literals; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "regexp" option.
-        /// </remarks>
-        [JsonProperty("regexp")]
-        public bool? TolerateInsecureRegExp { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the Rhino environment globals should be predefined.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the Rhino environment globals should be predefined; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "rhino" option.
-        /// </remarks>
-        [JsonProperty("rhino")]
-        public bool? AssumeRhino { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether unused parameters should be tolerated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if unused parameters should be tolerated; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "unparam" option.
-        /// </remarks>
-        [JsonProperty("unparam")]
-        public bool? TolerateUnusedParameters { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the ES5 'use strict'; pragma is not required.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the ES5 'use strict'; pragma is not required; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "sloppy" option.
-        /// </remarks>
-        [JsonProperty("sloppy")]
-        public bool? TolerateMissingUseStrict { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether blocking ('...Sync') methods can be used.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if blocking ('...Sync') methods can be used; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "stupid" option.
-        /// </remarks>
-        [JsonProperty("stupid")]
-        public bool? TolerateStupidPractices { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether all forms of subscript notation are tolerated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if all forms of subscript notation are tolerated; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "sub" option.
-        /// </remarks>
-        [JsonProperty("sub")]
-        public bool? TolerateInefficientSubscripting { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether TODO comments are tolerated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if TODO comments are tolerated; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "todo" option.
-        /// </remarks>
-        [JsonProperty("todo")]
-        public bool? TolerateToDoComments { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether multiple var statements per function should be allowed.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if multiple var statements per function should be allowed; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>
-        /// JSLint "vars" option.
-        /// </remarks>
-        [JsonProperty("vars")]
-        public bool? TolerateManyVarStatements { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether sloppy whitespace is tolerated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if sloppy whitespace is tolerated; otherwise, <c>false</c>.
+        /// <c>true</c> if strict whitespace rules should be ignored; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
         /// JSLint "white" option.
@@ -358,46 +153,12 @@ namespace JSLintNet
         [JsonProperty("white")]
         public bool? TolerateMessyWhitespace { get; set; }
 
-        private void CloneRoot(JSLintOptions clone)
+        /// <summary>
+        /// Merges the specified options into this instance.
+        /// </summary>
+        /// <param name="merge">The options to merge.</param>
+        public void Merge(JSLintOptions merge)
         {
-            clone.TolerateAssignmentExpressions = this.TolerateAssignmentExpressions;
-            clone.TolerateBitwiseOperators = this.TolerateBitwiseOperators;
-            clone.AssumeBrowser = this.AssumeBrowser;
-            clone.TolerateGoogleClosure = this.TolerateGoogleClosure;
-            clone.TolerateContinue = this.TolerateContinue;
-            clone.AssumeCouchDB = this.AssumeCouchDB;
-            clone.TolerateDebuggerStatements = this.TolerateDebuggerStatements;
-            clone.AssumeConsole = this.AssumeConsole;
-            clone.TolerateDoubleEquals = this.TolerateDoubleEquals;
-            clone.TolerateEval = this.TolerateEval;
-            clone.TolerateUnfilteredForIn = this.TolerateUnfilteredForIn;
-            clone.IndentationFactor = this.IndentationFactor;
-            clone.MaximumErrors = this.MaximumErrors;
-            clone.MaximumLineLength = this.MaximumLineLength;
-            clone.TolerateUncapitalizedConstructors = this.TolerateUncapitalizedConstructors;
-            clone.AssumeNode = this.AssumeNode;
-            clone.TolerateDanglingUnderscores = this.TolerateDanglingUnderscores;
-            clone.StopOnFirstError = this.StopOnFirstError;
-            clone.TolerateIncrementDecrement = this.TolerateIncrementDecrement;
-            clone.PropertiesDeclared = this.PropertiesDeclared;
-            clone.TolerateInsecureRegExp = this.TolerateInsecureRegExp;
-            clone.AssumeRhino = this.AssumeRhino;
-            clone.TolerateUnusedParameters = this.TolerateUnusedParameters;
-            clone.TolerateMissingUseStrict = this.TolerateMissingUseStrict;
-            clone.TolerateStupidPractices = this.TolerateStupidPractices;
-            clone.TolerateInefficientSubscripting = this.TolerateInefficientSubscripting;
-            clone.TolerateToDoComments = this.TolerateToDoComments;
-            clone.TolerateManyVarStatements = this.TolerateManyVarStatements;
-            clone.TolerateMessyWhitespace = this.TolerateMessyWhitespace;
-        }
-
-        private void MergeRoot(JSLintOptions merge)
-        {
-            if (merge.TolerateAssignmentExpressions.HasValue)
-            {
-                this.TolerateAssignmentExpressions = merge.TolerateAssignmentExpressions;
-            }
-
             if (merge.TolerateBitwiseOperators.HasValue)
             {
                 this.TolerateBitwiseOperators = merge.TolerateBitwiseOperators;
@@ -408,34 +169,19 @@ namespace JSLintNet
                 this.AssumeBrowser = merge.AssumeBrowser;
             }
 
-            if (merge.TolerateGoogleClosure.HasValue)
-            {
-                this.TolerateGoogleClosure = merge.TolerateGoogleClosure;
-            }
-
-            if (merge.TolerateContinue.HasValue)
-            {
-                this.TolerateContinue = merge.TolerateContinue;
-            }
-
             if (merge.AssumeCouchDB.HasValue)
             {
                 this.AssumeCouchDB = merge.AssumeCouchDB;
             }
 
-            if (merge.TolerateDebuggerStatements.HasValue)
+            if (merge.AssumeInDevelopment.HasValue)
             {
-                this.TolerateDebuggerStatements = merge.TolerateDebuggerStatements;
+                this.AssumeInDevelopment = merge.AssumeInDevelopment;
             }
 
-            if (merge.AssumeConsole.HasValue)
+            if (merge.AssumeES6.HasValue)
             {
-                this.AssumeConsole = merge.AssumeConsole;
-            }
-
-            if (merge.TolerateDoubleEquals.HasValue)
-            {
-                this.TolerateDoubleEquals = merge.TolerateDoubleEquals;
+                this.AssumeES6 = merge.AssumeES6;
             }
 
             if (merge.TolerateEval.HasValue)
@@ -443,14 +189,9 @@ namespace JSLintNet
                 this.TolerateEval = merge.TolerateEval;
             }
 
-            if (merge.TolerateUnfilteredForIn.HasValue)
+            if (merge.TolerateForStatement.HasValue)
             {
-                this.TolerateUnfilteredForIn = merge.TolerateUnfilteredForIn;
-            }
-
-            if (merge.IndentationFactor.HasValue)
-            {
-                this.IndentationFactor = merge.IndentationFactor;
+                this.TolerateForStatement = merge.TolerateForStatement;
             }
 
             if (merge.MaximumErrors.HasValue)
@@ -463,74 +204,14 @@ namespace JSLintNet
                 this.MaximumLineLength = merge.MaximumLineLength;
             }
 
-            if (merge.TolerateUncapitalizedConstructors.HasValue)
-            {
-                this.TolerateUncapitalizedConstructors = merge.TolerateUncapitalizedConstructors;
-            }
-
             if (merge.AssumeNode.HasValue)
             {
                 this.AssumeNode = merge.AssumeNode;
             }
 
-            if (merge.TolerateDanglingUnderscores.HasValue)
+            if (merge.TolerateThis.HasValue)
             {
-                this.TolerateDanglingUnderscores = merge.TolerateDanglingUnderscores;
-            }
-
-            if (merge.StopOnFirstError.HasValue)
-            {
-                this.StopOnFirstError = merge.StopOnFirstError;
-            }
-
-            if (merge.TolerateIncrementDecrement.HasValue)
-            {
-                this.TolerateIncrementDecrement = merge.TolerateIncrementDecrement;
-            }
-
-            if (merge.PropertiesDeclared.HasValue)
-            {
-                this.PropertiesDeclared = merge.PropertiesDeclared;
-            }
-
-            if (merge.TolerateInsecureRegExp.HasValue)
-            {
-                this.TolerateInsecureRegExp = merge.TolerateInsecureRegExp;
-            }
-
-            if (merge.AssumeRhino.HasValue)
-            {
-                this.AssumeRhino = merge.AssumeRhino;
-            }
-
-            if (merge.TolerateUnusedParameters.HasValue)
-            {
-                this.TolerateUnusedParameters = merge.TolerateUnusedParameters;
-            }
-
-            if (merge.TolerateMissingUseStrict.HasValue)
-            {
-                this.TolerateMissingUseStrict = merge.TolerateMissingUseStrict;
-            }
-
-            if (merge.TolerateStupidPractices.HasValue)
-            {
-                this.TolerateStupidPractices = merge.TolerateStupidPractices;
-            }
-
-            if (merge.TolerateInefficientSubscripting.HasValue)
-            {
-                this.TolerateInefficientSubscripting = merge.TolerateInefficientSubscripting;
-            }
-
-            if (merge.TolerateToDoComments.HasValue)
-            {
-                this.TolerateToDoComments = merge.TolerateToDoComments;
-            }
-
-            if (merge.TolerateManyVarStatements.HasValue)
-            {
-                this.TolerateManyVarStatements = merge.TolerateManyVarStatements;
+                this.TolerateThis = merge.TolerateThis;
             }
 
             if (merge.TolerateMessyWhitespace.HasValue)

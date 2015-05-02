@@ -105,7 +105,7 @@
         /// <param name="jsLintErrors">The JSLint errors.</param>
         /// <param name="output">The output type.</param>
         /// <param name="hierarchy">The hierarchy.</param>
-        public void AddJSLintErrors(string fileName, IEnumerable<IJSLintError> jsLintErrors, Output? output, IVsHierarchy hierarchy)
+        public void AddJSLintErrors(string fileName, IEnumerable<IJSLintWarning> jsLintErrors, Output? output, IVsHierarchy hierarchy)
         {
             Action batch = () =>
             {
@@ -321,13 +321,13 @@
         /// <param name="item">The item.</param>
         /// <param name="error">The error.</param>
         /// <returns>True if the errors are equal; otherwise false.</returns>
-        private static bool ErrorsEqual(ErrorItem item, IJSLintError error)
+        private static bool ErrorsEqual(ErrorItem item, IJSLintWarning error)
         {
-            var description = string.Concat(Resources.ErrorTextPrefix, error.Reason);
+            var description = string.Concat(Resources.ErrorTextPrefix, error.Message);
 
             return item.Description.Equals(description, StringComparison.OrdinalIgnoreCase) &&
                 item.Line == error.Line &&
-                item.Column == error.Character;
+                item.Column == error.Column;
         }
 
         /// <summary>

@@ -23,7 +23,7 @@
 
         <Strings>
           <CommandName>ClearErrors</CommandName>
-          <ButtonText>Clear JSLint Errors</ButtonText>
+          <ButtonText>Clear JSLint Warnings</ButtonText>
         </Strings>
       </Button>
 

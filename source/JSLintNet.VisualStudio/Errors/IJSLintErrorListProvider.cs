@@ -66,7 +66,7 @@
         /// <param name="jsLintErrors">The JSLint errors.</param>
         /// <param name="output">The output type.</param>
         /// <param name="hierarchy">The hierarchy.</param>
-        void AddJSLintErrors(string fileName, IEnumerable<IJSLintError> jsLintErrors, Output? output, IVsHierarchy hierarchy);
+        void AddJSLintErrors(string fileName, IEnumerable<IJSLintWarning> jsLintErrors, Output? output, IVsHierarchy hierarchy);
 
         /// <summary>
         /// Adds a custom error.

@@ -16,17 +16,17 @@
         /// Initializes a new instance of the <see cref="JSLintErrorTask" /> class.
         /// </summary>
         /// <param name="document">The document.</param>
-        /// <param name="jsLintError">The JSLint error.</param>
+        /// <param name="jsLintWarning">The JSLint error.</param>
         /// <param name="category">The category.</param>
         /// <param name="hierarchy">The hierarchy.</param>
-        public JSLintErrorTask(string document, IJSLintError jsLintError, TaskErrorCategory category, IVsHierarchy hierarchy)
+        public JSLintErrorTask(string document, IJSLintWarning jsLintWarning, TaskErrorCategory category, IVsHierarchy hierarchy)
         {
             this.Document = document;
             this.Category = TaskCategory.BuildCompile;
             this.ErrorCategory = category;
-            this.Line = jsLintError.Line - 1;
-            this.Column = jsLintError.Character - 1;
-            this.Text = GetText(jsLintError);
+            this.Line = jsLintWarning.Line - 1;
+            this.Column = jsLintWarning.Column - 1;
+            this.Text = GetText(jsLintWarning);
             this.HierarchyItem = hierarchy;
         }
 
@@ -57,13 +57,13 @@
         /// <summary>
         /// Gets a text representation of the specified error.
         /// </summary>
-        /// <param name="error">The error.</param>
+        /// <param name="warning">The error.</param>
         /// <returns>
         /// A text representation of the error.
         /// </returns>
-        private static string GetText(IJSLintError error)
+        private static string GetText(IJSLintWarning warning)
         {
-            return string.Concat(Resources.ErrorTextPrefix, error.Reason);
+            return string.Concat(Resources.ErrorTextPrefix, warning.Message);
         }
     }
 }

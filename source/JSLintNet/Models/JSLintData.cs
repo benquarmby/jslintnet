@@ -10,39 +10,14 @@
     [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Called by JSON serializer.")]
     public class JSLintData : IJSLintData
     {
-        private IList<IJSLintError> errors;
-
         /// <summary>
         /// Gets the errors.
         /// </summary>
         /// <value>
         /// The errors.
         /// </value>
-        [JsonProperty("errors")]
-        public IList<IJSLintError> Errors
-        {
-            get
-            {
-                return this.errors;
-            }
-
-            private set
-            {
-                this.errors = value;
-                this.HasStoppingError = false;
-
-                if (this.errors != null)
-                {
-                    var lastError = this.errors.Count - 1;
-
-                    if (lastError >= 0 && this.errors[lastError] == null)
-                    {
-                        this.errors.RemoveAt(lastError);
-                        this.HasStoppingError = true;
-                    }
-                }
-            }
-        }
+        [JsonProperty("warnings")]
+        public IList<IJSLintWarning> Warnings { get; private set; }
 
         /// <summary>
         /// Gets the functions.
@@ -86,6 +61,6 @@
         /// <value>
         /// <c>true</c> if the last error in this instance is a stopping error; otherwise, <c>false</c>.
         /// </value>
-        public bool HasStoppingError { get; private set; }
+        public bool Stop { get; private set; }
     }
 }

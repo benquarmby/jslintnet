@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="$(SolutionDir)\external\ClearScript\ClearScript.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -50,9 +49,9 @@
     <AssemblyOriginatorKeyFile>..\..\JSLint.NET.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClearScript, Version=5.4.0.0, Culture=neutral, PublicKeyToken=935d0c957da47c73, processorArchitecture=MSIL">
+    <Reference Include="ClearScript">
+      <HintPath>..\..\packages\ClearScript.V8.5.4.1\lib\ClearScript.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\external\ClearScript\ClearScript.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
@@ -92,20 +91,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JSLintNetSettings.generated.tt</DependentUpon>
     </Compile>
-    <Compile Include="JSLintOptions.cs" />
     <Compile Include="IJSLintFactory.cs" />
     <Compile Include="IJSLintContext.cs" />
     <Compile Include="JSLint.cs" />
     <Compile Include="JSLintFactory.cs" />
     <Compile Include="JSLintTask.cs" />
     <Compile Include="Json\IJsonProvider.cs" />
-    <Compile Include="Json\JSLintErrorConverter.cs" />
+    <Compile Include="Json\JSLintWarningConverter.cs" />
     <Compile Include="Json\JSLintFunctionConverter.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Models\ExecutionResult.cs" />
     <Compile Include="Models\ExecutionResult`1.cs" />
     <Compile Include="Models\IJSLintData.cs" />
-    <Compile Include="Models\IJSLintError.cs" />
+    <Compile Include="Models\IJSLintWarning.cs" />
     <Compile Include="Models\IJSLintFunction.cs" />
     <Compile Include="Models\JSLintFunction.cs" />
     <Compile Include="JSLintOptions.generated.cs">
@@ -115,7 +113,7 @@
     </Compile>
     <Compile Include="Models\JSLintData.cs" />
     <Compile Include="JSLintContext.cs" />
-    <Compile Include="Models\JSLintError.cs" />
+    <Compile Include="Models\JSLintWarning.cs" />
     <Compile Include="Models\TaskFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -181,6 +179,23 @@
       <Link>License.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\amd64\ClearScriptV8-64.dll">
+      <Link>ClearScriptV8-64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\amd64\v8-x64.dll">
+      <Link>v8-x64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\x86\ClearScriptV8-32.dll">
+      <Link>ClearScriptV8-32.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\x86\v8-ia32.dll">
+      <Link>v8-ia32.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\report.js" />
     <None Include="Resources\jslintnet.js" />
     <None Include="Resources\ReportDocumentStyle.css" />
   </ItemGroup>

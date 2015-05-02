@@ -103,14 +103,14 @@
         {
             this.ProcessedFileCount += 1;
 
-            if (!this.files.ContainsKey(file) && data.Errors.Count > 0)
+            if (!this.files.ContainsKey(file) && data.Warnings.Count > 0)
             {
                 this.ErrorFileCount += 1;
-                this.ErrorCount += data.Errors.Count;
+                this.ErrorCount += data.Warnings.Count;
 
                 var reportFile = new ReportFile()
                 {
-                    ErrorCount = data.Errors.Count,
+                    ErrorCount = data.Warnings.Count,
                     ErrorReport = data.ErrorReport
                 };
 

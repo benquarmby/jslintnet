@@ -4,28 +4,28 @@
         x:Class="JSLintNet.UI.Views.SettingsView"
         xmlns:local="clr-namespace:JSLintNet.UI"
         Name="RootWindow"
-        Title="JSLint.NET Settings" Height="510" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="JSLint.NET Settings" Height="382.861" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid>
-        <TabControl Height="420" Margin="10,10,10,0" VerticalAlignment="Top">
+        <TabControl Margin="10,10,10,0" Height="293" VerticalAlignment="Top">
             <TabItem Header="Settings">
                 <Grid>
-                    <GroupBox Header="Output Errors As" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="240">
+                    <GroupBox Header="Output warnings as..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="240">
                         <Canvas>
                             <RadioButton Content="Errors" Canvas.Left="10" Canvas.Top="10" GroupName="Output" IsChecked="{Binding OutputError}" />
                             <RadioButton Content="Warnings" Canvas.Left="10" Canvas.Top="31" GroupName="Output" IsChecked="{Binding OutputWarning}" />
                             <RadioButton Content="Messages" Canvas.Left="10" Canvas.Top="52" GroupName="Output" IsChecked="{Binding OutputMessage}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Visual Studio" HorizontalAlignment="Left" Margin="10,115,0,0" Width="240" Height="100" VerticalAlignment="Top">
+                    <GroupBox Header="Visual Studio..." HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" Height="100" VerticalAlignment="Top">
                         <Canvas>
                             <local:InvertedCheckBox Content="Run on save" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding RunOnSave}" IsThreeState="True" />
                             <local:InvertedCheckBox Content="Run on build" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding RunOnBuild}" IsThreeState="True" />
                             <local:InvertedCheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsThreeState="True" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Ignore" HorizontalAlignment="Right" Margin="0,10,10,10" Width="480">
+                    <GroupBox Header="Ignore" Margin="10,0,10,10" Height="136" VerticalAlignment="Bottom">
                         <Canvas>
-                            <ListBox Height="290" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" Width="448" ItemsSource="{Binding Ignore}" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch">
+                            <ListBox Height="66" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" Canvas.Right="10" Width="712" ItemsSource="{Binding Ignore}" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -35,15 +35,15 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <TextBox Height="23" Canvas.Left="10" Canvas.Bottom="10" Width="368" Name="IgnoreAdd">
+                            <TextBox Height="23" Canvas.Left="10" Canvas.Bottom="10" Width="632" Name="IgnoreAdd" Canvas.Top="81">
                                 <TextBox.InputBindings>
                                     <KeyBinding Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" Key="Enter" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <Button Content="Add" Canvas.Right="10" Canvas.Bottom="10" Width="75" Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" />
+                            <Button Content="Add" Canvas.Right="10" Canvas.Bottom="10" Width="75" Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" RenderTransformOrigin="1.3,2.75" Canvas.Left="647" Canvas.Top="82" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Limits" HorizontalAlignment="Left" Margin="10,220,0,0" Width="240" Height="79" VerticalAlignment="Top">
+                    <GroupBox Header="Limits..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="100" VerticalAlignment="Top">
                         <Canvas>
                             <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Width="50" Padding="0" FontSize="9" Text="{Binding ErrorLimit}" />
                             <Label Content="Maximum total errors" Canvas.Left="65" Canvas.Top="10" Height="16" Padding="0" />
@@ -55,51 +55,34 @@
             </TabItem>
             <TabItem Header="JSLint Options">
                 <Grid>
-                    <GroupBox Header="Assume" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="140" Width="240">
+                    <GroupBox Header="Assume..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="140" Width="240">
                         <Canvas>
-                            <local:InvertedCheckBox Content="a browser" Canvas.Left="10" Canvas.Top="10" Tag="browser" IsChecked="{Binding AssumeBrowser}" />
-                            <local:InvertedCheckBox Content="CouchDB" Canvas.Left="10" Canvas.Top="31" Tag="couch" IsChecked="{Binding AssumeCouchDB}" />
-                            <local:InvertedCheckBox Content="console, alert, ..." Canvas.Left="10" Canvas.Top="52" Tag="devel" IsChecked="{Binding AssumeConsole}" />
-                            <local:InvertedCheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="73" Tag="node" IsChecked="{Binding AssumeNode}" />
-                            <local:InvertedCheckBox Content="Rhino" Canvas.Left="10" Canvas.Top="94" Tag="rhino" IsChecked="{Binding AssumeRhino}" />
+                            <local:InvertedCheckBox Content="in development" Canvas.Left="10" Canvas.Top="10" Tag="devel" IsChecked="{Binding AssumeInDevelopment}" />
+                            <local:InvertedCheckBox Content="ES6" Canvas.Left="10" Canvas.Top="31" Tag="es6" IsChecked="{Binding AssumeRhino}" />
+                            <local:InvertedCheckBox Content="a browser" Canvas.Left="10" Canvas.Top="52" Tag="browser" IsChecked="{Binding AssumeBrowser}" />
+                            <local:InvertedCheckBox Content="CouchDB" Canvas.Left="10" Canvas.Top="73" Tag="couch" IsChecked="{Binding AssumeCouchDB}" />
+                            <local:InvertedCheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="94" Tag="node" IsChecked="{Binding AssumeNode}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="General" HorizontalAlignment="Left" Margin="10,155,0,0" Width="240" Height="120" VerticalAlignment="Top">
+                    <GroupBox Header="Number..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="140" VerticalAlignment="Top">
                         <Canvas>
-                            <local:InvertedCheckBox Content="Stop on first error" Canvas.Left="10" Canvas.Top="10" Tag="passfail" IsChecked="{Binding StopOnFirstError}" />
-                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="31" Width="50" Padding="0" FontSize="9" Text="{Binding IndentationFactor}" />
-                            <Label Content="Indentation" Canvas.Left="65" Canvas.Top="31" Height="16" Padding="0" />
-                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="52" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumLineLength}" />
-                            <Label Content="Maximum line length" Canvas.Left="65" Canvas.Top="52" Height="16" Padding="0" />
-                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="73" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumErrors}" />
-                            <Label Content="Maximum number of errors" Canvas.Left="65" Canvas.Top="73" Height="16" Padding="0" />
+                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumLineLength}" />
+                            <Label Content="Maximum line length" Canvas.Left="65" Canvas.Top="10" Height="16" Padding="0" />
+                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="31" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumErrors}" />
+                            <Label Content="Maximum number of warnings" Canvas.Left="65" Canvas.Top="31" Height="16" Padding="0" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Tolerate" Margin="0,10,10,0" VerticalAlignment="Top" Height="265" HorizontalAlignment="Right" Width="480">
+                    <GroupBox Header="Tolerate..." Margin="0,10,0,0" VerticalAlignment="Top" Height="140" HorizontalAlignment="Center" Width="240">
                         <Canvas>
-                            <local:InvertedCheckBox Content="assignment expressions" Canvas.Left="10" Canvas.Top="10" Tag="ass" IsChecked="{Binding TolerateAssignmentExpressions}" />
-                            <local:InvertedCheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="31" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" />
-                            <local:InvertedCheckBox Content="Google Closure" Canvas.Left="10" Canvas.Top="52" Tag="closure" IsChecked="{Binding TolerateGoogleClosure}" />
-                            <local:InvertedCheckBox Content="continue" Canvas.Left="10" Canvas.Top="73" Height="16" Tag="continue" IsChecked="{Binding TolerateContinue}" />
-                            <local:InvertedCheckBox Content="debugger statements" Canvas.Left="10" Canvas.Top="94" Tag="debug" IsChecked="{Binding TolerateDebuggerStatements}" />
-                            <local:InvertedCheckBox Content="== and !=" Canvas.Left="10" Canvas.Top="115" Tag="eqeq" IsChecked="{Binding TolerateDoubleEquals}" />
-                            <local:InvertedCheckBox Content="eval" Canvas.Left="10" Canvas.Top="136" Tag="evil" IsChecked="{Binding TolerateEval}" />
-                            <local:InvertedCheckBox Content="unfiltered for in" Canvas.Left="10" Canvas.Top="157" Tag="forin" IsChecked="{Binding TolerateUnfilteredForIn}" />
-                            <local:InvertedCheckBox Content="uncapitalized constructors" Canvas.Left="10" Canvas.Top="178" Tag="newcap" IsChecked="{Binding TolerateUncapitalizedConstructors}" />
-                            <local:InvertedCheckBox Content="dangling __ in identifiers" Canvas.Left="10" Canvas.Top="199" Tag="nomen" IsChecked="{Binding TolerateDanglingUnderscores}" />
-                            <local:InvertedCheckBox Content="++ and --" Canvas.Left="258" Canvas.Top="10" Tag="plusplus" IsChecked="{Binding TolerateIncrementDecrement}" />
-                            <local:InvertedCheckBox Content=". and [^...] in /RegExp/" Canvas.Left="258" Canvas.Top="31" Tag="regexp" IsChecked="{Binding TolerateInsecureRegExp}" />
-                            <local:InvertedCheckBox Content="unused parameters" Canvas.Left="258" Canvas.Top="52" Tag="unparam" IsChecked="{Binding TolerateUnusedParameters}" />
-                            <local:InvertedCheckBox Content="missing 'use strict' pragma" Canvas.Left="258" Canvas.Top="73" Tag="sloppy" IsChecked="{Binding TolerateMissingUseStrict}" />
-                            <local:InvertedCheckBox Content="stupidity" Canvas.Left="258" Canvas.Top="94" Tag="stupid" IsChecked="{Binding TolerateStupidPractices}" />
-                            <local:InvertedCheckBox Content="inefficient subscripting" Canvas.Left="258" Canvas.Top="115" Tag="sub" IsChecked="{Binding TolerateInefficientSubscripting}" />
-                            <local:InvertedCheckBox Content="TODO comments" Canvas.Left="258" Canvas.Top="136" Tag="todo" IsChecked="{Binding TolerateToDoComments}" />
-                            <local:InvertedCheckBox Content="many var statements per function" Canvas.Left="258" Canvas.Top="157" Tag="vars" IsChecked="{Binding TolerateManyVarStatements}" />
-                            <local:InvertedCheckBox Content="messy white space" Canvas.Left="258" Canvas.Top="178" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" />
+                            <local:InvertedCheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="10" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" />
+                            <local:InvertedCheckBox Content="eval" Canvas.Left="10" Canvas.Top="31" Tag="eval" IsChecked="{Binding TolerateEval}" />
+                            <local:InvertedCheckBox Content="for statement" Canvas.Left="10" Canvas.Top="52" Tag="for" IsChecked="{Binding TolerateForStatement}" />
+                            <local:InvertedCheckBox Content="this" Canvas.Left="10" Canvas.Top="74" Tag="this" IsChecked="{Binding TolerateThis}" />
+                            <local:InvertedCheckBox Content="messy white space" Canvas.Left="10" Canvas.Top="95" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Predefined Globals" Margin="10,280,10,0" Height="95" VerticalAlignment="Top">
-                        <TextBox TextWrapping="Wrap" Tag="predef" Text="{Binding PredefinedGlobals}" Margin="10,10,10,10" />
+                    <GroupBox Header="Global Variables..." Margin="10,0,10,10" Height="95" VerticalAlignment="Bottom">
+                        <TextBox TextWrapping="Wrap" Text="{Binding GlobalVariables}" Margin="10,10,10,10" />
                     </GroupBox>
                 </Grid>
             </TabItem>

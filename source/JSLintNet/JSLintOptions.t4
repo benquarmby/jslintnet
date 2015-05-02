@@ -1,35 +1,18 @@
 <#+
     private static readonly List<OptionDefinition> OptionDefinitions =  new List<OptionDefinition>()
     {
-        new OptionDefinition("ass", "TolerateAssignmentExpressions", "assignment expressions should be allowed"),
         new OptionDefinition("bitwise", "TolerateBitwiseOperators", "bitwise operators should be allowed"),
         new OptionDefinition("browser", "AssumeBrowser", "the standard browser globals should be predefined"),
-        new OptionDefinition("closure", "TolerateGoogleClosure", "Google Closure idioms should be tolerated"),
-        new OptionDefinition("continue", "TolerateContinue", "the continuation statement should be tolerated"),
         new OptionDefinition("couch", "AssumeCouchDB", "Couch DB globals should be predefined"),
-        new OptionDefinition("debug", "TolerateDebuggerStatements", "debugger statements should be allowed"),
-        new OptionDefinition("devel", "AssumeConsole", "if browser globals that are useful in development should be predefined"),
-        new OptionDefinition("eqeq", "TolerateDoubleEquals", "== should be allowed"),
-        new OptionDefinition("evil", "TolerateEval", "eval should be allowed"),
-        new OptionDefinition("forin", "TolerateUnfilteredForIn", "for in statements need not filter"),
-        new OptionDefinition("indent", "IndentationFactor", "indentation factor", "int"),
-        new OptionDefinition("maxerr", "MaximumErrors", "maximum number of errors to allow", "int"),
-        new OptionDefinition("maxlen", "MaximumLineLength", "maximum length of a source line", "int"),
-        new OptionDefinition("newcap", "TolerateUncapitalizedConstructors", "constructor names capitalization is ignored"),
+        new OptionDefinition("devel", "AssumeInDevelopment", "browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed"),
+        new OptionDefinition("es6", "AssumeES6", "using the good parts of ECMAScript Sixth Edition."),
+        new OptionDefinition("eval", "TolerateEval", "eval should be allowed"),
+        new OptionDefinition("for", "TolerateForStatement", "the for statement should be allowed"),
+        new OptionDefinition("maxerr", "MaximumErrors", "maximum number of warnings reported", "int"),
+        new OptionDefinition("maxlen", "MaximumLineLength", "maximum number of characters in a line", "int"),
         new OptionDefinition("node", "AssumeNode", "Node.js globals should be predefined"),
-        new OptionDefinition("nomen", "TolerateDanglingUnderscores", "names may have dangling _"),
-        new OptionDefinition("passfail", "StopOnFirstError", "the scan should stop on first error"),
-        new OptionDefinition("plusplus", "TolerateIncrementDecrement", "increment/decrement should be allowed"),
-        new OptionDefinition("properties", "PropertiesDeclared", "all property names must be declared with /*properties*/"),
-        new OptionDefinition("regexp", "TolerateInsecureRegExp", "the . should be allowed in regexp literals"),
-        new OptionDefinition("rhino", "AssumeRhino", "the Rhino environment globals should be predefined"),
-        new OptionDefinition("unparam", "TolerateUnusedParameters", "unused parameters should be tolerated"),
-        new OptionDefinition("sloppy", "TolerateMissingUseStrict", "the ES5 'use strict'; pragma is not required"),
-        new OptionDefinition("stupid", "TolerateStupidPractices", "blocking ('...Sync') methods can be used"),
-        new OptionDefinition("sub", "TolerateInefficientSubscripting", "all forms of subscript notation are tolerated"),
-        new OptionDefinition("todo", "TolerateToDoComments", "TODO comments are tolerated"),
-        new OptionDefinition("vars", "TolerateManyVarStatements", "multiple var statements per function should be allowed"),
-        new OptionDefinition("white", "TolerateMessyWhitespace", "sloppy whitespace is tolerated")
+        new OptionDefinition("this", "TolerateThis", "this should be allowed"),
+        new OptionDefinition("white", "TolerateMessyWhitespace", "strict whitespace rules should be ignored")
     };
 
     private class OptionDefinition

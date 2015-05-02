@@ -17,7 +17,7 @@
 
         public string FileName { get; set; }
 
-        public IList<IJSLintError> Errors { get; set; }
+        public IList<IJSLintWarning> Warnings { get; set; }
 
         public IList<IJSLintFunction> Functions { get; set; }
 
@@ -27,11 +27,11 @@
 
         public string ErrorReport { get; set; }
 
-        public bool HasStoppingError { get; set; }
+        public bool Stop { get; set; }
 
         public void SetErrors(int errorCount)
         {
-            var errors = new IJSLintError[errorCount];
+            var errors = new IJSLintWarning[errorCount];
 
             for (int i = 0; i < errorCount; i++)
             {
@@ -39,7 +39,7 @@
                 errors[i] = new JSLintErrorFake(this.FileName, number);
             }
 
-            this.Errors = errors;
+            this.Warnings = errors;
         }
     }
 }

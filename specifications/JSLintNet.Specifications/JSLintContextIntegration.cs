@@ -123,7 +123,7 @@
                 {
                     var result = instance.Lint("some invalid source");
 
-                    I.Expect(result.Errors).Not.ToBeEmpty();
+                    I.Expect(result.Warnings).Not.ToBeEmpty();
                 }
             }
 
@@ -139,24 +139,8 @@
                             MaximumErrors = 1
                         });
 
-                    I.Expect(result.Errors.Count).ToBe(2);
-                    I.Expect(result.HasStoppingError).ToBeTrue();
-                }
-            }
-
-            [Fact(DisplayName = "Should not throw given a use param error")]
-            public void Spec03()
-            {
-                using (var instance = new JSLintContext())
-                {
-                    var result = instance.Lint(
-                        @"function sample(a, b, c, d) { 'use strict'; return arguments[3]; }",
-                        new JSLintOptions()
-                        {
-                            TolerateUnusedParameters = true
-                        });
-
-                    I.Expect(result.Errors.Count).ToBe(1);
+                    I.Expect(result.Warnings.Count).ToBe(2);
+                    I.Expect(result.Stop).ToBeTrue();
                 }
             }
 
@@ -177,7 +161,7 @@ var ValidSource = (function () {
     };
 }());");
 
-                    I.Expect(result.Errors).ToBeEmpty();
+                    I.Expect(result.Warnings).ToBeEmpty();
                 }
             }
         }

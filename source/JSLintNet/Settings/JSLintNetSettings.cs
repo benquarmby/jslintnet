@@ -58,6 +58,7 @@
         {
             this.Ignore = new List<string>();
             this.Files = new List<string>();
+            this.GlobalVariables = new List<string>();
         }
 
         /// <summary>
@@ -95,6 +96,15 @@
         /// </value>
         [JsonProperty("options")]
         public JSLintOptions Options { get; set; }
+
+        /// <summary>
+        /// Gets the global variables to use with JSLint.
+        /// </summary>
+        /// <value>
+        /// The global variables.
+        /// </value>
+        [JsonProperty("globalVariables")]
+        public IList<string> GlobalVariables { get; private set; }
 
         /// <summary>
         /// Determines whether the specified file name matches the JSLint.NET settings file.
@@ -209,8 +219,32 @@
         {
             this.MergeOutput(merge);
             this.MergeOptions(merge);
+            this.MergeGlobal(merge);
             this.MergeIgnore(merge);
             this.MergeRoot(merge);
+        }
+
+        private static IList<string> MergeLists(IList<string> targetList, IList<string> sourceList)
+        {
+            if (sourceList == null || sourceList.Count < 1)
+            {
+                return targetList;
+            }
+
+            if (targetList == null || targetList.Count < 1)
+            {
+                return sourceList;
+            }
+
+            foreach (var ignore in sourceList)
+            {
+                if (!targetList.Contains(ignore))
+                {
+                    targetList.Add(ignore);
+                }
+            }
+
+            return targetList;
         }
 
         private void MergeOutput(JSLintNetSettings merge)
@@ -238,27 +272,14 @@
             this.Options.Merge(merge.Options);
         }
 
+        private void MergeGlobal(JSLintNetSettings merge)
+        {
+            this.GlobalVariables = MergeLists(this.GlobalVariables, merge.GlobalVariables);
+        }
+
         private void MergeIgnore(JSLintNetSettings merge)
         {
-            if (merge.Ignore == null || merge.Ignore.Count < 1)
-            {
-                return;
-            }
-
-            if (this.Ignore == null || this.Ignore.Count < 1)
-            {
-                this.Ignore = merge.Ignore;
-
-                return;
-            }
-
-            foreach (var ignore in merge.Ignore)
-            {
-                if (!this.Ignore.Contains(ignore))
-                {
-                    this.Ignore.Add(ignore);
-                }
-            }
+            this.Ignore = MergeLists(this.Ignore, merge.Ignore);
         }
     }
 }

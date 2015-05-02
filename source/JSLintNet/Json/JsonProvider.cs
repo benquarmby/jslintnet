@@ -15,7 +15,7 @@
         /// <summary>
         /// The serializer settings.
         /// </summary>
-        private static JsonSerializerSettings serializerSettings = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings()
         {
             NullValueHandling = NullValueHandling.Ignore,
             Formatting = Formatting.Indented,
@@ -23,7 +23,7 @@
             Converters = new List<JsonConverter>()
             {
                 new StringEnumConverter(),
-                new JSLintErrorConverter(),
+                new JSLintWarningConverter(),
                 new JSLintFunctionConverter()
             }
         };
@@ -37,7 +37,7 @@
         /// </returns>
         public IJSLintData DeserializeData(string value)
         {
-            return JsonConvert.DeserializeObject<JSLintData>(value, serializerSettings);
+            return JsonConvert.DeserializeObject<JSLintData>(value, SerializerSettings);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@
         /// </returns>
         public JSLintNetSettings DeserializeSettings(string value)
         {
-            return JsonConvert.DeserializeObject<JSLintNetSettings>(value, serializerSettings);
+            return JsonConvert.DeserializeObject<JSLintNetSettings>(value, SerializerSettings);
         }
 
         /// <summary>
@@ -57,11 +57,11 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
-        /// A serialized string.
+        /// A serialized JSON string.
         /// </returns>
         public string SerializeOptions(JSLintOptions value)
         {
-            return JsonConvert.SerializeObject(value, serializerSettings);
+            return JsonConvert.SerializeObject(value, SerializerSettings);
         }
 
         /// <summary>
@@ -69,11 +69,23 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
-        /// A serialized string.
+        /// A serialized JSON string.
         /// </returns>
         public string SerializeSettings(JSLintNetSettings value)
         {
-            return JsonConvert.SerializeObject(value, serializerSettings);
+            return JsonConvert.SerializeObject(value, SerializerSettings);
+        }
+
+        /// <summary>
+        /// Serializes the global variables.
+        /// </summary>
+        /// <param name="globalVariables"></param>
+        /// <returns>
+        /// A serialized JSON string.
+        /// </returns>
+        public string SerializeGlobalVariables(IList<string> globalVariables)
+        {
+            return JsonConvert.SerializeObject(globalVariables, SerializerSettings);
         }
 
         /// <summary>

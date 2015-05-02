@@ -211,10 +211,10 @@
     <value>Settings saved to "{0}".</value>
   </data>
   <data name="SummaryErrorCountFormat" xml:space="preserve">
-    <value>Total Errors: {0}</value>
+    <value>Total Warnings: {0}</value>
   </data>
   <data name="SummaryErrorFileCountFormat" xml:space="preserve">
-    <value>Files with Errors: {0}</value>
+    <value>Files with Warnings: {0}</value>
   </data>
   <data name="SummaryProcessedFileCountFormat" xml:space="preserve">
     <value>Processed Files: {0}</value>

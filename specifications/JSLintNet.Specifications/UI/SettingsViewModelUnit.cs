@@ -13,15 +13,15 @@
             [Fact(DisplayName = "Should convert predefined globals in model to space separated string")]
             public void Spec01()
             {
-                using (var testable = new PredefinedGlobalsTestable())
+                using (var testable = new GlobalVariablesTestable())
                 {
-                    var globals = testable.Model.Options.PredefinedGlobals;
-                    globals.Add("a", false);
-                    globals.Add("b", false);
-                    globals.Add("c", false);
-                    globals.Add("d", false);
+                    var globals = testable.Model.GlobalVariables;
+                    globals.Add("a");
+                    globals.Add("b");
+                    globals.Add("c");
+                    globals.Add("d");
 
-                    var actual = testable.Instance.PredefinedGlobals;
+                    var actual = testable.Instance.GlobalVariables;
 
                     I.Expect(actual).ToBe("a b c d");
                 }
@@ -33,100 +33,72 @@
             [Fact(DisplayName = "Should add new predefined globals to model")]
             public void Spec01()
             {
-                using (var testable = new PredefinedGlobalsTestable())
+                using (var testable = new GlobalVariablesTestable())
                 {
-                    var actual = testable.Model.Options.PredefinedGlobals;
-                    actual.Add("a", false);
+                    var actual = testable.Model.GlobalVariables;
+                    actual.Add("a");
 
-                    testable.Instance.PredefinedGlobals = "a b";
+                    testable.Instance.GlobalVariables = "a b";
 
                     I.Expect(actual.Count).ToBe(2);
-                    I.Expect(actual.ContainsKey("a"));
-                    I.Expect(actual.ContainsKey("b"));
+                    I.Expect(actual.Contains("a"));
+                    I.Expect(actual.Contains("b"));
                 }
             }
 
             [Fact(DisplayName = "Should add predefined globals separated by whitespace, commas, semi-colons or quotes")]
             public void Spec02()
             {
-                using (var testable = new PredefinedGlobalsTestable())
+                using (var testable = new GlobalVariablesTestable())
                 {
-                    var actual = testable.Model.Options.PredefinedGlobals;
-                    testable.Instance.PredefinedGlobals = "a b\tc\nd,e;f'g\"h";
+                    var actual = testable.Model.GlobalVariables;
+                    testable.Instance.GlobalVariables = "a b\tc\nd,e;f'g\"h";
 
                     I.Expect(actual.Count).ToBe(8);
-                    I.Expect(actual.ContainsKey("a"));
-                    I.Expect(actual.ContainsKey("h"));
+                    I.Expect(actual.Contains("a"));
+                    I.Expect(actual.Contains("h"));
                 }
             }
 
             [Fact(DisplayName = "Should remove missing predefined globals from model")]
             public void Spec03()
             {
-                using (var testable = new PredefinedGlobalsTestable())
+                using (var testable = new GlobalVariablesTestable())
                 {
-                    var actual = testable.Model.Options.PredefinedGlobals;
-                    actual.Add("a", false);
-                    actual.Add("b", false);
-                    actual.Add("c", false);
-                    actual.Add("d", false);
+                    var actual = testable.Model.GlobalVariables;
+                    actual.Add("a");
+                    actual.Add("b");
+                    actual.Add("c");
+                    actual.Add("d");
 
-                    testable.Instance.PredefinedGlobals = "a d";
+                    testable.Instance.GlobalVariables = "a d";
 
                     I.Expect(actual.Count).ToBe(2);
-                    I.Expect(actual.ContainsKey("b"));
-                    I.Expect(actual.ContainsKey("c"));
-                }
-            }
-
-            [Fact(DisplayName = "Should not change writable state of existing global")]
-            public void Spec04()
-            {
-                using (var testable = new PredefinedGlobalsTestable())
-                {
-                    var actual = testable.Model.Options.PredefinedGlobals;
-                    actual.Add("a", true);
-
-                    testable.Instance.PredefinedGlobals = "a b";
-
-                    I.Expect(actual["a"]).ToBeTrue();
+                    I.Expect(actual.Contains("b"));
+                    I.Expect(actual.Contains("c"));
                 }
             }
 
             [Fact(DisplayName = "Should clear globals from model when set to null")]
             public void Spec05()
             {
-                using (var testable = new PredefinedGlobalsTestable())
+                using (var testable = new GlobalVariablesTestable())
                 {
-                    var actual = testable.Model.Options.PredefinedGlobals;
-                    actual.Add("a", false);
-                    actual.Add("b", false);
-                    actual.Add("c", false);
+                    var actual = testable.Model.GlobalVariables;
+                    actual.Add("a");
+                    actual.Add("b");
+                    actual.Add("c");
 
-                    testable.Instance.PredefinedGlobals = null;
+                    testable.Instance.GlobalVariables = null;
 
                     I.Expect(actual.Count).ToBe(0);
                 }
             }
-
-            [Fact(DisplayName = "Should add new globals with a writable state of true")]
-            public void Spec07()
-            {
-                using (var testable = new PredefinedGlobalsTestable())
-                {
-                    var actual = testable.Model.Options.PredefinedGlobals;
-
-                    testable.Instance.PredefinedGlobals = "a b";
-
-                    I.Expect(actual["a"]).ToBeTrue();
-                    I.Expect(actual["b"]).ToBeTrue();
-                }
-            }
         }
 
-        private class PredefinedGlobalsTestable : TestFixture<SettingsViewModel>
+        private class GlobalVariablesTestable : TestFixture<SettingsViewModel>
         {
-            public PredefinedGlobalsTestable()
+            public GlobalVariablesTestable()
             {
                 var settings = new JSLintNetSettings();
                 settings.Options = new JSLintOptions();

@@ -208,7 +208,7 @@
                             var data = result.Data;
                             reportBuilder.AddFile(file.Virtual, data);
 
-                            foreach (var error in data.Errors)
+                            foreach (var error in data.Warnings)
                             {
                                 logger(
                                     subcategory: AssemblyInfo.Product,
@@ -216,10 +216,10 @@
                                     helpKeyword: null,
                                     file: file.Absolute,
                                     lineNumber: error.Line,
-                                    columnNumber: error.Character,
+                                    columnNumber: error.Column,
                                     endLineNumber: 0,
                                     endColumnNumber: 0,
-                                    message: string.Concat(Resources.ErrorTextPrefix, error.Reason));
+                                    message: string.Concat(Resources.ErrorTextPrefix, error.Message));
                             }
 
                             if (reportBuilder.ErrorCount >= errorLimit)

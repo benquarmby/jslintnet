@@ -1,8 +1,7 @@
 ﻿namespace JSLintNet
 {
     using System;
-    using System.IO;
-    using System.Text;
+    using System.Collections.Generic;
     using JSLintNet.Abstractions;
     using JSLintNet.Json;
     using JSLintNet.Models;
@@ -51,7 +50,7 @@
         /// </returns>
         public IJSLintData Lint(string source)
         {
-            return this.Lint(source, null);
+            return this.Lint(source, null, null);
         }
 
         /// <summary>
@@ -64,8 +63,23 @@
         /// </returns>
         public IJSLintData Lint(string source, JSLintOptions options)
         {
+            return this.Lint(source, options, null);
+        }
+
+        /// <summary>
+        /// Validates the specified source using JSLint with the provided options and global variables.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="options">The options.</param>
+        /// <param name="globalVariables">The global variables.</param>
+        /// <returns>
+        /// A <see cref="IJSLintData" /> instance containing any validation warnings.
+        /// </returns>
+        public IJSLintData Lint(string source, JSLintOptions options, IList<string> globalVariables)
+        {
             var jsonOptions = this.jsonProvider.SerializeOptions(options);
-            var jsonData = this.context.Script.JSLintNet.run(source, jsonOptions);
+            var jsonGlobalVariables = this.jsonProvider.SerializeGlobalVariables(globalVariables);
+            var jsonData = this.context.Script.jslintnet(source, jsonOptions, jsonGlobalVariables);
             var data = this.jsonProvider.DeserializeData(jsonData);
 
             return data;
@@ -97,27 +111,9 @@
 
         private void LoadJSLint()
         {
+            this.context.Run(Resources.jslint);
+            this.context.Run(Resources.report);
             this.context.Run(Resources.jslintnet);
-
-            var path = typeof(JSLintContext).Assembly.Location;
-            path = Path.GetDirectoryName(path);
-            path = Path.Combine(path, "jslint.js");
-
-            if (!this.fileSystemWrapper.FileExists(path))
-            {
-                this.context.Run(Resources.jslint);
-
-                return;
-            }
-
-            var source = this.fileSystemWrapper.ReadAllText(path, Encoding.UTF8);
-            this.context.Run(source);
-            var edition = this.context.Script.JSLINT.edition;
-
-            if (AssemblyInfo.Edition.CompareTo(edition) > 0)
-            {
-                throw new Exception(string.Format(Resources.JSLintEditionErrorFormat, edition, AssemblyInfo.Edition));
-            }
         }
     }
 }

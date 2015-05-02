@@ -78,11 +78,11 @@
 
             public void AddErrors(string fileName, int errors)
             {
-                var errorList = new List<IJSLintError>();
+                var errorList = new List<IJSLintWarning>();
 
                 for (var i = 0; i < errors; i += 1)
                 {
-                    errorList.Add(new JSLintError());
+                    errorList.Add(new JSLintWarning());
                 }
 
                 this.Instance.AddJSLintErrors(fileName, errorList, Output.Error, Mock.Of<IVsHierarchy>());
