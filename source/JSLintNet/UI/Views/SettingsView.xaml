@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="JSLintNet.UI.Views.SettingsView"
-        xmlns:local="clr-namespace:JSLintNet.UI"
         Name="RootWindow"
         Title="JSLint.NET Settings" Height="382.861" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid>
@@ -18,9 +17,9 @@
                     </GroupBox>
                     <GroupBox Header="Visual Studio..." HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" Height="100" VerticalAlignment="Top">
                         <Canvas>
-                            <local:InvertedCheckBox Content="Run on save" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding RunOnSave}" IsThreeState="True" />
-                            <local:InvertedCheckBox Content="Run on build" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding RunOnBuild}" IsThreeState="True" />
-                            <local:InvertedCheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsThreeState="True" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
+                            <CheckBox Content="Run on save" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding RunOnSave}" />
+                            <CheckBox Content="Run on build" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding RunOnBuild}" Name="RunOnBuild" />
+                            <CheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
                         </Canvas>
                     </GroupBox>
                     <GroupBox Header="Ignore" Margin="10,0,10,10" Height="136" VerticalAlignment="Bottom">
@@ -57,11 +56,11 @@
                 <Grid>
                     <GroupBox Header="Assume..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="140" Width="240">
                         <Canvas>
-                            <local:InvertedCheckBox Content="in development" Canvas.Left="10" Canvas.Top="10" Tag="devel" IsChecked="{Binding AssumeInDevelopment}" />
-                            <local:InvertedCheckBox Content="ES6" Canvas.Left="10" Canvas.Top="31" Tag="es6" IsChecked="{Binding AssumeRhino}" />
-                            <local:InvertedCheckBox Content="a browser" Canvas.Left="10" Canvas.Top="52" Tag="browser" IsChecked="{Binding AssumeBrowser}" />
-                            <local:InvertedCheckBox Content="CouchDB" Canvas.Left="10" Canvas.Top="73" Tag="couch" IsChecked="{Binding AssumeCouchDB}" />
-                            <local:InvertedCheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="94" Tag="node" IsChecked="{Binding AssumeNode}" />
+                            <CheckBox Content="in development" Canvas.Left="10" Canvas.Top="10" Tag="devel" IsChecked="{Binding AssumeInDevelopment}" />
+                            <CheckBox Content="ES6" Canvas.Left="10" Canvas.Top="31" Tag="es6" IsChecked="{Binding AssumeES6}" />
+                            <CheckBox Content="a browser" Canvas.Left="10" Canvas.Top="52" Tag="browser" IsChecked="{Binding AssumeBrowser}" />
+                            <CheckBox Content="CouchDB" Canvas.Left="10" Canvas.Top="73" Tag="couch" IsChecked="{Binding AssumeCouchDB}" />
+                            <CheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="94" Tag="node" IsChecked="{Binding AssumeNode}" />
                         </Canvas>
                     </GroupBox>
                     <GroupBox Header="Number..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="140" VerticalAlignment="Top">
@@ -74,11 +73,11 @@
                     </GroupBox>
                     <GroupBox Header="Tolerate..." Margin="0,10,0,0" VerticalAlignment="Top" Height="140" HorizontalAlignment="Center" Width="240">
                         <Canvas>
-                            <local:InvertedCheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="10" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" />
-                            <local:InvertedCheckBox Content="eval" Canvas.Left="10" Canvas.Top="31" Tag="eval" IsChecked="{Binding TolerateEval}" />
-                            <local:InvertedCheckBox Content="for statement" Canvas.Left="10" Canvas.Top="52" Tag="for" IsChecked="{Binding TolerateForStatement}" />
-                            <local:InvertedCheckBox Content="this" Canvas.Left="10" Canvas.Top="74" Tag="this" IsChecked="{Binding TolerateThis}" />
-                            <local:InvertedCheckBox Content="messy white space" Canvas.Left="10" Canvas.Top="95" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" />
+                            <CheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="10" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" />
+                            <CheckBox Content="eval" Canvas.Left="10" Canvas.Top="31" Tag="eval" IsChecked="{Binding TolerateEval}" />
+                            <CheckBox Content="for statement" Canvas.Left="10" Canvas.Top="52" Tag="for" IsChecked="{Binding TolerateForStatement}" />
+                            <CheckBox Content="this" Canvas.Left="10" Canvas.Top="74" Tag="this" IsChecked="{Binding TolerateThis}" />
+                            <CheckBox Content="messy white space" Canvas.Left="10" Canvas.Top="95" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" />
                         </Canvas>
                     </GroupBox>
                     <GroupBox Header="Global Variables..." Margin="10,0,10,10" Height="95" VerticalAlignment="Bottom">

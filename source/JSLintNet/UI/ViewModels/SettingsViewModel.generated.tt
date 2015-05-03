@@ -50,16 +50,16 @@ namespace JSLintNet.UI.ViewModels
         else
         {
 #>
-        public virtual <#= definition.PropertyType #>? <#= definition.PropertyName #>
+        public virtual <#= definition.PropertyType #> <#= definition.PropertyName #>
         {
             get
             {
-                return this.Model.<#= definition.PropertyName #>;
+                return this.Model.<#= definition.PropertyName #>.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.<#= definition.PropertyName #> = value;
+                this.Model.<#= definition.PropertyName #> = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("<#= definition.PropertyName #>");
             }
@@ -103,16 +103,16 @@ namespace JSLintNet.UI.ViewModels
         else
         {
 #>
-        public virtual <#= definition.PropertyType #>? <#= definition.PropertyName #>
+        public virtual <#= definition.PropertyType #> <#= definition.PropertyName #>
         {
             get
             {
-                return this.Model.Options.<#= definition.PropertyName #>;
+                return this.Model.Options.<#= definition.PropertyName #>.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.<#= definition.PropertyName #> = value;
+                this.Model.Options.<#= definition.PropertyName #> = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("<#= definition.PropertyName #>");
             }

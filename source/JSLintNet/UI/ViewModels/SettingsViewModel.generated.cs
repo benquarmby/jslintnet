@@ -4,46 +4,46 @@ namespace JSLintNet.UI.ViewModels
 {
     internal partial class SettingsViewModel : ViewModelBase
     {
-        public virtual bool? RunOnSave
+        public virtual bool RunOnSave
         {
             get
             {
-                return this.Model.RunOnSave;
+                return this.Model.RunOnSave.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.RunOnSave = value;
+                this.Model.RunOnSave = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("RunOnSave");
             }
         }
 
-        public virtual bool? RunOnBuild
+        public virtual bool RunOnBuild
         {
             get
             {
-                return this.Model.RunOnBuild;
+                return this.Model.RunOnBuild.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.RunOnBuild = value;
+                this.Model.RunOnBuild = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("RunOnBuild");
             }
         }
 
-        public virtual bool? CancelBuild
+        public virtual bool CancelBuild
         {
             get
             {
-                return this.Model.CancelBuild;
+                return this.Model.CancelBuild.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.CancelBuild = value;
+                this.Model.CancelBuild = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("CancelBuild");
             }
@@ -83,106 +83,106 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
-        public virtual bool? TolerateBitwiseOperators
+        public virtual bool TolerateBitwiseOperators
         {
             get
             {
-                return this.Model.Options.TolerateBitwiseOperators;
+                return this.Model.Options.TolerateBitwiseOperators.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.TolerateBitwiseOperators = value;
+                this.Model.Options.TolerateBitwiseOperators = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateBitwiseOperators");
             }
         }
 
-        public virtual bool? AssumeBrowser
+        public virtual bool AssumeBrowser
         {
             get
             {
-                return this.Model.Options.AssumeBrowser;
+                return this.Model.Options.AssumeBrowser.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.AssumeBrowser = value;
+                this.Model.Options.AssumeBrowser = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeBrowser");
             }
         }
 
-        public virtual bool? AssumeCouchDB
+        public virtual bool AssumeCouchDB
         {
             get
             {
-                return this.Model.Options.AssumeCouchDB;
+                return this.Model.Options.AssumeCouchDB.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.AssumeCouchDB = value;
+                this.Model.Options.AssumeCouchDB = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeCouchDB");
             }
         }
 
-        public virtual bool? AssumeInDevelopment
+        public virtual bool AssumeInDevelopment
         {
             get
             {
-                return this.Model.Options.AssumeInDevelopment;
+                return this.Model.Options.AssumeInDevelopment.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.AssumeInDevelopment = value;
+                this.Model.Options.AssumeInDevelopment = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeInDevelopment");
             }
         }
 
-        public virtual bool? AssumeES6
+        public virtual bool AssumeES6
         {
             get
             {
-                return this.Model.Options.AssumeES6;
+                return this.Model.Options.AssumeES6.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.AssumeES6 = value;
+                this.Model.Options.AssumeES6 = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeES6");
             }
         }
 
-        public virtual bool? TolerateEval
+        public virtual bool TolerateEval
         {
             get
             {
-                return this.Model.Options.TolerateEval;
+                return this.Model.Options.TolerateEval.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.TolerateEval = value;
+                this.Model.Options.TolerateEval = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateEval");
             }
         }
 
-        public virtual bool? TolerateForStatement
+        public virtual bool TolerateForStatement
         {
             get
             {
-                return this.Model.Options.TolerateForStatement;
+                return this.Model.Options.TolerateForStatement.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.TolerateForStatement = value;
+                this.Model.Options.TolerateForStatement = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateForStatement");
             }
@@ -222,46 +222,46 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
-        public virtual bool? AssumeNode
+        public virtual bool AssumeNode
         {
             get
             {
-                return this.Model.Options.AssumeNode;
+                return this.Model.Options.AssumeNode.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.AssumeNode = value;
+                this.Model.Options.AssumeNode = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeNode");
             }
         }
 
-        public virtual bool? TolerateThis
+        public virtual bool TolerateThis
         {
             get
             {
-                return this.Model.Options.TolerateThis;
+                return this.Model.Options.TolerateThis.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.TolerateThis = value;
+                this.Model.Options.TolerateThis = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateThis");
             }
         }
 
-        public virtual bool? TolerateMessyWhitespace
+        public virtual bool TolerateMessyWhitespace
         {
             get
             {
-                return this.Model.Options.TolerateMessyWhitespace;
+                return this.Model.Options.TolerateMessyWhitespace.GetValueOrDefault();
             }
 
             set
             {
-                this.Model.Options.TolerateMessyWhitespace = value;
+                this.Model.Options.TolerateMessyWhitespace = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateMessyWhitespace");
             }

@@ -124,7 +124,6 @@
     <Compile Include="JSLintReportBuilder.cs" />
     <Compile Include="IJSLintReportBuilder.cs" />
     <Compile Include="Settings\SettingsRepository.cs" />
-    <Compile Include="UI\InvertedCheckBox.cs" />
     <Compile Include="UI\Views\IView.cs" />
     <Compile Include="UI\Views\IViewFactory.cs" />
     <Compile Include="UI\RelayCommand.cs" />
