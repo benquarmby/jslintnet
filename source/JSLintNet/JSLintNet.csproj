@@ -98,14 +98,11 @@
     <Compile Include="JSLintTask.cs" />
     <Compile Include="Json\IJsonProvider.cs" />
     <Compile Include="Json\JSLintWarningConverter.cs" />
-    <Compile Include="Json\JSLintFunctionConverter.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Models\ExecutionResult.cs" />
     <Compile Include="Models\ExecutionResult`1.cs" />
     <Compile Include="Models\IJSLintData.cs" />
     <Compile Include="Models\IJSLintWarning.cs" />
-    <Compile Include="Models\IJSLintFunction.cs" />
-    <Compile Include="Models\JSLintFunction.cs" />
     <Compile Include="JSLintOptions.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

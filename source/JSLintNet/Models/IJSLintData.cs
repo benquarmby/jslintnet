@@ -1,15 +1,70 @@
 ﻿namespace JSLintNet.Models
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Contains the result of a JSLint validation.
+    /// Contains a JSLint result.
     /// </summary>
     public interface IJSLintData
     {
         /// <summary>
-        /// Gets the errors.
+        /// Gets the edition of JSLint that did the analysis.
+        /// </summary>
+        /// <value>
+        /// The edition.
+        /// </value>
+        string Edition { get; }
+
+        /// <summary>
+        /// Gets the array of strings representing each of the imports.
+        /// </summary>
+        /// <value>
+        /// The imports.
+        /// </value>
+        IList<string> Imports { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the file is a JSON text.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the file is a JSON text; otherwise, <c>false</c>.
+        /// </value>
+        bool Json { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether an import or export statement was used.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if an import or export statement was used; otherwise, <c>false</c>.
+        /// </value>
+        bool Module { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether no warnings were generated.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if no warnings were generated; otherwise, <c>false</c>.
+        /// </value>
+        bool OK { get; }
+
+        /// <summary>
+        /// Gets the property object.
+        /// </summary>
+        /// <value>
+        /// The property object.
+        /// </value>
+        IDictionary<string, int> Property { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether JSLint was unable to finish.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if JSLint was unable to finish; otherwise, <c>false</c>.
+        /// </value>
+        bool Stop { get; }
+
+        /// <summary>
+        /// Gets the array of warning objects.
         /// </summary>
         /// <value>
         /// The errors.
@@ -17,44 +72,11 @@
         IList<IJSLintWarning> Warnings { get; }
 
         /// <summary>
-        /// Gets the functions.
+        /// Gets the HTML report.
         /// </summary>
         /// <value>
-        /// The functions.
+        /// The HTML report.
         /// </value>
-        IList<IJSLintFunction> Functions { get; }
-
-        /// <summary>
-        /// Gets the global list.
-        /// </summary>
-        /// <value>
-        /// The global list.
-        /// </value>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Global", Justification = "This needs to match the JSLint property of the same name.")]
-        IList<string> Global { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the source was JSON.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the source was JSON; otherwise, <c>false</c>.
-        /// </value>
-        bool Json { get; }
-
-        /// <summary>
-        /// Gets the HTML error report.
-        /// </summary>
-        /// <value>
-        /// The HTML error report.
-        /// </value>
-        string ErrorReport { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the last error in this instance is a stopping error. A stopping error means that JSLint was not confident enough to continue.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the last error in this instance is a stopping error; otherwise, <c>false</c>.
-        /// </value>
-        bool Stop { get; }
+        string Report { get; }
     }
 }

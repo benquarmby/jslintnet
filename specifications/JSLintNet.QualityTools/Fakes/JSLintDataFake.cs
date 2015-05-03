@@ -12,34 +12,42 @@
         public JSLintDataFake(string fileName, int errorCount)
         {
             this.FileName = fileName;
-            this.SetErrors(errorCount);
+            this.SetWarnings(errorCount);
         }
 
         public string FileName { get; set; }
 
         public IList<IJSLintWarning> Warnings { get; set; }
 
-        public IList<IJSLintFunction> Functions { get; set; }
-
         public IList<string> Global { get; set; }
 
         public bool Json { get; set; }
 
-        public string ErrorReport { get; set; }
+        public string Report { get; set; }
 
         public bool Stop { get; set; }
 
-        public void SetErrors(int errorCount)
-        {
-            var errors = new IJSLintWarning[errorCount];
+        public string Edition { get; set; }
 
-            for (int i = 0; i < errorCount; i++)
+        public IList<string> Imports { get; set; }
+
+        public bool Module { get; set; }
+
+        public bool OK { get; set; }
+
+        public IDictionary<string, int> Property { get; set; }
+
+        public void SetWarnings(int count)
+        {
+            var warnings = new IJSLintWarning[count];
+
+            for (int i = 0; i < count; i++)
             {
                 var number = i + 1;
-                errors[i] = new JSLintErrorFake(this.FileName, number);
+                warnings[i] = new JSLintWarningFake(this.FileName, number);
             }
 
-            this.Warnings = errors;
+            this.Warnings = warnings;
         }
     }
 }

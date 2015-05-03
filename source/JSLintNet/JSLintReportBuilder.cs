@@ -111,7 +111,7 @@
                 var reportFile = new ReportFile()
                 {
                     ErrorCount = data.Warnings.Count,
-                    ErrorReport = data.ErrorReport
+                    ErrorReport = data.Report
                 };
 
                 this.files.Add(file, reportFile);

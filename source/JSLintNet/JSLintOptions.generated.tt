@@ -63,8 +63,16 @@ namespace JSLintNet
     }
 #>
 
-        private void CloneRoot(JSLintOptions clone)
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public JSLintOptions TypedClone()
         {
+            var clone = new JSLintOptions();
+
 <#
     foreach (var definition in OptionDefinitions)
     {
@@ -73,6 +81,19 @@ namespace JSLintNet
 <#
     }
 #>
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            return this.TypedClone();
         }
 
         /// <summary>

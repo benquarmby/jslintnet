@@ -36,12 +36,6 @@
         public string Message { get; private set; }
 
         /// <summary>
-        /// Gets the text line in which the problem occurred.
-        /// </summary>
-        [JsonProperty("evidence")]
-        public string Evidence { get; private set; }
-
-        /// <summary>
         /// Gets the error code.
         /// </summary>
         /// <value>

@@ -199,8 +199,10 @@
             var clone = new JSLintNetSettings()
             {
                 Files = new List<string>(this.Files),
+                Version = this.Version,
                 Output = this.Output,
                 Ignore = new List<string>(this.Ignore),
+                GlobalVariables = new List<string>(this.GlobalVariables),
                 Options = this.Options == null ? null : this.Options.TypedClone()
             };
 

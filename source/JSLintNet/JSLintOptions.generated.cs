@@ -2,12 +2,13 @@
 
 namespace JSLintNet
 {
+    using System;
     using Newtonsoft.Json;
 
     /// <summary>
     /// Provides a simple way to create and manage the options used by JSLint.
     /// </summary>
-    public class JSLintOptions
+    public class JSLintOptions: ICloneable
     {
         /// <summary>
         /// Gets or sets a value indicating whether bitwise operators should be allowed.
@@ -152,6 +153,43 @@ namespace JSLintNet
         /// </remarks>
         [JsonProperty("white")]
         public bool? TolerateMessyWhitespace { get; set; }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public JSLintOptions TypedClone()
+        {
+            var clone = new JSLintOptions();
+
+            clone.TolerateBitwiseOperators = this.TolerateBitwiseOperators;
+            clone.AssumeBrowser = this.AssumeBrowser;
+            clone.AssumeCouchDB = this.AssumeCouchDB;
+            clone.AssumeInDevelopment = this.AssumeInDevelopment;
+            clone.AssumeES6 = this.AssumeES6;
+            clone.TolerateEval = this.TolerateEval;
+            clone.TolerateForStatement = this.TolerateForStatement;
+            clone.MaximumErrors = this.MaximumErrors;
+            clone.MaximumLineLength = this.MaximumLineLength;
+            clone.AssumeNode = this.AssumeNode;
+            clone.TolerateThis = this.TolerateThis;
+            clone.TolerateMessyWhitespace = this.TolerateMessyWhitespace;
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            return this.TypedClone();
+        }
 
         /// <summary>
         /// Merges the specified options into this instance.

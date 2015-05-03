@@ -5,13 +5,76 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Contains the result of a JSLint validation.
+    /// Contains a JSLint result.
     /// </summary>
     [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Called by JSON serializer.")]
     public class JSLintData : IJSLintData
     {
         /// <summary>
-        /// Gets the errors.
+        /// Gets the edition of JSLint that did the analysis.
+        /// </summary>
+        /// <value>
+        /// The edition.
+        /// </value>
+        [JsonProperty("edition")]
+        public string Edition { get; private set; }
+
+        /// <summary>
+        /// Gets the array of strings representing each of the imports.
+        /// </summary>
+        /// <value>
+        /// The imports.
+        /// </value>
+        [JsonProperty("imports")]
+        public IList<string> Imports { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the file is a JSON text.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the file is a JSON text; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("json")]
+        public bool Json { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether an import or export statement was used.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if an import or export statement was used; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("module")]
+        public bool Module { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether no warnings were generated.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if no warnings were generated; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("ok")]
+        public bool OK { get; private set; }
+
+        /// <summary>
+        /// Gets the property object.
+        /// </summary>
+        /// <value>
+        /// The property object.
+        /// </value>
+        [JsonProperty("property")]
+        public IDictionary<string, int> Property { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether JSLint was unable to finish.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if JSLint was unable to finish; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("stop")]
+        public bool Stop { get; private set; }
+
+        /// <summary>
+        /// Gets the array of warning objects.
         /// </summary>
         /// <value>
         /// The errors.
@@ -20,47 +83,12 @@
         public IList<IJSLintWarning> Warnings { get; private set; }
 
         /// <summary>
-        /// Gets the functions.
+        /// Gets the HTML report.
         /// </summary>
         /// <value>
-        /// The functions.
+        /// The HTML report.
         /// </value>
-        [JsonProperty("functions")]
-        public IList<IJSLintFunction> Functions { get; private set; }
-
-        /// <summary>
-        /// Gets the global list.
-        /// </summary>
-        /// <value>
-        /// The global list.
-        /// </value>
-        [JsonProperty("global")]
-        public IList<string> Global { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the source was JSON.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the source was JSON; otherwise, <c>false</c>.
-        /// </value>
-        [JsonProperty("json")]
-        public bool Json { get; private set; }
-
-        /// <summary>
-        /// Gets the HTML error report.
-        /// </summary>
-        /// <value>
-        /// The HTML error report.
-        /// </value>
-        [JsonProperty("error_report")]
-        public string ErrorReport { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the last error in this instance is a stopping error. A stopping error means that JSLint was not confident enough to continue.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the last error in this instance is a stopping error; otherwise, <c>false</c>.
-        /// </value>
-        public bool Stop { get; private set; }
+        [JsonProperty("report")]
+        public string Report { get; private set; }
     }
 }

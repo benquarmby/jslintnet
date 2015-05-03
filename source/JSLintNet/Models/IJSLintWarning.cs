@@ -21,11 +21,6 @@
         string Message { get; }
 
         /// <summary>
-        /// Gets the text line in which the problem occurred.
-        /// </summary>
-        string Evidence { get; }
-
-        /// <summary>
         /// Gets the error code.
         /// </summary>
         /// <value>
