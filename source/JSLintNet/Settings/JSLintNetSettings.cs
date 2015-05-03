@@ -71,6 +71,15 @@
         public IList<string> Files { get; private set; }
 
         /// <summary>
+        /// Gets or sets the version of JSLint.NET used to save this file.
+        /// </summary>
+        /// <value>
+        /// The version.
+        /// </value>
+        [JsonProperty("version")]
+        public string Version { get; set; }
+
+        /// <summary>
         /// Gets or sets the output type.
         /// </summary>
         /// <value>

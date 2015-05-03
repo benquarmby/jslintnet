@@ -78,7 +78,7 @@
         public IJSLintData Lint(string source, JSLintOptions options, IList<string> globalVariables)
         {
             var jsonOptions = this.jsonProvider.SerializeOptions(options);
-            var jsonGlobalVariables = this.jsonProvider.SerializeGlobalVariables(globalVariables);
+            var jsonGlobalVariables = this.jsonProvider.SerializeObject(globalVariables);
             var jsonData = this.context.Script.jslintnet(source, jsonOptions, jsonGlobalVariables);
             var data = this.jsonProvider.DeserializeData(jsonData);
 

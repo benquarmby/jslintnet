@@ -1,6 +1,5 @@
 ﻿namespace JSLintNet.Json
 {
-    using System.Collections.Generic;
     using JSLintNet.Models;
     using JSLintNet.Settings;
 
@@ -10,22 +9,42 @@
     internal interface IJsonProvider
     {
         /// <summary>
+        /// Deserializes the object.
+        /// </summary>
+        /// <typeparam name="T">The type to deserialize to.</typeparam>
+        /// <param name="value">The value to deserialize.</param>
+        /// <returns>
+        /// The deserialized object from the JSON string.
+        /// </returns>
+        T DeserializeObject<T>(string value);
+
+        /// <summary>
         /// Deserializes the data.
         /// </summary>
-        /// <param name="value">The serialized value.</param>
+        /// <param name="value">The value to deserialize.</param>
         /// <returns>
-        /// A new <see cref="IJSLintData"/> instance.
+        /// The deserialized <see cref="IJSLintData"/> from the JSON string.
         /// </returns>
         IJSLintData DeserializeData(string value);
 
         /// <summary>
         /// Deserializes the settings.
         /// </summary>
-        /// <param name="value">The serialized value.</param>
+        /// <param name="value">The value to deserialize.</param>
         /// <returns>
-        /// A new <see cref="JSLintNetSettings"/> instance.
+        /// The deserialized <see cref="JSLintNetSettings"/> from the JSON string.
         /// </returns>
         JSLintNetSettings DeserializeSettings(string value);
+
+        /// <summary>
+        /// Serializes the object.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>
+        /// A serialized JSON string.
+        /// </returns>
+        string SerializeObject<T>(T value);
 
         /// <summary>
         /// Serializes the options.
@@ -44,14 +63,5 @@
         /// A serialized JSON string.
         /// </returns>
         string SerializeSettings(JSLintNetSettings value);
-
-        /// <summary>
-        /// Serializes the global variables.
-        /// </summary>
-        /// <param name="global">The global variables.</param>
-        /// <returns>
-        /// A serialized JSON string.
-        /// </returns>
-        string SerializeGlobalVariables(IList<string> globalVariables);
     }
 }

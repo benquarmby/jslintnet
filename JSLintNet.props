@@ -5,14 +5,25 @@
     <JSLintNetPackageDir>$(TargetDir)Package\</JSLintNetPackageDir>
   </PropertyGroup>
 
-  <Target Name="JSLintNetVersion" BeforeTargets="AfterBuild">
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-      <Output TaskParameter="Assemblies" ItemName="JSLintNetAssemblyIdentity" />
-    </GetAssemblyIdentity>
+  <UsingTask TaskName="GetAssemblyVersionInfo" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <ParameterGroup>
+      <File ParameterType="System.String" Required="true" />
+      <Version ParameterType="System.String" Output="true" />
+      <InformationalVersion ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs">
+        var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(File);
+        Version = info.FileVersion;
+        InformationalVersion = info.ProductVersion;
+      </Code>
+    </Task>
+  </UsingTask>
 
-    <PropertyGroup>
-      <JSLintNetFullVersion>%(JSLintNetAssemblyIdentity.Version)</JSLintNetFullVersion>
-      <JSLintNetInformationalVersion>$(JSLintNetFullVersion.Substring(0, $(JSLintNetFullVersion.LastIndexOf('.'))))</JSLintNetInformationalVersion>
-    </PropertyGroup>
+  <Target Name="JSLintNetVersion" BeforeTargets="AfterBuild">
+    <GetAssemblyVersionInfo File="$(TargetPath)">
+      <Output TaskParameter="Version" PropertyName="JSLintNetVersion" />
+      <Output TaskParameter="InformationalVersion" PropertyName="JSLintNetInformationalVersion" />
+    </GetAssemblyVersionInfo>
   </Target>
 </Project>

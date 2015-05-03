@@ -29,6 +29,19 @@
         };
 
         /// <summary>
+        /// Deserializes the object.
+        /// </summary>
+        /// <typeparam name="T">The type to deserialize to.</typeparam>
+        /// <param name="value">The value to deserialize.</param>
+        /// <returns>
+        /// The deserialized object from the JSON string.
+        /// </returns>
+        public T DeserializeObject<T>(string value)
+        {
+            return JsonConvert.DeserializeObject<T>(value, SerializerSettings);
+        }
+
+        /// <summary>
         /// Deserializes the data.
         /// </summary>
         /// <param name="value">The serialized value.</param>
@@ -53,6 +66,19 @@
         }
 
         /// <summary>
+        /// Serializes the object.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>
+        /// A serialized JSON string.
+        /// </returns>
+        public string SerializeObject<T>(T value)
+        {
+            return JsonConvert.SerializeObject(value, SerializerSettings);
+        }
+
+        /// <summary>
         /// Serializes the options.
         /// </summary>
         /// <param name="value">The value.</param>
@@ -74,18 +100,6 @@
         public string SerializeSettings(JSLintNetSettings value)
         {
             return JsonConvert.SerializeObject(value, SerializerSettings);
-        }
-
-        /// <summary>
-        /// Serializes the global variables.
-        /// </summary>
-        /// <param name="globalVariables"></param>
-        /// <returns>
-        /// A serialized JSON string.
-        /// </returns>
-        public string SerializeGlobalVariables(IList<string> globalVariables)
-        {
-            return JsonConvert.SerializeObject(globalVariables, SerializerSettings);
         }
 
         /// <summary>

@@ -56,6 +56,7 @@
 
         public void Save(JSLintNetSettings settings, string settingsPath)
         {
+            settings.Version = AssemblyInfo.InformationalVersion;
             var settingsJson = this.jsonProvider.SerializeSettings(settings);
 
             this.fileSystemWrapper.WriteAllText(settingsPath, settingsJson, Encoding.UTF8);

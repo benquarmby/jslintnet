@@ -10,7 +10,7 @@ using JSLintNet;
 [assembly: AssemblyProduct(AssemblyInfo.Product)]
 [assembly: AssemblyCopyright(AssemblyInfo.Copyright)]
 [assembly: AssemblyVersion(AssemblyInfo.Version)]
-[assembly: AssemblyInformationalVersion(AssemblyInfo.Version)]
+[assembly: AssemblyInformationalVersion(AssemblyInfo.InformationalVersion)]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]

@@ -10,7 +10,7 @@ using JSLintNet;
 [assembly: AssemblyProduct(AssemblyInfo.Product)]
 [assembly: AssemblyCopyright(AssemblyInfo.Copyright)]
 [assembly: AssemblyVersion(AssemblyInfo.Version)]
-[assembly: AssemblyInformationalVersion(AssemblyInfo.Version)]
+[assembly: AssemblyInformationalVersion(AssemblyInfo.InformationalVersion)]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
@@ -33,9 +33,14 @@ namespace JSLintNet
     public static class AssemblyInfo
     {
         /// <summary>
-        /// The full version number for JSLint.NET.
+        /// The core version number for JSLint.NET.
         /// </summary>
-        public const string Version = "1.8.4";
+        public const string Version = "2.0.0";
+
+        /// <summary>
+        /// The informational version for JSLint.NET.
+        /// </summary>
+        public const string InformationalVersion = Version + "-beta5";
 
         /// <summary>
         /// The copyright line for JSLint.NET.
@@ -55,6 +60,6 @@ namespace JSLintNet
         /// <summary>
         /// The edition of JSLint bundled with this release.
         /// </summary>
-        public const string Edition = "2014-07-08";
+        public const string Edition = "2015-05-01 BETA";
     }
 }

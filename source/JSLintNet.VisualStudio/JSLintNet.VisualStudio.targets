@@ -23,7 +23,7 @@
       Namespace="http://schemas.microsoft.com/developer/vsx-schema/2011"
       Prefix="n"
       XPath="/n:PackageManifest/n:Metadata/n:Identity/@Version"
-      Value="$(JSLintNetInformationalVersion)" />
+      Value="$(JSLintNetVersion)" />
 
     <ItemGroup>
       <JSLintNetVisualStudioPackageFiles Include="$(JSLintNetPackageDir)**\*.*" />
