@@ -1,5 +1,8 @@
 ﻿namespace JSLintNet.Settings
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Dynamic;
     using System.IO;
     using System.Text;
     using JSLintNet.Abstractions;
@@ -80,6 +83,35 @@
                 mergeFile);
         }
 
+        private static void MigrateOptions(JSLintOptions jsLintOptions, IDictionary<string, object> options)
+        {
+            if (options.ContainsKey("evil"))
+            {
+                var evil = options["evil"] as bool?;
+
+                if (evil.HasValue)
+                {
+                    jsLintOptions.TolerateEval = evil;
+                }
+            }
+        }
+
+        private static void MigrateGlobalVariables(IList<string> globalVariables, IDictionary<string, object> options)
+        {
+            if (options.ContainsKey("predef"))
+            {
+                var predef = options["predef"] as IDictionary<string, object>;
+
+                if (predef != null)
+                {
+                    foreach (var key in predef.Keys)
+                    {
+                        globalVariables.Add(key);
+                    }
+                }
+            }
+        }
+
         private bool TryGetSettings(string settingsPath, out JSLintNetSettings settings)
         {
             if (this.fileSystemWrapper.FileExists(settingsPath))
@@ -89,12 +121,36 @@
                 if (!string.IsNullOrEmpty(settingsSource))
                 {
                     settings = this.jsonProvider.DeserializeSettings(settingsSource);
+
+                    this.MaybeMigrate(settings, settingsSource);
+
                     return settings != null;
                 }
             }
 
             settings = null;
             return false;
+        }
+
+        private void MaybeMigrate(JSLintNetSettings settings, string settingsSource)
+        {
+            if (settings != null && !AssemblyInfo.InformationalVersion.Equals(settings.Version, StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    dynamic oldSettings = this.jsonProvider.DeserializeObject<ExpandoObject>(settingsSource);
+                    var options = oldSettings.options as IDictionary<string, object>;
+
+                    if (options != null)
+                    {
+                        MigrateOptions(settings.Options, options);
+                        MigrateGlobalVariables(settings.GlobalVariables, options);
+                    }
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }
