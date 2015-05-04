@@ -1,10 +1,11 @@
 ﻿namespace JSLintNet
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Newtonsoft.Json;
 
-    public partial class JSLintOptions
+    public partial class JSLintOptions : ICloneable
     {
         private Dictionary<string, bool> predefinedGlobals;
 
@@ -33,6 +34,32 @@
             {
                 return this.predefinedGlobals;
             }
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public JSLintOptions TypedClone()
+        {
+            var clone = new JSLintOptions();
+            clone.predefinedGlobals = new Dictionary<string, bool>(this.predefinedGlobals);
+            this.CloneRoot(clone);
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            return this.TypedClone();
         }
 
         /// <summary>

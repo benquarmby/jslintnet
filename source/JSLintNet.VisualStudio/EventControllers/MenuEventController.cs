@@ -176,7 +176,7 @@
         private void OnProjectNodeSettings(object sender, EventArgs e)
         {
             var project = this.Environment.SelectedItems.Item(1).Project;
-            var model = this.VisualStudioJSLintProvider.LoadSettings(project, false);
+            var model = this.VisualStudioJSLintProvider.LoadSettings(project, false).TypedClone();
 
             using (var viewModel = new SettingsViewModel(model))
             {

@@ -80,5 +80,17 @@ namespace JSLintNet.Settings
     }
 #>
         }
+
+        private void CloneRoot(JSLintNetSettings target)
+        {
+<#
+    foreach (var definition in SettingDefinitions)
+    {
+#>
+            target.<#= definition.PropertyName #> = this.<#= definition.PropertyName #>;
+<#
+    }
+#>
+        }
     }
 }

@@ -672,7 +672,7 @@
                     testable.Init();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
-                    testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, testable.Settings));
+                    testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, It.IsAny<JSLintNetSettings>()));
                 }
             }
 

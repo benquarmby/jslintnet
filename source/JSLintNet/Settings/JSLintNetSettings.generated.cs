@@ -78,5 +78,14 @@ namespace JSLintNet.Settings
                 this.FileLimit = merge.FileLimit;
             }
         }
+
+        private void CloneRoot(JSLintNetSettings target)
+        {
+            target.RunOnSave = this.RunOnSave;
+            target.RunOnBuild = this.RunOnBuild;
+            target.CancelBuild = this.CancelBuild;
+            target.ErrorLimit = this.ErrorLimit;
+            target.FileLimit = this.FileLimit;
+        }
     }
 }

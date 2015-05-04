@@ -29,7 +29,7 @@
     /// <summary>
     /// Represents the settings available to the JSLint.NET suite.
     /// </summary>
-    internal partial class JSLintNetSettings
+    internal partial class JSLintNetSettings : ICloneable
     {
         /// <summary>
         /// The standard file name for JSLint.NET settings.
@@ -167,6 +167,38 @@
             var nullable = this.FileLimit;
 
             return nullable.HasValue && nullable.Value > 0 ? nullable.Value : JSLintNetSettings.DefaultFileLimit;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public JSLintNetSettings TypedClone()
+        {
+            var clone = new JSLintNetSettings()
+            {
+                Files = new List<string>(this.Files),
+                Output = this.Output,
+                Ignore = new List<string>(this.Ignore),
+                Options = this.Options == null ? null : this.Options.TypedClone()
+            };
+
+            this.CloneRoot(clone);
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            return this.TypedClone();
         }
 
         /// <summary>

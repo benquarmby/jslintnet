@@ -2,12 +2,13 @@
 
 namespace JSLintNet
 {
+    using System;
     using Newtonsoft.Json;
 
     /// <summary>
     /// Provides a simple way to create and manage the options used by JSLint.
     /// </summary>
-    public partial class JSLintOptions
+    public partial class JSLintOptions: ICloneable
     {
         /// <summary>
         /// Gets or sets a value indicating whether assignment expressions should be allowed.
@@ -356,6 +357,39 @@ namespace JSLintNet
         /// </remarks>
         [JsonProperty("white")]
         public bool? TolerateMessyWhitespace { get; set; }
+
+        private void CloneRoot(JSLintOptions clone)
+        {
+            clone.TolerateAssignmentExpressions = this.TolerateAssignmentExpressions;
+            clone.TolerateBitwiseOperators = this.TolerateBitwiseOperators;
+            clone.AssumeBrowser = this.AssumeBrowser;
+            clone.TolerateGoogleClosure = this.TolerateGoogleClosure;
+            clone.TolerateContinue = this.TolerateContinue;
+            clone.AssumeCouchDB = this.AssumeCouchDB;
+            clone.TolerateDebuggerStatements = this.TolerateDebuggerStatements;
+            clone.AssumeConsole = this.AssumeConsole;
+            clone.TolerateDoubleEquals = this.TolerateDoubleEquals;
+            clone.TolerateEval = this.TolerateEval;
+            clone.TolerateUnfilteredForIn = this.TolerateUnfilteredForIn;
+            clone.IndentationFactor = this.IndentationFactor;
+            clone.MaximumErrors = this.MaximumErrors;
+            clone.MaximumLineLength = this.MaximumLineLength;
+            clone.TolerateUncapitalizedConstructors = this.TolerateUncapitalizedConstructors;
+            clone.AssumeNode = this.AssumeNode;
+            clone.TolerateDanglingUnderscores = this.TolerateDanglingUnderscores;
+            clone.StopOnFirstError = this.StopOnFirstError;
+            clone.TolerateIncrementDecrement = this.TolerateIncrementDecrement;
+            clone.PropertiesDeclared = this.PropertiesDeclared;
+            clone.TolerateInsecureRegExp = this.TolerateInsecureRegExp;
+            clone.AssumeRhino = this.AssumeRhino;
+            clone.TolerateUnusedParameters = this.TolerateUnusedParameters;
+            clone.TolerateMissingUseStrict = this.TolerateMissingUseStrict;
+            clone.TolerateStupidPractices = this.TolerateStupidPractices;
+            clone.TolerateInefficientSubscripting = this.TolerateInefficientSubscripting;
+            clone.TolerateToDoComments = this.TolerateToDoComments;
+            clone.TolerateManyVarStatements = this.TolerateManyVarStatements;
+            clone.TolerateMessyWhitespace = this.TolerateMessyWhitespace;
+        }
 
         private void MergeRoot(JSLintOptions merge)
         {

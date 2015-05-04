@@ -10,6 +10,8 @@
 
     internal partial class SettingsViewModel : ViewModelBase
     {
+        private static readonly Regex SeparatorPattern = new Regex(@"[\s,;'""]+", RegexOptions.Compiled);
+
         public SettingsViewModel(JSLintNetSettings model)
         {
             this.Model = model;
@@ -128,7 +130,7 @@
                 return;
             }
 
-            var keys = Regex.Split(value, @"[\s,;'""]+");
+            var keys = SeparatorPattern.Split(value);
 
             // Add new keys
             foreach (var key in keys)
