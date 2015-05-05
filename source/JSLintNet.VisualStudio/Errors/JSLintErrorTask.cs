@@ -24,8 +24,8 @@
             this.Document = document;
             this.Category = TaskCategory.BuildCompile;
             this.ErrorCategory = category;
-            this.Line = jsLintWarning.Line - 1;
-            this.Column = jsLintWarning.Column - 1;
+            this.Line = jsLintWarning.Line;
+            this.Column = jsLintWarning.Column;
             this.Text = GetText(jsLintWarning);
             this.HierarchyItem = hierarchy;
         }
