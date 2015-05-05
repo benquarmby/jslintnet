@@ -35,12 +35,12 @@ namespace JSLintNet
         /// <summary>
         /// The full version number for JSLint.NET.
         /// </summary>
-        public const string Version = "1.8.0";
+        public const string Version = "1.8.1";
 
         /// <summary>
         /// The copyright line for JSLint.NET.
         /// </summary>
-        public const string Copyright = "Copyright © JSLint.NET Contributors 2013-2014";
+        public const string Copyright = "Copyright © JSLint.NET Contributors 2013-2015";
 
         /// <summary>
         /// The company name for JSLint.NET.
