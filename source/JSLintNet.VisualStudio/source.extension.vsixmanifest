@@ -4,10 +4,10 @@
     <Identity Id="20d11160-ceed-4510-8fc7-ab34c7c34caa" Version="9.5.5" Language="en-US" Publisher="JSLint.NET Contributors" />
     <DisplayName>JSLint.NET for Visual Studio</DisplayName>
     <Description xml:space="preserve">JSLint.NET is a wrapper for Douglas Crockford's JSLint, the JavaScript code quality tool. It can validate JavaScript anywhere .NET runs.</Description>
-    <MoreInfo>https://jslintnet.codeplex.com/</MoreInfo>
+    <MoreInfo>https://github.com/benquarmby/jslintnet</MoreInfo>
     <License>License.txt</License>
-    <GettingStartedGuide>https://jslintnet.codeplex.com/wikipage?title=Change+Log</GettingStartedGuide>
-    <ReleaseNotes>https://jslintnet.codeplex.com/wikipage?title=Change+Log</ReleaseNotes>
+    <GettingStartedGuide>https://github.com/benquarmby/jslintnet/wiki</GettingStartedGuide>
+    <ReleaseNotes>https://github.com/benquarmby/jslintnet/releases</ReleaseNotes>
     <Icon>Resources\JSLint.NET.ico</Icon>
     <PreviewImage>Resources\JSLint.NET-256.png</PreviewImage>
   </Metadata>
