@@ -34,11 +34,15 @@
             {
                 if (!this.projectItem.Is().Link)
                 {
-                    var projectPath = this.projectItem.ContainingProject.Properties.Get<string>("FullPath");
-                    projectPath = Path.GetDirectoryName(projectPath);
+                    var path = this.projectItem.ContainingProject.Access().Directory;
                     var fileName = this.FileName;
 
-                    return fileName.Substring(projectPath.Length);
+                    if (string.IsNullOrEmpty(path) || !fileName.StartsWith(path, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return fileName;
+                    }
+
+                    return fileName.Substring(path.Length);
                 }
 
                 return this.VirtualPath;

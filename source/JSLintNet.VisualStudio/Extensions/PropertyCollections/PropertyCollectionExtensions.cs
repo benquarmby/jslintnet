@@ -28,6 +28,8 @@
                         {
                             return (T)raw;
                         }
+
+                        break;
                     }
                 }
             }

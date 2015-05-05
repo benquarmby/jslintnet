@@ -165,6 +165,9 @@
     <Compile Include="Extensions\ProjectItems\ProjectItemAccessor.cs" />
     <Compile Include="Extensions\ProjectItems\ProjectItemIgnoreState.cs" />
     <Compile Include="Extensions\ProjectItems\ProjectItemPredicator.cs" />
+    <Compile Include="Extensions\Projects\IProjectAccessor.cs" />
+    <Compile Include="Extensions\Projects\ProjectAccessor.cs" />
+    <Compile Include="Extensions\Projects\ProjectExtensions.cs" />
     <Compile Include="Extensions\PropertyCollections\PropertyCollectionExtensions.cs" />
     <Compile Include="Extensions\ServiceProviders\ServiceProviderExtensions.cs" />
     <Compile Include="Errors\JSLintTagger.cs" />
