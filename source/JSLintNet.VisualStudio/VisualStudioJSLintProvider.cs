@@ -306,7 +306,14 @@
                 return settingsItem.Access().FileName;
             }
 
-            return Path.Combine(project.Access().Directory, fileName);
+            var projectDirectory = project.Access().Directory;
+
+            if (string.IsNullOrEmpty(projectDirectory))
+            {
+                return null;
+            }
+
+            return Path.Combine(projectDirectory, fileName);
         }
 
         private static string GetMessageText(int errors)
