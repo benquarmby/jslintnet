@@ -185,13 +185,10 @@
 
             private class CreateTestable : ConsoleOptionsFactoryUnitTestableBase
             {
-                public CreateTestable()
+                protected override void BeforeResolve()
                 {
-                    this.BeforeInit += this.OnBeforeInit;
-                }
+                    base.BeforeResolve();
 
-                private void OnBeforeInit(object sender, EventArgs e)
-                {
                     this.FileSystemWrapperMock
                         .Setup(x => x.ResolveDirectory(It.IsAny<string>()))
                         .Returns((string x) => x);
@@ -203,7 +200,7 @@
             }
         }
 
-        private abstract class ConsoleOptionsFactoryUnitTestableBase : TestableBase<ConsoleOptionsFactory>
+        private abstract class ConsoleOptionsFactoryUnitTestableBase : TestFixture<ConsoleOptionsFactory>
         {
             public ConsoleOptionsFactoryUnitTestableBase()
             {

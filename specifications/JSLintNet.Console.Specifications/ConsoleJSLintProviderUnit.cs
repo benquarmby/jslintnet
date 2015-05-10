@@ -85,8 +85,6 @@
                 {
                     this.JSLintContextMock = new Mock<IJSLintContext>();
                     this.JSLintReportBuilderMock = new Mock<IJSLintReportBuilder>();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public Mock<IJSLintContext> JSLintContextMock { get; set; }
@@ -116,8 +114,10 @@
                     return fake;
                 }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IJSLintFactory>()
                         .Setup(x => x.CreateContext())
                         .Returns(this.JSLintContextMock.Object);
@@ -189,14 +189,14 @@
                 public EditSettingsTestable()
                 {
                     this.ViewMock = new Mock<IView>();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public Mock<IView> ViewMock { get; set; }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IViewFactory>()
                         .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
                         .Returns(this.ViewMock.Object);
@@ -204,7 +204,7 @@
             }
         }
 
-        private abstract class ConsoleJSLintProviderTestableBase : TestableBase<ConsoleJSLintProvider>
+        private abstract class ConsoleJSLintProviderTestableBase : TestFixture<ConsoleJSLintProvider>
         {
             public ConsoleJSLintProviderTestableBase()
             {
@@ -219,8 +219,6 @@
                 };
 
                 this.Settings = new JSLintNetSettings();
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<IConsoleWriter> ConsoleWriterMock { get; set; }
@@ -229,8 +227,10 @@
 
             public JSLintNetSettings Settings { get; set; }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.ConsoleWriterMock
                     .Setup(x => x.WriteLine())
                     .Returns(this.ConsoleWriterMock.Object);

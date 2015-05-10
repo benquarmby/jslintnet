@@ -1,8 +1,12 @@
 ﻿namespace JSLintNet.VisualStudio.Specifications
 {
-    using System;
+    using System.IO;
+    using System.Text;
+    using EnvDTE;
     using EnvDTE80;
     using JSLintNet.QualityTools;
+    using JSLintNet.QualityTools.Expectations;
+    using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.VSSDK.Tools.VsIdeTesting;
@@ -25,28 +29,23 @@
         [TestClass]
         public class GetSettings : IntegrationBase
         {
-            /// <summary>
-            /// Should return settings from project file if valid JSON.
-            /// </summary>
+            public TestContext TestContext { get; set; }
+
             [TestMethod]
             [HostType(VSHost)]
             [TestProperty(VSHive, VS11Exp)]
             public void Should_return_settings_from_project_file_if_valid_JSON()
             {
-                System.Diagnostics.Debugger.Break();
-
                 using (var testable = new GetSettingsTestable())
                 {
-                    testable.Environment.Solution.Open("");
-
                     testable.WriteSettings(@"{ ""output"": ""Warning"" }");
 
                     try
                     {
-                        ////var actual = testable.Instance.LoadSettings(testable.Project);
+                        var actual = testable.Instance.LoadSettings(testable.Project);
 
-                        ////I.Expect(actual).Not.ToBeNull();
-                        ////I.Expect(actual.Output).ToBe(Output.Warning);
+                        I.Expect(actual).Not.ToBeNull();
+                        I.Expect(actual.Output).ToBe(Output.Warning);
                     }
                     finally
                     {
@@ -56,47 +55,47 @@
             }
 
             [TestMethod]
-            [HostType("VS IDE")]
-            [TestProperty(VsIdeTestHostContants.TestPropertyName.RegistryHiveName, "11.0Exp")]
-            public void Spec02()
+            [HostType(VSHost)]
+            [TestProperty(VSHive, VS11Exp)]
+            public void Should_return_default_instance_from_project_file_if_invalid_JSON()
             {
                 using (var testable = new GetSettingsTestable())
                 {
                     testable.WriteSettings(@"<NOT>JSON</NOT>");
 
-                    ////try
-                    ////{
-                    ////    var actual = testable.Instance.LoadSettings(testable.Project);
+                    try
+                    {
+                        var actual = testable.Instance.LoadSettings(testable.Project);
 
-                    ////    I.Expect(actual).Not.ToBeNull();
-                    ////    I.Expect(actual.RunOnBuild).ToBeNullOrFalse();
-                    ////    I.Expect(actual.RunOnSave).ToBeNullOrFalse();
-                    ////    I.Expect(actual.CancelBuild).ToBeNullOrFalse();
-                    ////    I.Expect(actual.Options).ToBeNull();
-                    ////}
-                    ////finally
-                    ////{
-                    ////    testable.DeleteSettings();
-                    ////}
+                        I.Expect(actual).Not.ToBeNull();
+                        I.Expect(actual.RunOnBuild).ToBeNullOrFalse();
+                        I.Expect(actual.RunOnSave).ToBeNullOrFalse();
+                        I.Expect(actual.CancelBuild).ToBeNullOrFalse();
+                        I.Expect(actual.Options).ToBeNull();
+                    }
+                    finally
+                    {
+                        testable.DeleteSettings();
+                    }
                 }
             }
 
             [TestMethod]
-            [HostType("VS IDE")]
-            [TestProperty(VsIdeTestHostContants.TestPropertyName.RegistryHiveName, "11.0Exp")]
-            public void Spec03()
+            [HostType(VSHost)]
+            [TestProperty(VSHive, VS11Exp)]
+            public void Should_return_default_instance_if_file_does_not_exist()
             {
                 using (var testable = new GetSettingsTestable())
                 {
                     testable.DeleteSettings();
 
-                    ////var actual = testable.Instance.LoadSettings(testable.Project);
+                    var actual = testable.Instance.LoadSettings(testable.Project);
 
-                    ////I.Expect(actual).Not.ToBeNull();
-                    ////I.Expect(actual.RunOnBuild).ToBeNullOrFalse();
-                    ////I.Expect(actual.RunOnSave).ToBeNullOrFalse();
-                    ////I.Expect(actual.CancelBuild).ToBeNullOrFalse();
-                    ////I.Expect(actual.Options).ToBeNull();
+                    I.Expect(actual).Not.ToBeNull();
+                    I.Expect(actual.RunOnBuild).ToBeNullOrFalse();
+                    I.Expect(actual.RunOnSave).ToBeNullOrFalse();
+                    I.Expect(actual.CancelBuild).ToBeNullOrFalse();
+                    I.Expect(actual.Options).ToBeNull();
                 }
             }
 
@@ -104,40 +103,47 @@
             {
                 public void WriteSettings(string settings)
                 {
-                    ////File.WriteAllText(this.SettingsPath, settings, Encoding.UTF8);
+                    File.WriteAllText(this.SettingsPath, settings, Encoding.UTF8);
                 }
 
                 public void DeleteSettings()
                 {
-                    ////if (File.Exists(this.SettingsPath))
-                    ////{
-                    ////    File.Delete(this.SettingsPath);
-                    ////}
+                    if (File.Exists(this.SettingsPath))
+                    {
+                        File.Delete(this.SettingsPath);
+                    }
                 }
             }
         }
 
-        private abstract class VisualStudioJSLintProviderTestableBase : IDisposable
+        private abstract class VisualStudioJSLintProviderTestableBase : TestFixtureBase<VisualStudioJSLintProvider>
         {
+            private const string ArtifactSolution = @"..\..\..\specifications\artifacts\Artifacts.sln";
+
+            private const string AspNetProject = @"Artifacts.AspNet\Artifacts.AspNet.csproj";
+
             public VisualStudioJSLintProviderTestableBase()
             {
-                var serviceProvider = VsIdeTestHostContext.ServiceProvider;
-
                 this.Environment = VsIdeTestHostContext.Dte as DTE2;
-                this.Instance = new VisualStudioJSLintProvider(serviceProvider, new JSLintErrorListProvider(serviceProvider));
-            }
 
-            public VisualStudioJSLintProvider Instance { get; set; }
+                var solutionPath = Path.Combine(System.Environment.CurrentDirectory, ArtifactSolution);
+                this.Environment.Solution.Open(solutionPath);
+
+                var project = this.Project = this.Environment.Locate().ProjectByUniqueName(AspNetProject);
+                this.SettingsPath = Path.Combine(Path.GetDirectoryName(project.FullName), JSLintNetSettings.FileName);
+            }
 
             public DTE2 Environment { get; set; }
 
-            public void Dispose()
-            {
-                this.Dispose(true);
-            }
+            public Project Project { get; set; }
 
-            protected void Dispose(bool disposing)
+            public string SettingsPath { get; set; }
+
+            protected override VisualStudioJSLintProvider Resolve()
             {
+                var serviceProvider = VsIdeTestHostContext.ServiceProvider;
+
+                return new VisualStudioJSLintProvider(serviceProvider, new JSLintErrorListProvider(serviceProvider));
             }
         }
     }

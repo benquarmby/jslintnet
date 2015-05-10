@@ -82,13 +82,14 @@
     <Compile Include="Expectations\IReversibleExpectation`1.cs" />
     <Compile Include="Fakes\JSLintDataFake.cs" />
     <Compile Include="Fakes\JSLintErrorFake.cs" />
+    <Compile Include="TestFixtureBase.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\ProcessResult.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="IntegrationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestableBase.cs" />
-    <Compile Include="TestableBase.Moq.cs" />
+    <Compile Include="TestFixture.cs" />
+    <Compile Include="TestFixture.Moq.cs" />
     <Compile Include="UnitBase.cs" />
   </ItemGroup>
   <ItemGroup>

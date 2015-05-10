@@ -81,8 +81,6 @@
                     this.ProjectMock = new Mock<Project>();
                     this.ProjectItemMock = new Mock<ProjectItem>();
                     this.ProjectPropertiesFake = new PropertiesFake();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public Mock<Project> ProjectMock { get; set; }
@@ -93,8 +91,10 @@
 
                 public PropertiesFake ProjectPropertiesFake { get; set; }
 
-                private void OnBeforeInit(object sender, System.EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IVisualStudioJSLintProvider>()
                         .Setup(x => x.LoadSettings(It.IsAny<Project>()))
                         .Returns(this.Settings);
@@ -137,8 +137,6 @@
             {
                 this.DocumentEventsMock = new Mock<DocumentEvents>();
                 this.DocumentMock = new Mock<Document>();
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<DocumentEvents> DocumentEventsMock { get; set; }
@@ -147,8 +145,10 @@
 
             public string DocumentFullName { get; set; }
 
-            private void OnBeforeInit(object sender, System.EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.EventsMock
                     .Setup(x => x.get_DocumentEvents(null))
                     .Returns(this.DocumentEventsMock.Object);

@@ -16,7 +16,7 @@
 
     public class JSLintErrorListProviderUnit
     {
-        public class GetErrors
+        public class GetErrors : UnitBase
         {
             [Fact(DisplayName = "Should get all errors with matching file names")]
             public void Spec01()
@@ -38,7 +38,7 @@
             }
         }
 
-        public class ClearJSLintErrors
+        public class ClearJSLintErrors : UnitBase
         {
             [Fact(DisplayName = "Should clear all JSLint errors with matching file names")]
             public void Spec01()
@@ -64,14 +64,12 @@
             }
         }
 
-        private abstract class JSLintErrorListProviderTestableBase : TestableBase<JSLintErrorListProvider>
+        private abstract class JSLintErrorListProviderTestableBase : TestFixture<JSLintErrorListProvider>
         {
             public JSLintErrorListProviderTestableBase()
             {
                 this.EnvironmentMock = new Mock<DTE>().As<DTE2>();
                 this.ErrorItemsFake = new ErrorItemsFake((DTE)this.EnvironmentMock.Object);
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<DTE2> EnvironmentMock { get; set; }
@@ -90,8 +88,10 @@
                 this.Instance.AddJSLintErrors(fileName, errorList, Output.Error, Mock.Of<IVsHierarchy>());
             }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 var toolWindows = Mock.Of<ToolWindows>(y =>
                     y.ErrorList == Mock.Of<ErrorList>(z =>
                         z.ErrorItems == this.ErrorItemsFake));

@@ -7,25 +7,23 @@
     using JSLintNet.VisualStudio.EventControllers;
     using Moq;
 
-    internal abstract class EventControllerTestableBase<T> : TestableBase<T>
+    internal abstract class EventControllerTestableBase<T> : TestFixture<T>
         where T : EventControllerBase
     {
         public EventControllerTestableBase()
         {
             this.EnvironmentMock = new Mock<DTE>().As<DTE2>();
             this.EventsMock = new Mock<Events>();
-
-            this.BeforeInit += this.OnBeforeInit;
-
-            this.AfterInit += this.OnAfterInit;
         }
 
         public Mock<DTE2> EnvironmentMock { get; set; }
 
         public Mock<Events> EventsMock { get; set; }
 
-        private void OnBeforeInit(object sender, EventArgs e)
+        protected override void BeforeResolve()
         {
+            base.BeforeResolve();
+
             this.GetMock<IServiceProvider>()
                 .Setup(x => x.GetService(typeof(DTE)))
                 .Returns(this.EnvironmentMock.Object);
@@ -35,8 +33,10 @@
                 .Returns(this.EventsMock.Object);
         }
 
-        private void OnAfterInit(object sender, EventArgs e)
+        protected override void AfterResolve()
         {
+            base.AfterResolve();
+
             this.Instance.Initialize();
         }
     }

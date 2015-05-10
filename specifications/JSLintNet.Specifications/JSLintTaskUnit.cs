@@ -330,10 +330,6 @@
                     this.JSLintReportBuilderMock = new Mock<IJSLintReportBuilder>();
                     this.SourceFiles = new List<string>();
                     this.Settings = new JSLintNetSettings();
-
-                    this.BeforeInit += this.OnBeforeInit;
-
-                    this.AfterInit += this.OnAfterInit;
                 }
 
                 public Mock<IJSLintContext> JSLintContextMock { get; set; }
@@ -382,8 +378,10 @@
                     }
                 }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IJSLintFactory>()
                         .Setup(x => x.CreateContext())
                         .Returns(this.JSLintContextMock.Object);
@@ -426,26 +424,28 @@
                         .Returns(this.Settings);
                 }
 
-                private void OnAfterInit(object sender, EventArgs e)
+                protected override void AfterResolve()
                 {
+                    base.AfterResolve();
+
                     this.Instance.SourceDirectory = this.SourceDirectory;
                 }
             }
         }
 
-        private abstract class JSLintTaskTestableBase : TestableBase<JSLintTask>
+        private abstract class JSLintTaskTestableBase : TestFixture<JSLintTask>
         {
             public JSLintTaskTestableBase()
             {
                 this.LoggingHelperMock = new Mock<ITaskLoggingHelper>();
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<ITaskLoggingHelper> LoggingHelperMock { get; set; }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.GetMock<IAbstractionFactory>()
                     .Setup(x => x.CreateTaskLoggingHelper(It.IsAny<ITask>()))
                     .Returns(this.LoggingHelperMock.Object);

@@ -87,7 +87,7 @@
             {
                 using (var testable = new LoadSettingsTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
 
                     testable.ProjectMock
                         .SetupGet(x => x.FullName)
@@ -121,8 +121,6 @@
                 {
                     this.ProjectItemsFake = new ProjectItemsFake(this.ProjectMock.Object);
                     this.Settings = new JSLintNetSettings();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public ProjectItemsFake ProjectItemsFake { get; set; }
@@ -133,8 +131,10 @@
 
                 public bool CacheContains { get; set; }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.ProjectMock
                         .SetupGet(x => x.ProjectItems)
                         .Returns(this.ProjectItemsFake);
@@ -250,8 +250,6 @@
                     this.JSLintContextMock = new Mock<IJSLintContext>();
                     this.Settings = new JSLintNetSettings();
                     this.ProjectItems = new List<ProjectItem>();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public Mock<IJSLintContext> JSLintContextMock { get; set; }
@@ -290,8 +288,10 @@
                     return itemMock;
                 }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IJSLintFactory>()
                         .Setup(x => x.CreateContext())
                         .Returns(this.JSLintContextMock.Object);
@@ -310,7 +310,7 @@
             }
         }
 
-        private abstract class VisualStudioJSLintProviderTestableBase : TestableBase<VisualStudioJSLintProvider>
+        private abstract class VisualStudioJSLintProviderTestableBase : TestFixture<VisualStudioJSLintProvider>
         {
             public VisualStudioJSLintProviderTestableBase()
             {
@@ -318,8 +318,6 @@
                 this.ProjectUniqueName = @"project.csproj";
                 this.ProjectMock = new Mock<Project>();
                 this.ProjectPropertiesFake = new PropertiesFake();
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public string ProjectFullPath { get; set; }
@@ -330,8 +328,10 @@
 
             public PropertiesFake ProjectPropertiesFake { get; set; }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.ProjectMock
                     .SetupGet(x => x.FullName)
                     .Returns(() => Path.Combine(this.ProjectFullPath, this.ProjectUniqueName));

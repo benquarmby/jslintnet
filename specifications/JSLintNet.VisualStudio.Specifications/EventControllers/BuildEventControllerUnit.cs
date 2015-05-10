@@ -1,6 +1,5 @@
 ﻿namespace JSLintNet.VisualStudio.Specifications.EventControllers
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using EnvDTE;
@@ -104,8 +103,6 @@
                     this.ProjectPropertiesFake = new PropertiesFake();
                     this.ProjectItemsFake = new ProjectItemsFake();
                     this.Settings = new JSLintNetSettings();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public string ProjectFullName { get; set; }
@@ -126,8 +123,10 @@
 
                 internal JSLintNetSettings Settings { get; set; }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.EnvironmentMock
                         .SetupGet(x => x.Solution)
                         .Returns(this.SolutionMock.Object);
@@ -179,14 +178,14 @@
             public BuildEventControllerTestableBase()
             {
                 this.BuildEventsMock = new Mock<BuildEvents>();
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<BuildEvents> BuildEventsMock { get; set; }
 
-            private void OnBeforeInit(object sender, System.EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.EventsMock
                     .SetupGet(x => x.BuildEvents)
                     .Returns(this.BuildEventsMock.Object);

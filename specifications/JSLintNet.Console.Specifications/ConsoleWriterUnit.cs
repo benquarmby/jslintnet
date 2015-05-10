@@ -67,14 +67,12 @@
             }
         }
 
-        private abstract class ConsoleWriterTestableBase : TestableBase<ConsoleWriter>
+        private abstract class ConsoleWriterTestableBase : TestFixture<ConsoleWriter>
         {
             public ConsoleWriterTestableBase()
             {
                 this.ConsoleWrapperMock = this.AutoMocker.Mock<IConsoleWrapper>();
                 this.BufferWidth = 80;
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public int BufferWidth { get; set; }
@@ -83,8 +81,10 @@
 
             public Mock<IConsoleWrapper> ConsoleWrapperMock { get; set; }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.ConsoleWrapperMock
                     .SetupGet(x => x.BufferWidth)
                     .Returns(() => this.BufferWidth);

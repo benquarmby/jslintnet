@@ -108,7 +108,7 @@
                 }
             }
 
-            private class IsIgnoredTestable : TestableBase<TaskFile>
+            private class IsIgnoredTestable : TestFixture<TaskFile>
             {
                 public IsIgnoredTestable()
                 {
@@ -117,7 +117,7 @@
 
                 public List<string> Ignored { get; set; }
 
-                protected override TaskFile Construct()
+                protected override TaskFile Resolve()
                 {
                     return new TaskFile(@"D:\solution\source\project", @"path\to\file.js");
                 }

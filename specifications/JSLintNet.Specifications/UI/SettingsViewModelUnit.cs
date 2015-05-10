@@ -8,7 +8,7 @@
 
     public class SettingsViewModelUnit
     {
-        public class PredefinedGlobalsGet
+        public class PredefinedGlobalsGet : UnitBase
         {
             [Fact(DisplayName = "Should convert predefined globals in model to space separated string")]
             public void Spec01()
@@ -28,7 +28,7 @@
             }
         }
 
-        public class PredefinedGlobalsSet
+        public class PredefinedGlobalsSet : UnitBase
         {
             [Fact(DisplayName = "Should add new predefined globals to model")]
             public void Spec01()
@@ -124,7 +124,7 @@
             }
         }
 
-        private class PredefinedGlobalsTestable : TestableBase<SettingsViewModel>
+        private class PredefinedGlobalsTestable : TestFixture<SettingsViewModel>
         {
             public PredefinedGlobalsTestable()
             {
@@ -136,7 +136,7 @@
 
             public JSLintNetSettings Model { get; set; }
 
-            protected override SettingsViewModel Construct()
+            protected override SettingsViewModel Resolve()
             {
                 return new SettingsViewModel(this.Model);
             }

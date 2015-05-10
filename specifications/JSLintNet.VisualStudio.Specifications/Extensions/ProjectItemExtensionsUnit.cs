@@ -1,13 +1,14 @@
 ﻿namespace JSLintNet.VisualStudio.Specifications.Extensions
 {
     using EnvDTE;
+    using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using Moq;
     using Xunit;
 
     public class ProjectItemExtensionsUnit
     {
-        public class IsFolder
+        public class IsFolder : UnitBase
         {
             [Fact(DisplayName = "Should return true given lower project kind")]
             public void Spec01()
@@ -40,7 +41,7 @@
             }
         }
 
-        public class IsInSolutionFolder
+        public class IsInSolutionFolder : UnitBase
         {
             [Fact(DisplayName = "Should return true given lower project kind")]
             public void Spec01()

@@ -1,6 +1,5 @@
 ﻿namespace JSLintNet.Specifications.Settings
 {
-    using System;
     using System.Text;
     using JSLintNet.Abstractions;
     using JSLintNet.Json;
@@ -107,8 +106,6 @@
                 {
                     this.PrimarySettings = new JSLintNetSettings();
                     this.ConfigurationSettings = new JSLintNetSettings();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public bool PrimaryExists { get; set; }
@@ -121,8 +118,10 @@
 
                 public string ConfigurationName { get; set; }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IFileSystemWrapper>()
                         .Setup(x => x.FileExists(It.Is<string>(y => y.EndsWith(JSLintNetSettings.FileName))))
                         .Returns(() => this.PrimaryExists);
@@ -150,7 +149,7 @@
             }
         }
 
-        private class SettingsRepositoryTestableBase : TestableBase<SettingsRepository>
+        private class SettingsRepositoryTestableBase : TestFixture<SettingsRepository>
         {
         }
     }

@@ -27,7 +27,7 @@
             {
                 using (var testable = new OnBeforeErrorListClearTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler(testable.MenuCommand, null);
 
                     testable.GetMock<IJSLintErrorListProvider>().VerifyGet(x => x.ErrorCount);
@@ -44,7 +44,7 @@
                         .SetupGet(x => x.ErrorCount)
                         .Returns(10);
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     testable.VerifyGet<IJSLintErrorListProvider, int>(x => x.ErrorCount);
@@ -71,7 +71,7 @@
             {
                 using (var testable = new OnErrorListClearTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.Verify<IJSLintErrorListProvider>(x => x.ClearAllErrors());
@@ -101,7 +101,7 @@
                     testable.AddSelectedItem("notlintable.txt");
                     testable.AddSelectedItem("lintable.json");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -113,7 +113,7 @@
             {
                 using (var testable = new OnBeforeItemNodeRunTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -128,7 +128,7 @@
                     testable.AddSelectedItem("lintable.js");
                     testable.AddSelectedItem("lintable.json");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
@@ -164,7 +164,7 @@
                         .Setup(x => x.LintProjectItems(It.IsAny<IList<ProjectItem>>()))
                         .Callback((IList<ProjectItem> x) => projectItems = x);
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(projectItems).Not.ToBeNull();
@@ -193,7 +193,7 @@
                 {
                     testable.DocumentName = "unlintable.txt";
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     testable.EnvironmentMock.VerifyGet(x => x.ActiveDocument);
@@ -208,7 +208,7 @@
                 {
                     testable.DocumentName = "lintable.json";
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     testable.EnvironmentMock.VerifyGet(x => x.ActiveDocument);
@@ -230,7 +230,7 @@
                 {
                     testable.DocumentName = "script.coffee";
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.EnvironmentMock.VerifyGet(x => x.ActiveDocument);
@@ -245,7 +245,7 @@
                 {
                     testable.DocumentName = "script.js";
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.EnvironmentMock.VerifyGet(x => x.ActiveDocument);
@@ -268,7 +268,7 @@
                     testable.AddSelectedItem(@"some\path\to\file.js");
                     testable.AddSelectedItem(@"data.json");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -280,7 +280,7 @@
             {
                 using (var testable = new OnBeforeItemNodeIgnoreTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -294,7 +294,7 @@
                 {
                     testable.AddSelectedItem(@"some\path\to\non.lintable");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -308,7 +308,7 @@
                 {
                     testable.AddSelectedItem(@"some\path\to\file.js");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
@@ -323,7 +323,7 @@
                     testable.AddSelectedItem(@"some\path\to\file.js");
                     testable.Settings.Ignore.Add(@"some");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeFalse();
@@ -339,7 +339,7 @@
                     testable.AddSelectedItem(@"some\path\to\file.js");
                     testable.Settings.Ignore.Add(@"some\path\to\file.js");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
@@ -355,7 +355,7 @@
                     testable.AddSelectedItem(@"some\path\to\file.js");
                     testable.Settings.Ignore.Add(@"other\path");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
@@ -384,7 +384,7 @@
                 {
                     testable.Settings.Ignore.Add(@"SOME\PATH\TO\FILE.JS");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(testable.Settings.Ignore).ToBeEmpty();
@@ -398,7 +398,7 @@
                 {
                     testable.Settings.Ignore.Add(@"/SOME/PATH/TO/FILE.JS");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(testable.Settings.Ignore).ToBeEmpty();
@@ -412,7 +412,7 @@
                 {
                     testable.Settings.Ignore.Add(@"/SOME/PATH/");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(testable.Settings.Ignore).ToContain(@"\some\path\to\file.js");
@@ -424,7 +424,7 @@
             {
                 using (var testable = new OnItemNodeIgnoreTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, testable.Settings));
@@ -433,11 +433,6 @@
 
             private class OnItemNodeIgnoreTestable : ItemNodeTestableBase
             {
-                public OnItemNodeIgnoreTestable()
-                {
-                    this.BeforeInit += this.OnBeforeInit;
-                }
-
                 public override CommandID CommandID
                 {
                     get
@@ -446,8 +441,10 @@
                     }
                 }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.AddSelectedItem(@"some\path\to\file.js");
                 }
             }
@@ -463,7 +460,7 @@
                     testable.AddSelectedItem(@"some\path\to\");
                     testable.AddSelectedItem(@"data\");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -475,7 +472,7 @@
             {
                 using (var testable = new OnBeforeFolderNodeIgnoreTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -489,7 +486,7 @@
                 {
                     testable.AddSelectedItem(@"some\path\to\");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
@@ -504,7 +501,7 @@
                     testable.AddSelectedItem(@"some\path\to\");
                     testable.Settings.Ignore.Add(@"some");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeFalse();
@@ -520,7 +517,7 @@
                     testable.AddSelectedItem(@"some\path\to\");
                     testable.Settings.Ignore.Add(@"some\path\to\");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
@@ -536,7 +533,7 @@
                     testable.AddSelectedItem(@"some\path\to\");
                     testable.Settings.Ignore.Add(@"other\path");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.BeforeHandler.Invoke(testable.MenuCommand, null);
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
@@ -565,7 +562,7 @@
                 {
                     testable.Settings.Ignore.Add(@"SOME\PATH\TO\");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(testable.Settings.Ignore).Not.ToContain(@"SOME\PATH\TO\");
@@ -579,7 +576,7 @@
                 {
                     testable.Settings.Ignore.Add(@"/SOME/PATH/TO/");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(testable.Settings.Ignore).Not.ToContain(@"/SOME/PATH/TO/");
@@ -593,7 +590,7 @@
                 {
                     testable.Settings.Ignore.Add(@"/SOME/PATH/");
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     I.Expect(testable.Settings.Ignore).ToContain(@"\some\path\to\");
@@ -605,7 +602,7 @@
             {
                 using (var testable = new OnFolderNodeIgnoreTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, testable.Settings));
@@ -614,11 +611,6 @@
 
             private class OnFolderNodeIgnoreTestable : ItemNodeTestableBase
             {
-                public OnFolderNodeIgnoreTestable()
-                {
-                    this.BeforeInit += this.OnBeforeInit;
-                }
-
                 public override CommandID CommandID
                 {
                     get
@@ -627,8 +619,10 @@
                     }
                 }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.AddSelectedItem(@"some\path\to\");
                 }
             }
@@ -641,7 +635,7 @@
             {
                 using (var testable = new OnProjectNodeSettingsTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.Verify<IVisualStudioJSLintProvider>(x => x.LoadSettings(testable.ProjectMock.Object, false));
@@ -653,7 +647,7 @@
             {
                 using (var testable = new OnProjectNodeSettingsTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.ViewMock.Verify(x => x.ShowDialog());
@@ -669,7 +663,7 @@
                         .Setup(x => x.ShowDialog())
                         .Returns(true);
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, It.IsAny<JSLintNetSettings>()));
@@ -685,7 +679,7 @@
                         .Setup(x => x.ShowDialog())
                         .Returns(false);
 
-                    testable.Init();
+                    testable.Initialize();
                     testable.MenuCommand.Invoke(testable.MenuCommand);
 
                     testable.Verify<IVisualStudioJSLintProvider>(x => x.SaveSettings(testable.ProjectMock.Object, testable.Settings), Times.Never());
@@ -697,8 +691,6 @@
                 public OnProjectNodeSettingsTestable()
                 {
                     this.ViewMock = new Mock<IView>();
-
-                    this.BeforeInit += this.OnBeforeInit;
                 }
 
                 public Mock<IView> ViewMock { get; set; }
@@ -711,8 +703,10 @@
                     }
                 }
 
-                private void OnBeforeInit(object sender, EventArgs e)
+                protected override void BeforeResolve()
                 {
+                    base.BeforeResolve();
+
                     this.GetMock<IViewFactory>()
                         .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
                         .Returns(this.ViewMock.Object);
@@ -729,10 +723,6 @@
             public MenuEventControllerTestableBase()
             {
                 this.MenuCommandServiceMock = new Mock<IMenuCommandService>();
-
-                this.BeforeInit += this.OnBeforeInit;
-
-                this.AfterInit += this.OnAfterInit;
             }
 
             public Mock<IMenuCommandService> MenuCommandServiceMock { get; set; }
@@ -743,8 +733,10 @@
 
             public EventHandler BeforeHandler { get; set; }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.GetMock<IServiceProvider>()
                     .Setup(x => x.GetService(typeof(IMenuCommandService)))
                     .Returns(this.MenuCommandServiceMock.Object);
@@ -754,8 +746,10 @@
                     .Callback((MenuCommand x) => this.MenuCommand = (OleMenuCommand)x);
             }
 
-            private void OnAfterInit(object sender, EventArgs e)
+            protected override void AfterResolve()
             {
+                base.AfterResolve();
+
                 this.BeforeHandler = ReflectionHelper.GetFieldValue<EventHandler>(this.MenuCommand, "beforeQueryStatusHandler");
             }
         }
@@ -773,8 +767,6 @@
                 {
                     OneBased = true
                 };
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public JSLintNetSettings Settings { get; set; }
@@ -806,8 +798,10 @@
                 return Mock.Get(selectedItem);
             }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 var propertiesFake = new PropertiesFake();
 
                 propertiesFake.AddProperty("FullPath", Path.GetDirectoryName(this.ProjectFullName) + @"\");
@@ -835,8 +829,6 @@
             public CodeWindowRunTestableBase()
             {
                 this.DocumentMock = new Mock<Document>();
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<Document> DocumentMock { get; set; }
@@ -851,8 +843,10 @@
                 }
             }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.DocumentMock
                     .SetupGet(x => x.Name)
                     .Returns(() => this.DocumentName);
@@ -875,16 +869,16 @@
                 {
                     OneBased = true
                 };
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public Mock<Project> ProjectMock { get; set; }
 
             public JSLintNetSettings Settings { get; set; }
 
-            private void OnBeforeInit(object sender, EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 var selectedItem = Mock.Of<SelectedItem>(x => x.Project == this.ProjectMock.Object);
 
                 this.selectedItems.AddIndexedItem(selectedItem);

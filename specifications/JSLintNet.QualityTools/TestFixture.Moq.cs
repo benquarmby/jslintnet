@@ -4,7 +4,7 @@
     using System.Linq.Expressions;
     using Moq;
 
-    public abstract partial class TestableBase<T> : IDisposable
+    public partial class TestFixture<T> : IDisposable
     {
         public Mock<TService> GetMock<TService>()
             where TService : class

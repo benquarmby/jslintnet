@@ -20,7 +20,7 @@
             {
                 using (var testable = new ConstructorTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
 
                     testable.Verify<IAbstractionFactory>(x => x.CreateJavaScriptContext());
                 }
@@ -31,7 +31,7 @@
             {
                 using (var testable = new ConstructorTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
 
                     I.Expect(testable.ContextRuns[0]).ToStartWith("// jslintnet.js");
                 }
@@ -42,7 +42,7 @@
             {
                 using (var testable = new ConstructorTestable())
                 {
-                    testable.Init();
+                    testable.Initialize();
 
                     I.Expect(testable.ContextRuns[1]).ToStartWith("// jslint.js");
                 }
@@ -129,7 +129,7 @@
             }
         }
 
-        private abstract class JSLintContextTestableBase : TestableBase<JSLintContext>
+        private abstract class JSLintContextTestableBase : TestFixture<JSLintContext>
         {
             public JSLintContextTestableBase()
             {
@@ -138,8 +138,6 @@
                 this.Script = new ExpandoObject();
                 this.Script.JSLintNet = new ExpandoObject();
                 this.Script.JSLintNet.run = new Func<string, string, string>((x, y) => x + "_" + y);
-
-                this.BeforeInit += this.OnBeforeInit;
             }
 
             public List<string> ContextRuns { get; private set; }
@@ -148,8 +146,10 @@
 
             public Mock<IJavaScriptContext> JavaScriptContextMock { get; private set; }
 
-            private void OnBeforeInit(object sender, System.EventArgs e)
+            protected override void BeforeResolve()
             {
+                base.BeforeResolve();
+
                 this.JavaScriptContextMock
                     .Setup(x => x.Run(It.IsAny<string>()))
                     .Callback((string x) => this.ContextRuns.Add(x))
