@@ -16,8 +16,8 @@ Download it from the Extensions and Tools dialog within Visual Studio or from th
 
 #### Other Releases
 
-Stand alone binaries together with a [command line runner](wiki/Console-Options) are available on the releases page.
+Stand alone binaries together with a [command line runner](https://github.com/benquarmby/jslintnet/wiki/Console-Options) are available on the releases page.
 
 ## Configuration
 
-JSLint.NET can be configured with common options for an entire project or solution. See the [Settings](wiki/JSLint.NET-Settings) page for more information.
+JSLint.NET can be configured with common options for an entire project or solution. See the [Settings](https://github.com/benquarmby/jslintnet/wiki/JSLint.NET-Settings) page for more information.
