@@ -1,5 +1,6 @@
 ﻿namespace JSLintNet.VisualStudio.Extensions.Projects
 {
+    using System;
     using System.IO;
     using EnvDTE;
 
@@ -21,9 +22,9 @@
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    if (path.EndsWith(Path.DirectorySeparatorChar.ToString()) || path.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
+                    if (path.EndsWith(Path.DirectorySeparatorChar.ToString()) || path.EndsWith(Path.AltDirectorySeparatorChar.ToString()) || path.Equals(this.project.FullName, StringComparison.OrdinalIgnoreCase))
                     {
-                        // Remove any trailing separators
+                        // Remove any trailing separators or file names
                         path = Path.GetDirectoryName(path);
                     }
 
