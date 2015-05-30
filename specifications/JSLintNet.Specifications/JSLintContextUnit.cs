@@ -26,25 +26,36 @@
                 }
             }
 
-            [Fact(DisplayName = "Should setup jslintnet script inside a javascript context")]
+            [Fact(DisplayName = "Should setup jslint inside a javascript context")]
             public void Spec02()
             {
                 using (var testable = new ConstructorTestable())
                 {
                     testable.Initialize();
 
-                    I.Expect(testable.ContextRuns[0]).ToStartWith("// jslintnet.js");
+                    I.Expect(testable.ContextRuns[0]).ToStartWith("// jslint.js");
                 }
             }
 
-            [Fact(DisplayName = "Should setup jslint inside a javascript context")]
+            [Fact(DisplayName = "Should setup reporter inside a javascript context")]
             public void Spec03()
             {
                 using (var testable = new ConstructorTestable())
                 {
                     testable.Initialize();
 
-                    I.Expect(testable.ContextRuns[1]).ToStartWith("// jslint.js");
+                    I.Expect(testable.ContextRuns[1]).ToStartWith("// report.js");
+                }
+            }
+
+            [Fact(DisplayName = "Should setup jslintnet script inside a javascript context")]
+            public void Spec04()
+            {
+                using (var testable = new ConstructorTestable())
+                {
+                    testable.Initialize();
+
+                    I.Expect(testable.ContextRuns[2]).ToStartWith("// jslintnet.js");
                 }
             }
 
@@ -136,8 +147,7 @@
                 this.ContextRuns = new List<string>();
                 this.JavaScriptContextMock = new Mock<IJavaScriptContext>();
                 this.Script = new ExpandoObject();
-                this.Script.JSLintNet = new ExpandoObject();
-                this.Script.JSLintNet.run = new Func<string, string, string>((x, y) => x + "_" + y);
+                this.Script.jslintnet = new Func<string, string, string, string>((x, y, z) => x + "_" + y);
             }
 
             public List<string> ContextRuns { get; private set; }

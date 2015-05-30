@@ -78,7 +78,7 @@
 
                 var actual = this.Instance.SerializeSettings(settings);
 
-                I.Expect(actual).ToMatch(@"""options"": \{\s*""browser"": true,\s*""white"": true\s*\}, ""globalVariables"": \[""MyGlobal""\]");
+                I.Expect(actual).ToMatch(@"""options"": \{\s*""browser"": true,\s*""white"": true\s*\},\s*""globalVariables"": \[\s*""MyGlobal""\s*\]");
             }
         }
 
