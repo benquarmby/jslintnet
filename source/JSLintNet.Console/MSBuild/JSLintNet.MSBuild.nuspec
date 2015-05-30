@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <package>
   <metadata minClientVersion="2.8.0">
     <id>JSLintNet.MSBuild</id>
@@ -7,7 +7,7 @@
     <authors>JSLint.NET Contributors</authors>
     <owners>JSLint.NET Contributors</owners>
     <licenseUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/License.txt</licenseUrl>
-    <projectUrl>https://github.com/benquarmby/jslintnet/wiki/Upgrade-Announcement</projectUrl>
+    <projectUrl>https://github.com/benquarmby/jslintnet</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/graphics/JSLint.NET-128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <developmentDependency>true</developmentDependency>
@@ -16,6 +16,7 @@
     <copyright>Copyright © JSLint.NET Contributors 2013-2015</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+2.0.0-beta5 - JSLint 2015-05-28 BETA.
 1.8.4 - Downgraded V8 to improve VS2012 support.
 1.8.3 - Upgrade announcement: https://github.com/benquarmby/jslintnet/wiki/Upgrade-Announcement
 1.8.2 - Improved support for C++, Node.js and Cordova projects.

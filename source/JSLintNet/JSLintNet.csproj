@@ -50,15 +50,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClearScript">
-      <HintPath>..\..\packages\ClearScript.V8.5.4.1\lib\ClearScript.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ClearScript.V8.5.4.2\lib\net40\ClearScript.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -175,19 +175,19 @@
       <Link>License.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\amd64\ClearScriptV8-64.dll">
+    <Content Include="..\..\packages\ClearScript.V8.5.4.2\tools\native\amd64\ClearScriptV8-64.dll">
       <Link>ClearScriptV8-64.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\amd64\v8-x64.dll">
+    <Content Include="..\..\packages\ClearScript.V8.5.4.2\tools\native\amd64\v8-x64.dll">
       <Link>v8-x64.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\x86\ClearScriptV8-32.dll">
+    <Content Include="..\..\packages\ClearScript.V8.5.4.2\tools\native\x86\ClearScriptV8-32.dll">
       <Link>ClearScriptV8-32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\packages\ClearScript.V8.5.4.1\tools\native\x86\v8-ia32.dll">
+    <Content Include="..\..\packages\ClearScript.V8.5.4.2\tools\native\x86\v8-ia32.dll">
       <Link>v8-ia32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
