@@ -1,5 +1,5 @@
 // jslint.js
-// 2015-05-01
+// 2015-05-28
 // Copyright (c) 2015 Douglas Crockford  (www.JSLint.com)
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -86,9 +86,9 @@
     a, and, arity, b, bad_assignment_a, bad_character_number_a, bad_get,
     bad_module_name_a, bad_option_a, bad_property_a, bad_set, bitwise, block,
     body, browser, c, calls, catch, charAt, charCodeAt, closer, closure, code,
-    column, concat, context, couch, create, d, dead, devel, directive, disrupt,
-    dot, duplicate_a, edition, ellipsis, else, empty_block, es6, eval,
-    expected_a_at_b_c, expected_a_b, expected_a_b_from_c_d,
+    column, concat, constant, context, couch, create, d, dead, devel,
+    directive, disrupt, dot, duplicate_a, edition, ellipsis, else, empty_block,
+    es6, eval, every, expected_a_at_b_c, expected_a_b, expected_a_b_from_c_d,
     expected_a_before_b, expected_digits_after_a, expected_four_digits,
     expected_identifier_a, expected_line_break_a_b, expected_regexp_factor_a,
     expected_space_a_b, expected_string_a, expected_type_string_a, expression,
@@ -107,9 +107,10 @@
     unexpected_at_top_level_a, unexpected_char_a, unexpected_comment,
     unexpected_directive_a, unexpected_expression_a, unexpected_label_a,
     unexpected_parens, unexpected_space_a_b, unexpected_statement_a,
-    unexpected_typeof_a, uninitialized_a, unreachable_a,
-    unregistered_property_a, unsafe, unused_a, use_spaces, used, value,
-    var_loop, var_switch, variable, warning, warnings, weird_loop, white,
+    unexpected_trailing_space, unexpected_typeof_a, uninitialized_a,
+    unreachable_a, unregistered_property_a, unsafe, unused_a, use_spaces, used,
+    value, var_loop, var_switch, variable, warning, warnings,
+    weird_condition_a, weird_expression_a, weird_loop, weird_relation_a, white,
     wrap_immediate, wrap_regexp, wrapped, writable, y
 */
 
@@ -329,11 +330,11 @@ var jslint = (function JSLint() {
         unexpected_comment: "Unexpected comment.",
         unexpected_directive_a: "When using modules, don't use directive '/*{a}'.",
         unexpected_expression_a: "Unexpected expression '{a}' in statement position.",
-
-        unexpected_statement_a: "Unexpected statement '{a}' in expression position.",
         unexpected_label_a: "Unexpected label '{a}'.",
         unexpected_parens: "Don't wrap function literals in parens.",
         unexpected_space_a_b: "Unexpected space between '{a}' and '{b}'.",
+        unexpected_statement_a: "Unexpected statement '{a}' in expression position.",
+        unexpected_trailing_space: "Unexpected trailing space.",
         unexpected_typeof_a: "Unexpected 'typeof'. Use '===' to compare directly with {a}.",
         uninitialized_a: "Uninitialized '{a}'.",
         unreachable_a: "Unreachable '{a}'.",
@@ -345,6 +346,9 @@ var jslint = (function JSLint() {
         var_switch: "Don't declare variables in a switch.",
         wrap_regexp: "Wrap this regexp in parens to avoid confusion.",
         weird_loop: "Weird loop.",
+        weird_condition_a: "Weird condition '{a}'.",
+        weird_expression_a: "Weird expression '{a}'.",
+        weird_relation_a: "Weird relation '{a}'.",
         wrap_immediate: "Wrap an immediate function invocation in " +
                 "parentheses to assist the reader in understanding that the " +
                 "expression is the result of a function, and not the " +
@@ -383,6 +387,9 @@ var jslint = (function JSLint() {
         rx_bits = /^([01]+)(.*)$/,
 // mega
         rx_mega = /`|\$\{/,
+// indentation
+        rx_colons = /^(.*)\?([:.]*)$/,
+        rx_dot = /\.$/,
 // JSON number
         rx_JSON_number = /^-?\d+(?:\.\d*)?(?:e[\-+]?\d+)?$/i;
 
@@ -395,8 +402,8 @@ var jslint = (function JSLint() {
         return string.replace(rx_supplant, function (found, filling) {
             var replacement = object[filling];
             return replacement !== undefined
-            ? replacement
-            : found;
+                ? replacement
+                : found;
         });
     }
 
@@ -439,8 +446,8 @@ var jslint = (function JSLint() {
             the_token = next_token;
         }
         return the_token.id === '(string)' || the_token.id === '(number)'
-        ? String(the_token.value)
-        : the_token.id;
+            ? String(the_token.value)
+            : the_token.id;
     }
 
     function artifact_line(the_token) {
@@ -489,8 +496,8 @@ var jslint = (function JSLint() {
         warning.message = supplant(bundle[code] || code, warning);
         warnings.push(warning);
         return warnings.length === option.maxerr
-        ? stop_at('too_many', line, column)
-        : warning;
+            ? stop_at('too_many', line, column)
+            : warning;
     }
 
     function stop_at(code, line, column, a, b, c, d) {
@@ -554,8 +561,8 @@ var jslint = (function JSLint() {
 // carriage return/linefeed.
 
         lines = Array.isArray(source)
-        ? source
-        : source.split(rx_crlf);
+            ? source
+            : source.split(rx_crlf);
         tokens = [];
 
         var char,                   // a popular character
@@ -598,16 +605,22 @@ var jslint = (function JSLint() {
                 }
                 if (option.maxlen && option.maxlen < source_line.length) {
                     warn_at('too_long', line, source_line.length);
+                } else if (!option.white && source_line.slice(-1) === ' ') {
+                    warn_at(
+                        'unexpected_trailing_space',
+                        line,
+                        source_line.length - 1
+                    );
                 }
             }
             return source_line;
         }
-        
+
 // Most tokens, including the identifiers, operators, and punctuators, can be
 // found with a regular expression. Regular expressions cannot correctly match
 // regular expression literals, so we will match those the hard way. String
 // literals and number literals can be matched by regular expressions, but they
-// don't provide good warnings. The functions snip, next_char, prev_char, 
+// don't provide good warnings. The functions snip, next_char, prev_char,
 // some_digits, and escape help in the parsing of literals.
 
         function snip() {
@@ -681,11 +694,13 @@ var jslint = (function JSLint() {
             case '\'':
             case '"':
             case '/':
+            case ':':
             case 'b':
             case 'f':
             case 'n':
             case 'r':
             case 't':
+            case ' ':
                 break;
             case 'u':
                 if (next_char('u') === '{') {
@@ -1202,10 +1217,10 @@ var jslint = (function JSLint() {
                 source_line = next_line();
                 from = 0;
                 return source_line === undefined
-                ? mega_mode
-                    ? stop_at('unclosed_mega', mega_line, mega_from)
-                    : make('(end)')
-                : lex();
+                    ? mega_mode
+                        ? stop_at('unclosed_mega', mega_line, mega_from)
+                        : make('(end)')
+                    : lex();
             }
             from = column;
             result = source_line.match(rx_token);
@@ -1287,8 +1302,8 @@ var jslint = (function JSLint() {
                     if (at < 0) {
                         snippet += source_line + '\n';
                         return next_line() === undefined
-                        ? stop_at('unclosed_mega', mega_line, mega_from)
-                        : part();
+                            ? stop_at('unclosed_mega', mega_line, mega_from)
+                            : part();
                     }
 
 // if either ` or ${ was found, then the preceding joins the snippet to become
@@ -1499,8 +1514,8 @@ var jslint = (function JSLint() {
         var cadet = tokens[token_nr];
         token_nr += 1;
         return cadet.id === '(comment)'
-        ? dispense()
-        : cadet;
+            ? dispense()
+            : cadet;
     }
 
     function lookahead() {
@@ -1529,15 +1544,15 @@ var jslint = (function JSLint() {
 
         if (id !== undefined && next_token.id !== id) {
             return match === undefined
-            ? stop('expected_a_b', next_token, id, artifact())
-            : stop(
-                'expected_a_b_from_c_d',
-                next_token,
-                id,
-                artifact(match),
-                artifact_line(match),
-                artifact(next_token)
-            );
+                ? stop('expected_a_b', next_token, id, artifact())
+                : stop(
+                    'expected_a_b_from_c_d',
+                    next_token,
+                    id,
+                    artifact(match),
+                    artifact_line(match),
+                    artifact(next_token)
+                );
         }
 
 // Promote the tokens, skipping comments.
@@ -1603,6 +1618,8 @@ var jslint = (function JSLint() {
         case 'true':
         case 'false':
         case 'null':
+            advance();
+            break;
         case '(number)':
             if (!rx_JSON_number.test(next_token.value)) {
                 warn('unexpected_a');
@@ -1621,7 +1638,7 @@ var jslint = (function JSLint() {
         }
     }
 
-// Parsing of JavaScript is considerably more complicated:
+// Now we parse JavaScript.
 
     function enroll(name, role, readonly) {
 
@@ -1637,33 +1654,58 @@ var jslint = (function JSLint() {
             warn('reserved_a', name);
         } else {
 
-// Has the name been enrolled in an outer context?
+// Has the name been enrolled in this context?
 
             var earlier = functionage.context[id];
-            if (earlier !== undefined) {
-                if (earlier.role === 'variable' && id === 'ignore') {
-                    warn('unexpected_a', name);
+            if (earlier) {
+                warn(
+                    'redefinition_a_b',
+                    name,
+                    name.id,
+                    earlier.line + fudge
+                );
+
+// Has the name been enrolled in an outer context?
+
+            } else {
+                stack.forEach(function (value) {
+                    var item = value.context[id];
+                    if (item !== undefined) {
+                        earlier = item;
+                    }
+                });
+                if (earlier) {
+                    if (id === 'ignore') {
+                        if (earlier.role === 'variable') {
+                            warn('unexpected_a', name);
+                        }
+                    } else {
+                        if (
+                            (role !== 'exception' || earlier.role !== 'exception') &&
+                            role !== 'parameter' &&
+                            role !== 'function'
+                        ) {
+                            warn(
+                                'redefinition_a_b',
+                                name,
+                                name.id,
+                                earlier.line + fudge
+                            );
+                        }
+                    }
                 }
-                if (role !== 'exception' || id !== 'ignore') {
-                    warn(
-                        'redefinition_a_b',
-                        name,
-                        name.id,
-                        earlier.line + fudge
-                    );
-                }
-            }
-        }
 
 // Enroll it.
 
-        functionage.context[id] = name;
-        name.dead = true;
-        name.function = functionage;
-        name.init = false;
-        name.role = role;
-        name.used = 0;
-        name.writable = !readonly;
+                functionage.context[id] = name;
+                name.dead = true;
+                name.function = functionage;
+                name.init = false;
+                name.role = role;
+                name.used = 0;
+                name.writable = !readonly;
+            }
+        }
     }
 
     function expression(rbp, initial) {
@@ -1904,8 +1946,8 @@ var jslint = (function JSLint() {
                     'expected_a_before_b',
                     next_token,
                     next_token.id === '`'
-                    ? '\''
-                    : 'use strict',
+                        ? '\''
+                        : 'use strict',
                     artifact(next_token)
                 );
             }
@@ -2026,13 +2068,14 @@ var jslint = (function JSLint() {
 
         var the_symbol = symbol(id);
         the_symbol.nud = typeof value === 'function'
-        ? value
-        : function () {
-            if (value !== undefined) {
-                token.value = value;
-            }
-            return token;
-        };
+            ? value
+            : function () {
+                token.constant = true;
+                if (value !== undefined) {
+                    token.value = value;
+                }
+                return token;
+            };
         the_symbol.type = type;
         the_symbol.value = value;
         return the_symbol;
@@ -2191,7 +2234,7 @@ var jslint = (function JSLint() {
         return token;
     });
     constant('true', 'boolean', true);
-    constant('undefined', 'undefined', undefined);
+    constant('undefined', 'undefined');
 
     assignment('=');
     assignment('+=');
@@ -2339,6 +2382,8 @@ var jslint = (function JSLint() {
         ) {
             warn('subscript_a', the_subscript);
             survey(the_subscript);
+        } else if (the_subscript.id === '`') {
+            warn('unexpected_a', the_subscript);
         }
         left_check(left, the_token);
         the_token.expression = [left, the_subscript];
@@ -2596,7 +2641,7 @@ var jslint = (function JSLint() {
         functions.push(the_function);
         functionage = the_function;
         if (the_function.arity !== 'statement' && name) {
-            enroll(name, 'variable', true);
+            enroll(name, 'function', true);
             name.dead = false;
             name.init = true;
             name.used = 1;
@@ -2734,8 +2779,8 @@ var jslint = (function JSLint() {
                     warn('expected_a_before_b', name, 'set', artifact(name));
                 }
                 seen[id] = extra === 'get'
-                ? 'get'
-                : true;
+                    ? 'get'
+                    : true;
                 if (name.identifier) {
                     switch (next_token.id) {
                     case '}':
@@ -2809,8 +2854,8 @@ var jslint = (function JSLint() {
                 the_label.dead
             ) {
                 warn(the_label !== undefined && the_label.dead
-                ? 'out_of_scope_a'
-                : 'not_label_a');
+                    ? 'out_of_scope_a'
+                    : 'not_label_a');
             } else {
                 the_label.used += 1;
             }
@@ -3022,6 +3067,13 @@ var jslint = (function JSLint() {
         if (next_token.id === ';') {
             return stop('expected_a_b', the_for, 'while (', 'for (;');
         }
+        if (
+            next_token.id === 'var' ||
+            next_token.id === 'let' ||
+            next_token.id === 'const'
+        ) {
+            return stop('unexpected_a');
+        }
         first = expression(0);
         if (first.id === 'in') {
             if (first.expression[0].arity !== 'variable') {
@@ -3058,8 +3110,8 @@ var jslint = (function JSLint() {
             advance('else');
             the_else = token;
             the_if.else = next_token.id === 'if'
-            ? statement()
-            : block();
+                ? statement()
+                : block();
             if (the_if.block.disrupt === true) {
                 if (the_if.else.disrupt === true) {
                     the_if.disrupt = true;
@@ -3309,7 +3361,7 @@ var jslint = (function JSLint() {
                 switch (thing.arity) {
                 case 'post':
                 case 'pre':
-                    warn('unexpected_expression_a', thing);
+                    warn('unexpected_a', thing);
                     break;
                 case 'statement':
                 case 'assignment':
@@ -3585,17 +3637,26 @@ var jslint = (function JSLint() {
         warn('bad_assignment_a', name);
     }
 
-    postaction('assignment', '=', function (thing) {
+    postaction('assignment', function (thing) {
 
 // Assignment using = sets the init property of a variable. No other assignment
 // operator can do this. A = token keeps that variable (or array of variables
 // in case of destructuring) in its name property.
 
-        if (thing.names !== undefined) {
-            if (Array.isArray(thing.names)) {
-                thing.names.forEach(init_variable);
-            } else {
-                init_variable(thing.names);
+        if (thing.id === '=') {
+            if (thing.names !== undefined) {
+                if (Array.isArray(thing.names)) {
+                    thing.names.forEach(init_variable);
+                } else {
+                    init_variable(thing.names);
+                }
+            }
+        } else {
+            var lvalue = thing.expression[0];
+            if (lvalue.arity === 'variable') {
+                if (!lvalue.variable || lvalue.variable.writable !== true) {
+                    warn('bad_assignment_a', lvalue);
+                }
             }
         }
     });
@@ -3610,10 +3671,134 @@ var jslint = (function JSLint() {
         return pop_block();
     }
 
+    function is_weird(thing) {
+        return (
+            thing.id === '(regexp)' ||
+            thing.id === '{' ||
+            thing.id === '=>' ||
+            thing.id === 'function' ||
+            (thing.id === '[' && thing.arity === 'unary')
+        );
+    }
+
+    function are_similar(a, b) {
+        if (a === b) {
+            return true;
+        }
+        if (Array.isArray(a)) {
+            return (
+                Array.isArray(b) &&
+                a.length === b.length &&
+                a.every(function (value, index) {
+                    return are_similar(value, b[index]);
+                })
+            );
+        }
+        if (Array.isArray(b)) {
+            return false;
+        }
+        if (a.id === '(number)' && b.id === '(number)') {
+            return a.value === b.value;
+        }
+        var a_string, b_string;
+        if (a.id === '(string)') {
+            a_string = a.value;
+        } else if (a.id === '`' && a.constant) {
+            a_string = a.value[0];
+        }
+        if (b.id === '(string)') {
+            b_string = b.value;
+        } else if (b.id === '`' && b.constant) {
+            b_string = b.value[0];
+        }
+        if (typeof a_string === 'string') {
+            return a_string === b_string;
+        }
+        if (is_weird(a) || is_weird(b)) {
+            return false;
+        }
+        if (a.arity === b.arity && a.id === b.id) {
+            if (a.id === '.') {
+                return are_similar(a.expression, b.expression) &&
+                        are_similar(a.name, b.name);
+            }
+            switch (a.arity) {
+            case 'unary':
+                return are_similar(a.expression, b.expression);
+            case 'binary':
+                return are_similar(a.expression[0], b.expression[0]) &&
+                        are_similar(a.expression[1], b.expression[1]);
+            case 'ternary':
+                return are_similar(a.expression[0], b.expression[0]) &&
+                        are_similar(a.expression[1], b.expression[1]) &&
+                        are_similar(a.expression[2], b.expression[2]);
+            case 'function':
+            case 'regexp':
+                return false;
+            default:
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    postaction('binary', function (thing) {
+        if (relationop[thing.id]) {
+            if (
+                is_weird(thing.expression[0]) ||
+                is_weird(thing.expression[1]) ||
+                are_similar(thing.expression[0], thing.expression[1]) ||
+                (
+                    thing.expression[0].constant === true &&
+                    thing.expression[1].constant === true
+                )
+            ) {
+                warn('weird_relation_a', thing);
+            }
+        }
+        switch (thing.id) {
+        case '=>':
+        case '(':
+        case '.':
+            break;
+        default:
+            if (
+                thing.expression[0].constant === true &&
+                thing.expression[1].constant === true
+            ) {
+                thing.constant = true;
+            }
+        }
+    });
+    postaction('binary', '&&', function (thing) {
+        if (
+            is_weird(thing.expression[0]) ||
+            are_similar(thing.expression[0], thing.expression[1]) ||
+            thing.expression[0].constant === true ||
+            thing.expression[1].constant === true
+        ) {
+            warn('weird_condition_a', thing);
+        }
+    });
+    postaction('binary', '||', function (thing) {
+        if (
+            is_weird(thing.expression[0]) ||
+            are_similar(thing.expression[0], thing.expression[1]) ||
+            thing.expression[0].constant === true
+        ) {
+            warn('weird_condition_a', thing);
+        }
+    });
     postaction('binary', '=>', postaction_function);
     postaction('binary', '(', function (thing) {
         if (!thing.wrapped && thing.expression[0].id === 'function') {
             warn('wrap_immediate', thing);
+        }
+    });
+    postaction('binary', '[', function (thing) {
+        if (is_weird(thing.expression[1])) {
+            warn('weird_expression_a', thing.expression[1]);
         }
     });
     postaction('statement', '{', pop_block);
@@ -3643,6 +3828,49 @@ var jslint = (function JSLint() {
         }
     });
     postaction('statement', 'var', action_var);
+    postaction('ternary', function (thing) {
+        if (
+            is_weird(thing.expression[0]) ||
+            thing.expression[0].constant === true ||
+            are_similar(thing.expression[1], thing.expression[2])
+        ) {
+            warn('unexpected_a', thing);
+        } else if (are_similar(thing.expression[0], thing.expression[1])) {
+            warn('expected_a_b', thing, '||', '?');
+        } else if (are_similar(thing.expression[0], thing.expression[2])) {
+            warn('expected_a_b', thing, '&&', '?');
+        } else if (
+            thing.expression[1].id === 'true' &&
+            thing.expression[2].id === 'false'
+        ) {
+            warn('expected_a_b', thing, '!!', '?');
+        } else if (
+            thing.expression[1].id === 'false' &&
+            thing.expression[2].id === 'true'
+        ) {
+            warn('expected_a_b', thing, '!', '?');
+        }
+    });
+    postaction('unary', function (thing) {
+        switch (thing.id) {
+        case '[':
+        case '{':
+        case 'function':
+        case 'new':
+            break;
+        case '`':
+            if (thing.expression.every(function (thing) {
+                return thing.constant;
+            })) {
+                thing.constant = true;
+            }
+            break;
+        default:
+            if (thing.expression.constant === true) {
+                thing.constant = true;
+            }
+        }
+    });
     postaction('unary', 'function', postaction_function);
 
     function delve(the_function) {
@@ -3682,6 +3910,7 @@ var jslint = (function JSLint() {
             nr_comments_skipped = 0,
             open = true,
             qmark = '',
+            result,
             right;
 
         function at_margin(fit) {
@@ -3730,8 +3959,8 @@ var jslint = (function JSLint() {
             } else {
                 if (open) {
                     var at = free
-                    ? margin
-                    : margin + 8;
+                        ? margin
+                        : margin + 8;
                     if (right.from < at) {
                         expected_at(at);
                     }
@@ -3767,8 +3996,8 @@ var jslint = (function JSLint() {
             } else {
                 if (open) {
                     var at = free
-                    ? margin
-                    : margin + 8;
+                        ? margin
+                        : margin + 8;
                     if (right.from < at) {
                         expected_at(at);
                     }
@@ -3778,6 +4007,17 @@ var jslint = (function JSLint() {
                     }
                 }
             }
+        }
+
+        function unqmark() {
+
+// Undo the effects of dangling nested ternary operators.
+
+            var level = qmark.length;
+            if (level > 0) {
+                margin -= level * 4;
+            }
+            qmark = '';
         }
 
         stack = [];
@@ -3804,20 +4044,21 @@ var jslint = (function JSLint() {
                             open: open,
                             qmark: qmark
                         });
+                        qmark = '';
                         closer = new_closer;
                         if (left.line !== right.line) {
                             free = (closer === ')' && left.free) || closer === ']';
                             open = true;
                             margin += 4;
-                            qmark = '';
                             if (right.role === 'label') {
                                 if (right.from !== 0) {
                                     expected_at(0);
                                 }
+                            } else if (right.switch) {
+                                unqmark();
+                                at_margin(-4);
                             } else {
-                                at_margin(right.switch
-                                ? -4
-                                : 0);
+                                at_margin(0);
                             }
                         } else {
                             if (right.statement || right.role === 'label') {
@@ -3869,44 +4110,31 @@ var jslint = (function JSLint() {
 
 
                         if (right.switch) {
+                            unqmark();
                             at_margin(-4);
                         } else if (right.role === 'label') {
                             if (right.from !== 0) {
                                 expected_at(0);
                             }
                         } else if (left.id === ',') {
+                            unqmark();
                             if (!open || (free && left.line === right.line)) {
                                 one_space();
                             } else {
                                 at_margin(0);
                             }
-                            qmark = '';
-                            
+
 // If right is a ternary operator, line it up on the margin. Use qmark to
 // deal with nested ternary operators.
-                            
+
                         } else if (right.arity === 'ternary') {
                             if (right.id === '?') {
-                                if (qmark === '') {
-                                    qmark = '?';
-                                } else {
-                                    margin += 4;
-                                    qmark += '?';
-                                }
+                                margin += 4;
+                                qmark += '?';
                             } else {
-                                (function recur () {
-                                    if (qmark === '?') {
-                                        qmark = ':';
-                                    } else {
-                                        if (qmark.slice(-1) === '?') {
-                                            qmark = qmark.slice(0, -1) + ':';
-                                        } else {
-                                            qmark = qmark.slice(0, -1);
-                                            margin -= 4;
-                                            return recur();
-                                        }
-                                    }
-                                }());
+                                result = qmark.match(rx_colons);
+                                qmark = result[1] + ':';
+                                margin -= 4 * result[2].length;
                             }
                             at_margin(0);
                         } else if (
@@ -3926,9 +4154,14 @@ var jslint = (function JSLint() {
                             if (left.line === right.line) {
                                 no_space();
                             } else {
-                                at_margin(8);
+                                if (!rx_dot.test(qmark)) {
+                                    qmark += '.';
+                                    margin += 4;
+                                }
+                                at_margin(0);
                             }
                         } else if (left.id === ';') {
+                            unqmark();
                             if (open) {
                                 at_margin(0);
                             } else {
@@ -4036,8 +4269,8 @@ var jslint = (function JSLint() {
             early_stop = true;
             export_mode = true;
             fudge = option.fudge
-            ? 1
-            : 0;
+                ? 1
+                : 0;
             functions = [];
             global = {
                 id: '(global)',
@@ -4136,7 +4369,7 @@ var jslint = (function JSLint() {
             warnings: warnings.sort(function (a, b) {
                 return a.line - b.line || a.column - b.column;
             }),
-            edition: "2015-05-01 BETA"
+            edition: "2015-05-28 BETA"
         };
     };
 }());
