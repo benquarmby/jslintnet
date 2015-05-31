@@ -8,16 +8,12 @@
         {
             get
             {
-                try
+                if (Console.IsOutputRedirected && Console.IsErrorRedirected)
                 {
-                    return Console.BufferHeight;
-                }
-                catch
-                {
-                    // If both standard output and standard error are redirected, there is no buffer and the getter will throw.
-                    // After upgrading to .NET 4.5, this can be replaced by checking IsOutputRedirected and IsErrorRedirected.
                     return 80;
                 }
+
+                return Console.BufferHeight;
             }
         }
 
@@ -25,16 +21,12 @@
         {
             get
             {
-                try
+                if (Console.IsOutputRedirected && Console.IsErrorRedirected)
                 {
-                    return Console.BufferWidth;
-                }
-                catch
-                {
-                    // If both standard output and standard error are redirected, there is no buffer and the getter will throw.
-                    // After upgrading to .NET 4.5, this can be replaced by checking IsOutputRedirected and IsErrorRedirected.
                     return 80;
                 }
+
+                return Console.BufferWidth;
             }
         }
 
