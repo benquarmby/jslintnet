@@ -1,5 +1,6 @@
 ﻿namespace JSLintNet.QualityTools
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using Autofac;
     using Autofac.Extras.Moq;
@@ -8,6 +9,7 @@
     /// A fixture for testable classes, providing logical scope and timing for mocking and other configuration.
     /// </summary>
     /// <typeparam name="T">Any testable class.</typeparam>
+    [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Implemented correctly in base class.")]
     public partial class TestFixture<T> : TestFixtureBase<T>
         where T : class
     {
