@@ -121,6 +121,11 @@
 
             foreach (var error in errors)
             {
+                if (error.Line > snapshot.LineCount)
+                {
+                    continue;
+                }
+
                 var errorSpan = GetErrorSpan(snapshot, error);
                 var trackingSpan = snapshot.CreateTrackingSpan(errorSpan, SpanTrackingMode.EdgeInclusive);
 

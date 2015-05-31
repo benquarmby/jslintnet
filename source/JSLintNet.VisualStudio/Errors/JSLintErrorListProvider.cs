@@ -267,11 +267,11 @@
             IOleServiceProvider oleServiceProvider;
             IVsUIHierarchy hierarchy;
             uint itemid;
-            var codeViewGuid = new Guid(EnvironmentConstants.vsViewKindCode);
+            var viewKind = new Guid(EnvironmentConstants.vsViewKindTextView);
 
             if (ErrorHandler.Failed(openDocument.OpenDocumentViaProject(
                 fileName,
-                ref codeViewGuid,
+                ref viewKind,
                 out oleServiceProvider,
                 out hierarchy,
                 out itemid,
@@ -406,11 +406,11 @@
                 return;
             }
 
-            var codeViewGuid = new Guid(EnvironmentConstants.vsViewKindCode);
+            var viewKind = new Guid(EnvironmentConstants.vsViewKindTextView);
 
             this.textManager.NavigateToLineAndColumn(
                 textLines,
-                ref codeViewGuid,
+                ref viewKind,
                 task.Line,
                 task.Column,
                 task.Line,
