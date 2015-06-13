@@ -1,5 +1,5 @@
 // jslint.js
-// 2015-05-28
+// 2015-06-11
 // Copyright (c) 2015 Douglas Crockford  (www.JSLint.com)
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -167,8 +167,8 @@ var jslint = (function JSLint() {
         eval: true,
         for: true,
         fudge: true,
-        maxerr: 1000,
-        maxlen: 256,
+        maxerr: 10000,
+        maxlen: 10000,
         node: [
             'Buffer', 'clearImmediate', 'clearInterval', 'clearTimeout',
             'console', 'exports', 'global', 'module', 'process',
@@ -289,10 +289,10 @@ var jslint = (function JSLint() {
         duplicate_a: "Duplicate '{a}'.",
         empty_block: "Empty block.",
         es6: "Unexpected ES6 feature.",
-        expected_a_b: "Expected '{a}' and instead saw '{b}'.",
-        expected_a_before_b: "Expected '{a}' before '{b}'.",
-        expected_a_b_from_c_d: "Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
         expected_a_at_b_c: "Expected '{a}' at column {b}, not column {c}.",
+        expected_a_b: "Expected '{a}' and instead saw '{b}'.",
+        expected_a_b_from_c_d: "Expected '{a}' to match '{b}' from line {c} and instead saw '{d}'.",
+        expected_a_before_b: "Expected '{a}' before '{b}'.",
         expected_digits_after_a: "Expected digits after '{a}'.",
         expected_four_digits: "Expected four digits after '\\u'.",
         expected_identifier_a: "Expected an identifier and instead saw '{a}'.",
@@ -344,15 +344,15 @@ var jslint = (function JSLint() {
         use_spaces: "Use spaces, not tabs.",
         var_loop: "Don't declare variables in a loop.",
         var_switch: "Don't declare variables in a switch.",
-        wrap_regexp: "Wrap this regexp in parens to avoid confusion.",
-        weird_loop: "Weird loop.",
         weird_condition_a: "Weird condition '{a}'.",
         weird_expression_a: "Weird expression '{a}'.",
+        weird_loop: "Weird loop.",
         weird_relation_a: "Weird relation '{a}'.",
         wrap_immediate: "Wrap an immediate function invocation in " +
                 "parentheses to assist the reader in understanding that the " +
                 "expression is the result of a function, and not the " +
-                "function itself."
+                "function itself.",
+        wrap_regexp: "Wrap this regexp in parens to avoid confusion."
     };
 
 // Regular expression literals:
@@ -380,7 +380,7 @@ var jslint = (function JSLint() {
         rx_directive = /^(jslint|property|global)\s*(.*)$/,
         rx_directive_part = /^([a-zA-Z$_][a-zA-Z0-9$_]*)\s*(?::\s*(true|false|[0-9]+)\s*)?(?:,\s*)?(.*)$/,
 // token (sorry it is so long)
-        rx_token = /^((\s+)|([a-zA-Z_$][a-zA-Z0-9_$]*)|[(){}\[\]\?,:;'"~`]|=(?:==?|>)?|\.+|\/[*\/]?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[|=]?|>{1,3}=?|<<?=?|!={0,2}|(0|[1-9][0-9]*))(.*)$/,
+        rx_token = /^((\s+)|([a-zA-Z_$][a-zA-Z0-9_$]*)|[(){}\[\]\?,:;'"~`]|=(?:==?|>)?|\.+|\/[*\/]?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[\|=]?|>{1,3}=?|<<?=?|!={0,2}|(0|[1-9][0-9]*))(.*)$/,
         rx_digits = /^([0-9]+)(.*)$/,
         rx_hexs = /^([0-9a-fA-F]+)(.*)$/,
         rx_octals = /^([0-7]+)(.*)$/,
@@ -495,7 +495,7 @@ var jslint = (function JSLint() {
         }
         warning.message = supplant(bundle[code] || code, warning);
         warnings.push(warning);
-        return warnings.length === option.maxerr
+        return typeof option.maxerr === 'number' && warnings.length === option.maxerr
             ? stop_at('too_many', line, column)
             : warning;
     }
@@ -695,6 +695,7 @@ var jslint = (function JSLint() {
             case '"':
             case '/':
             case ':':
+            case '|':
             case 'b':
             case 'f':
             case 'n':
@@ -716,7 +717,7 @@ var jslint = (function JSLint() {
                     return;
                 }
                 back_char();
-                if (some_digits(rx_hexs, true) !== 4) {
+                if (some_digits(rx_hexs, true) < 4) {
                     warn_at('expected_four_digits', line, column - 1);
                 }
                 break;
@@ -940,6 +941,7 @@ var jslint = (function JSLint() {
                 case '/':
                 case '^':
                 case '-':
+                case '|':
                 case '':
                     return false;
                 case '`':
@@ -949,7 +951,7 @@ var jslint = (function JSLint() {
                     next_char();
                     return true;
                 case ' ':
-                    warn_at('expected_a_b', line, column, '\\s', ' ');
+                    warn_at('expected_a_before_b', line, column, '\\', ' ');
                     next_char();
                     return true;
                 default:
@@ -1038,7 +1040,7 @@ var jslint = (function JSLint() {
                         }
                         break;
                     case ' ':
-                        warn_at('expected_a_b', line, column, '\\s', ' ');
+                        warn_at('expected_a_before_b', line, column, '\\', ' ');
                         break;
                     }
                     next_char();
@@ -2651,6 +2653,7 @@ var jslint = (function JSLint() {
 
         advance('(');
         token.free = false;
+        token.arity = 'function';
         var pl = parameter_list();
         functionage.parameters = pl[0];
         functionage.signature = pl[1];
@@ -3726,7 +3729,8 @@ var jslint = (function JSLint() {
             case 'unary':
                 return are_similar(a.expression, b.expression);
             case 'binary':
-                return are_similar(a.expression[0], b.expression[0]) &&
+                return a.id !== '(' &&
+                        are_similar(a.expression[0], b.expression[0]) &&
                         are_similar(a.expression[1], b.expression[1]);
             case 'ternary':
                 return are_similar(a.expression[0], b.expression[0]) &&
@@ -4145,7 +4149,8 @@ var jslint = (function JSLint() {
                             (right.arity === 'binary' && (
                                 right.id === '(' ||
                                 right.id === '['
-                            ))
+                            )) ||
+                            (right.arity === 'function' && left.id !== 'function')
                         ) {
                             no_space_only();
                         } else if (left.id === '.') {
@@ -4263,6 +4268,7 @@ var jslint = (function JSLint() {
         try {
             warnings = [];
             option = option_object || empty();
+            anon = "anonymous";
             block_stack = [];
             declared_globals = empty();
             directive_mode = true;
@@ -4369,7 +4375,7 @@ var jslint = (function JSLint() {
             warnings: warnings.sort(function (a, b) {
                 return a.line - b.line || a.column - b.column;
             }),
-            edition: "2015-05-28 BETA"
+            edition: "2015-06-11"
         };
     };
 }());
