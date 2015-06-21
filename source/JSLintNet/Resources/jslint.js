@@ -1,5 +1,5 @@
 // jslint.js
-// 2015-06-11
+// 2015-06-18
 // Copyright (c) 2015 Douglas Crockford  (www.JSLint.com)
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -106,10 +106,10 @@
     unclosed_string, undeclared_a, unexpected_a, unexpected_a_after_b,
     unexpected_at_top_level_a, unexpected_char_a, unexpected_comment,
     unexpected_directive_a, unexpected_expression_a, unexpected_label_a,
-    unexpected_parens, unexpected_space_a_b, unexpected_statement_a,
-    unexpected_trailing_space, unexpected_typeof_a, uninitialized_a,
-    unreachable_a, unregistered_property_a, unsafe, unused_a, use_spaces, used,
-    value, var_loop, var_switch, variable, warning, warnings,
+    unexpected_parens, unexpected_quotes_a, unexpected_space_a_b,
+    unexpected_statement_a, unexpected_trailing_space, unexpected_typeof_a,
+    uninitialized_a, unreachable_a, unregistered_property_a, unsafe, unused_a,
+    use_spaces, used, value, var_loop, var_switch, variable, warning, warnings,
     weird_condition_a, weird_expression_a, weird_loop, weird_relation_a, white,
     wrap_immediate, wrap_regexp, wrapped, writable, y
 */
@@ -331,6 +331,7 @@ var jslint = (function JSLint() {
         unexpected_directive_a: "When using modules, don't use directive '/*{a}'.",
         unexpected_expression_a: "Unexpected expression '{a}' in statement position.",
         unexpected_label_a: "Unexpected label '{a}'.",
+        unexpected_quotes_a: "Quotes are not needed around '{a}'.",
         unexpected_parens: "Don't wrap function literals in parens.",
         unexpected_space_a_b: "Unexpected space between '{a}' and '{b}'.",
         unexpected_statement_a: "Unexpected statement '{a}' in expression position.",
@@ -366,6 +367,7 @@ var jslint = (function JSLint() {
 // identifier
         rx_identifier = /^([a-zA-Z_$][a-zA-Z0-9_$]*)$/,
         rx_bad_property = /^_|\$|Sync$|_$/,
+        rx_alphanum = /[a-zA-Z0-9]/,
 // star slash
         rx_star_slash = /\*\//,
 // slash star
@@ -695,6 +697,7 @@ var jslint = (function JSLint() {
             case '"':
             case '/':
             case ':':
+            case '=':
             case '|':
             case 'b':
             case 'f':
@@ -1481,8 +1484,15 @@ var jslint = (function JSLint() {
             if (!rx_identifier.test(id)) {
                 return id;
             }
-        } else if (!name.identifier) {
-            return stop('expected_identifier_a', name);
+            if (rx_alphanum.test(id)) {
+                warn('unexpected_quotes_a', name);
+            } else {
+                return id;
+            }
+        } else {
+            if (!name.identifier) {
+                return stop('expected_identifier_a', name);
+            }
         }
 
 // If we have seen this name before, increment its count.
@@ -1500,7 +1510,7 @@ var jslint = (function JSLint() {
                     warn('unregistered_property_a', name);
                 }
             } else {
-                if (rx_bad_property.test(id)) {
+                if (name.identifier && rx_bad_property.test(id)) {
                     warn('bad_property_a', name);
                 }
             }
@@ -1770,6 +1780,7 @@ var jslint = (function JSLint() {
             warn('unexpected_a', the_paren);
         }
         switch (the_value.id) {
+        case '?':
         case '~':
         case '&':
         case '|':
@@ -1833,6 +1844,7 @@ var jslint = (function JSLint() {
             case 'while':
                 enroll(the_label, 'label', true);
                 the_label.init = true;
+                the_label.dead = false;
                 the_statement = statement();
                 the_statement.label = the_label;
                 the_statement.statement = true;
@@ -1851,22 +1863,26 @@ var jslint = (function JSLint() {
         if (the_symbol !== undefined && the_symbol.fud !== undefined) {
             the_symbol.disrupt = false;
             the_symbol.statement = true;
-            return the_symbol.fud();
-        }
+            the_statement = the_symbol.fud();
+        } else {
 
 // It is an expression statement.
 
-        the_statement = expression(0, true);
-        if (
-            the_statement.wrapped &&
-            (
-                the_statement.id !== '(' ||
-                the_statement.expression[0].id !== 'function'
-            )
-        ) {
-            warn('unexpected_a', first);
+            the_statement = expression(0, true);
+            if (
+                the_statement.wrapped &&
+                (
+                    the_statement.id !== '(' ||
+                    the_statement.expression[0].id !== 'function'
+                )
+            ) {
+                warn('unexpected_a', first);
+            }
+            semicolon();
         }
-        semicolon();
+        if (the_label !== undefined) {
+            the_label.dead = true;
+        }
         return the_statement;
     }
 
@@ -3165,8 +3181,10 @@ var jslint = (function JSLint() {
         return the_return;
     });
     stmt('switch', function () {
-        var stmts,
+        var last,
+            stmts,
             the_cases = [],
+            the_disrupt = true,
             the_switch = token;
         not_top_level(the_switch);
         functionage.switch += 1;
@@ -3192,7 +3210,12 @@ var jslint = (function JSLint() {
             stmts = statements();
             the_case.block = stmts;
             the_cases.push(the_case);
-            if (!stmts[stmts.length - 1].disrupt) {
+            last = stmts[stmts.length - 1];
+            if (last.disrupt) {
+                if (last.id === 'break' && last.label === undefined) {
+                    the_disrupt = false;
+                }
+            } else {
                 warn(
                     'expected_a_before_b',
                     next_token,
@@ -3209,9 +3232,20 @@ var jslint = (function JSLint() {
             token.switch = true;
             advance(':');
             the_switch.else = statements();
+            if (the_switch.else.length < 1) {
+                warn('unexpected_a');
+                the_disrupt = false;
+            } else {
+                the_disrupt =
+                        the_disrupt &&
+                        the_switch.else[the_switch.else.length - 1].disrupt;
+            }
+        } else {
+            the_disrupt = false;
         }
         advance('}', the_switch);
         functionage.switch -= 1;
+        the_switch.disrupt = the_disrupt;
         return the_switch;
     });
     stmt('throw', function () {
@@ -3222,11 +3256,15 @@ var jslint = (function JSLint() {
         return the_throw;
     });
     stmt('try', function () {
-        var the_try = token,
-            the_catch;
+        var clause = false,
+            the_catch,
+            the_disrupt,
+            the_try = token;
         the_try.block = block();
+        the_disrupt = the_try.block.disrupt;
         if (next_token.id === 'catch') {
             var ignored = 'ignore';
+            clause = true;
             the_catch = next_token;
             the_try.catch = the_catch;
             advance('catch');
@@ -3242,10 +3280,19 @@ var jslint = (function JSLint() {
             advance();
             advance(')');
             the_catch.block = block(ignored);
+            if (the_catch.block.disrupt !== true) {
+                the_disrupt = false;
+            }
         }
         if (next_token.id === 'finally') {
+            clause = true;
             advance('finally');
             the_try.else = block();
+            the_disrupt = the_try.else.disrupt;
+        }
+        the_try.disrupt = the_disrupt;
+        if (!clause) {
+            warn('expected_a_before_b', next_token, 'catch', artifact(next_token));
         }
         return the_try;
     });
@@ -3917,26 +3964,21 @@ var jslint = (function JSLint() {
             result,
             right;
 
-        function at_margin(fit) {
-            if (right.from !== margin + fit) {
-                warn(
-                    'expected_a_at_b_c',
-                    right,
-                    artifact(right),
-                    margin + fit,
-                    artifact_column(right)
-                );
-            }
-        }
-
         function expected_at(at) {
             warn(
                 'expected_a_at_b_c',
                 right,
                 artifact(right),
-                at,
+                fudge + at,
                 artifact_column(right)
             );
+        }
+
+        function at_margin(fit) {
+            var at = margin + fit;
+            if (right.from !== at) {
+                return expected_at(at);
+            }
         }
 
         function no_space_only() {
@@ -4359,6 +4401,7 @@ var jslint = (function JSLint() {
             }
         }
         return {
+            edition: "2015-06-18",
             functions: functions,
             global: global,
             id: "(JSLint)",
@@ -4374,8 +4417,7 @@ var jslint = (function JSLint() {
             tree: tree,
             warnings: warnings.sort(function (a, b) {
                 return a.line - b.line || a.column - b.column;
-            }),
-            edition: "2015-06-11"
+            })
         };
     };
 }());
