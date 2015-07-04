@@ -60,6 +60,6 @@ namespace JSLintNet
         /// <summary>
         /// The edition of JSLint bundled with this release.
         /// </summary>
-        public const string Edition = "2015-06-18";
+        public const string Edition = "2015-07-01";
     }
 }

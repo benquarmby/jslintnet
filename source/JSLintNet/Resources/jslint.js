@@ -1,5 +1,5 @@
 // jslint.js
-// 2015-06-18
+// 2015-07-01
 // Copyright (c) 2015 Douglas Crockford  (www.JSLint.com)
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -83,26 +83,27 @@
 // WARNING: JSLint will hurt your feelings.
 
 /*property
-    a, and, arity, b, bad_assignment_a, bad_character_number_a, bad_get,
-    bad_module_name_a, bad_option_a, bad_property_a, bad_set, bitwise, block,
-    body, browser, c, calls, catch, charAt, charCodeAt, closer, closure, code,
-    column, concat, constant, context, couch, create, d, dead, devel,
-    directive, disrupt, dot, duplicate_a, edition, ellipsis, else, empty_block,
-    es6, eval, every, expected_a_at_b_c, expected_a_b, expected_a_b_from_c_d,
-    expected_a_before_b, expected_digits_after_a, expected_four_digits,
-    expected_identifier_a, expected_line_break_a_b, expected_regexp_factor_a,
-    expected_space_a_b, expected_string_a, expected_type_string_a, expression,
-    extra, flag, for, forEach, free, from, fud, fudge, function,
-    function_in_loop, functions, g, global, i, id, identifier, import, imports,
-    inc, indexOf, infix_in, init, initial, isArray, isNaN, join, json, keys,
-    label, label_a, lbp, led, length, level, line, lines, live, loop, m,
-    margin, match, maxerr, maxlen, message, misplaced_a, misplaced_directive_a,
-    module, naked_block, name, names, nested_comment, new, node, not_label_a,
-    nud, ok, open, option, out_of_scope_a, parameters, pop, property, push,
-    qmark, quote, redefinition_a_b, replace, reserved_a, role, search,
-    signature, slash_equal, slice, sort, split, statement, stop, stopping,
-    strict, subscript_a, switch, test, this, thru, toString, todo_comment,
-    tokens, too_long, too_many, tree, type, u, unclosed_comment, unclosed_mega,
+    a, and, arity, b, bad_assignment_a, bad_character_number_a,
+    bad_directive_a, bad_get, bad_module_name_a, bad_option_a, bad_property_a,
+    bad_set, bitwise, block, body, browser, c, calls, catch, charAt,
+    charCodeAt, closer, closure, code, column, concat, constant, context,
+    couch, create, d, dead, devel, directive, disrupt, dot, duplicate_a,
+    edition, ellipsis, else, empty_block, es6, eval, every, expected_a_at_b_c,
+    expected_a_b, expected_a_b_from_c_d, expected_a_before_b,
+    expected_digits_after_a, expected_four_digits, expected_identifier_a,
+    expected_line_break_a_b, expected_regexp_factor_a, expected_space_a_b,
+    expected_string_a, expected_type_string_a, expression, extra, flag, for,
+    forEach, free, from, fud, fudge, function, function_in_loop, functions, g,
+    global, i, id, identifier, import, imports, inc, indexOf, infix_in, init,
+    initial, isArray, isNaN, join, json, keys, label, label_a, lbp, led,
+    length, level, line, lines, live, loop, m, margin, match, maxerr, maxlen,
+    message, misplaced_a, misplaced_directive_a, module, naked_block, name,
+    names, nested_comment, new, node, not_label_a, nud, ok, open, option,
+    out_of_scope_a, parameters, pop, property, push, qmark, quote,
+    redefinition_a_b, replace, reserved_a, role, search, signature,
+    slash_equal, slice, sort, split, statement, stop, stopping, strict,
+    subscript_a, switch, test, this, thru, toString, todo_comment, tokens,
+    too_long, too_many, tree, type, u, unclosed_comment, unclosed_mega,
     unclosed_string, undeclared_a, unexpected_a, unexpected_a_after_b,
     unexpected_at_top_level_a, unexpected_char_a, unexpected_comment,
     unexpected_directive_a, unexpected_expression_a, unexpected_label_a,
@@ -281,6 +282,7 @@ var jslint = (function JSLint() {
         and: "The '&&' subexpression should be wrapped in parens.",
         bad_assignment_a: "Bad assignment to '{a}'.",
         bad_character_number_a: "Bad character code: '{a}'",
+        bad_directive_a: "Bad directive '{a}'.",
         bad_get: "A get function takes no parameters.",
         bad_module_name_a: "Bad module name '{a}'.",
         bad_option_a: "Bad option '{a}'.",
@@ -382,7 +384,7 @@ var jslint = (function JSLint() {
         rx_directive = /^(jslint|property|global)\s*(.*)$/,
         rx_directive_part = /^([a-zA-Z$_][a-zA-Z0-9$_]*)\s*(?::\s*(true|false|[0-9]+)\s*)?(?:,\s*)?(.*)$/,
 // token (sorry it is so long)
-        rx_token = /^((\s+)|([a-zA-Z_$][a-zA-Z0-9_$]*)|[(){}\[\]\?,:;'"~`]|=(?:==?|>)?|\.+|\/[*\/]?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[\|=]?|>{1,3}=?|<<?=?|!={0,2}|(0|[1-9][0-9]*))(.*)$/,
+        rx_token = /^((\s+)|([a-zA-Z_$][a-zA-Z0-9_$]*)|[(){}\[\]\?,:;'"~`]|=(?:==?|>)?|\.+|\/[=*\/]?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[\|=]?|>{1,3}=?|<<?=?|!={0,2}|(0|[1-9][0-9]*))(.*)$/,
         rx_digits = /^([0-9]+)(.*)$/,
         rx_hexs = /^([0-9a-fA-F]+)(.*)$/,
         rx_octals = /^([0-7]+)(.*)$/,
@@ -497,7 +499,8 @@ var jslint = (function JSLint() {
         }
         warning.message = supplant(bundle[code] || code, warning);
         warnings.push(warning);
-        return typeof option.maxerr === 'number' && warnings.length === option.maxerr
+        return typeof option.maxerr === 'number' &&
+                warnings.length === option.maxerr
             ? stop_at('too_many', line, column)
             : warning;
     }
@@ -2467,6 +2470,9 @@ var jslint = (function JSLint() {
         advance(']');
         return the_token;
     });
+    prefix('/=', function () {
+        stop('expected_a_b', token, '/\\=', '/=');
+    });
     prefix('=>', function () {
         return stop('expected_a_before_b', token, '()', '=>');
     });
@@ -3541,6 +3547,18 @@ var jslint = (function JSLint() {
         if (!option.bitwise && bitwiseop[thing.id] === true) {
             warn('unexpected_a', thing);
         }
+        if (
+            thing.id !== '&&' &&
+            thing.id !== '||' &&
+            thing.id !== '=' &&
+            Array.isArray(thing.expression) &&
+            thing.expression.length === 2 && (
+                relationop[thing.expression[0].id] === true ||
+                relationop[thing.expression[1].id] === true
+            )
+        ) {
+            warn('unexpected_a', thing);
+        }
     }
 
     function pop_block() {
@@ -3578,24 +3596,23 @@ var jslint = (function JSLint() {
     preaction('binary', bitwise_check);
     preaction('binary', function (thing) {
         if (relationop[thing.id] === true) {
-            if (
-                thing.expression[0].id === 'NaN' ||
-                thing.expression[1].id === 'NaN'
-            ) {
+            var left = thing.expression[0],
+                right = thing.expression[1];
+            if (left.id === 'NaN' || right.id === 'NaN') {
                 warn('isNaN', thing);
-            } else if (thing.expression[0].id === 'typeof') {
-                if (thing.expression[1].id !== '(string)') {
-                    if (thing.expression[1].id !== 'typeof') {
-                        warn('expected_string_a', expression[1]);
+            } else if (left.id === 'typeof') {
+                if (right.id !== '(string)') {
+                    if (right.id !== 'typeof') {
+                        warn('expected_string_a', right);
                     }
                 } else {
-                    var value = thing.expression[1].value;
+                    var value = right.value;
                     if (value === 'symbol') {
                         if (!option.es6) {
-                            warn('es6', thing.expression[1], value);
+                            warn('es6', right, value);
                         }
                     } else if (value === 'null' || value === 'undefined') {
-                        warn('unexpected_typeof_a', thing.expression[1], value);
+                        warn('unexpected_typeof_a', right, value);
                     } else if (
                         value !== 'boolean' &&
                         value !== 'function' &&
@@ -3603,7 +3620,7 @@ var jslint = (function JSLint() {
                         value !== 'object' &&
                         value !== 'string'
                     ) {
-                        warn('expected_type_string_a', expression[1], value);
+                        warn('expected_type_string_a', right, value);
                     }
                 }
             }
@@ -4040,12 +4057,9 @@ var jslint = (function JSLint() {
                     );
                 }
             } else {
-                if (open) {
-                    var at = free
-                        ? margin
-                        : margin + 8;
-                    if (right.from < at) {
-                        expected_at(at);
+                if (free) {
+                    if (right.from < margin) {
+                        expected_at(margin);
                     }
                 } else {
                     if (right.from !== margin + 8) {
@@ -4093,7 +4107,7 @@ var jslint = (function JSLint() {
                         qmark = '';
                         closer = new_closer;
                         if (left.line !== right.line) {
-                            free = (closer === ')' && left.free) || closer === ']';
+                            free = closer === ')' && left.free;
                             open = true;
                             margin += 4;
                             if (right.role === 'label') {
@@ -4164,7 +4178,10 @@ var jslint = (function JSLint() {
                             }
                         } else if (left.id === ',') {
                             unqmark();
-                            if (!open || (free && left.line === right.line)) {
+                            if (!open || (
+                                (free || closer === ']') &&
+                                left.line === right.line
+                            )) {
                                 one_space();
                             } else {
                                 at_margin(0);
@@ -4401,7 +4418,7 @@ var jslint = (function JSLint() {
             }
         }
         return {
-            edition: "2015-06-18",
+            edition: "2015-07-01",
             functions: functions,
             global: global,
             id: "(JSLint)",
