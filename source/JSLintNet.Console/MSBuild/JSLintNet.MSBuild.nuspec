@@ -7,7 +7,7 @@
     <authors>JSLint.NET Contributors</authors>
     <owners>JSLint.NET Contributors</owners>
     <licenseUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/License.txt</licenseUrl>
-    <projectUrl>https://github.com/benquarmby/jslintnet</projectUrl>
+    <projectUrl>https://github.com/benquarmby/jslintnet/wiki/Upgrade-Announcement</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/graphics/JSLint.NET-128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <developmentDependency>true</developmentDependency>
@@ -16,6 +16,7 @@
     <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+1.8.3 - Upgrade announcement: https://github.com/benquarmby/jslintnet/wiki/Upgrade-Announcement
 1.8.2 - Improved support for C++, Node.js and Cordova projects.
 1.8.1 - Fixed sticky cancelled settings. Revised links to new home on GitHub.
 1.8.0 - Visual Studio 2015 support.
