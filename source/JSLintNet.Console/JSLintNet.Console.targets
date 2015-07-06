@@ -45,12 +45,31 @@
     <ItemGroup>
       <JSLintMSBuildRootFiles Include="$(JSLintMSBuildAssetPath).nuspec" />
       <JSLintMSBuildBuildFiles Include="$(JSLintMSBuildAssetPath).targets" />
-      <JSLintMSBuildTools Include="$(TargetPath);$(TargetDir)License.txt;$(TargetDir)**\*.dll" KeepDuplicates="false" />
+      <JSLintMSBuildToolsFiles Include="$(TargetPath);$(TargetDir)License.txt;$(TargetDir)**\*.dll" KeepDuplicates="false" />
     </ItemGroup>
 
     <Copy SourceFiles="@(JSLintMSBuildRootFiles)" DestinationFolder="$(JSLintMSBuildTargetDir)" />
     <Copy SourceFiles="@(JSLintMSBuildBuildFiles)" DestinationFolder="$(JSLintMSBuildTargetDir)build\" />
-    <Copy SourceFiles="@(JSLintMSBuildTools)" DestinationFolder="$(JSLintMSBuildTargetDir)tools\%(RecursiveDir)" />
+    <Copy SourceFiles="@(JSLintMSBuildToolsFiles)" DestinationFolder="$(JSLintMSBuildTargetDir)tools\%(RecursiveDir)" />
+
+    <PropertyGroup>
+      <JSLintMSBuildNuSpecPath>$(JSLintMSBuildTargetDir)\JSLintNet.MSBuild.nuspec</JSLintMSBuildNuSpecPath>
+    </PropertyGroup>
+
+    <XmlUpdate
+      XmlFileName="$(JSLintMSBuildNuSpecPath)"
+      XPath="//package/metadata/copyright"
+      Value="$(JSLintNetCopyright)" />
+
+    <XmlUpdate
+      XmlFileName="$(JSLintMSBuildNuSpecPath)"
+      XPath="//package/metadata/authors"
+      Value="$(JSLintNetCompanyName)" />
+
+    <XmlUpdate
+      XmlFileName="$(JSLintMSBuildNuSpecPath)"
+      XPath="//package/metadata/owners"
+      Value="$(JSLintNetCompanyName)" />
 
     <Exec Command="$(SolutionDir).nuget\NuGet.exe pack -Version $(JSLintNetInformationalVersion) -Verbosity quiet -OutputDirectory $(JSLintNetBuildDir)" WorkingDirectory="$(JSLintMSBuildTargetDir)" />
   </Target>

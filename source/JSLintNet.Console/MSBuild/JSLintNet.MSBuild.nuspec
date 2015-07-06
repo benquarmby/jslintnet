@@ -4,8 +4,8 @@
     <id>JSLintNet.MSBuild</id>
     <version>0.0.0.0</version>
     <title>JSLint.NET for MSBuild</title>
-    <authors>JSLint.NET Contributors</authors>
-    <owners>JSLint.NET Contributors</owners>
+    <authors></authors>
+    <owners></owners>
     <licenseUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/License.txt</licenseUrl>
     <projectUrl>https://github.com/benquarmby/jslintnet</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/graphics/JSLint.NET-128.png</iconUrl>
@@ -13,7 +13,7 @@
     <developmentDependency>true</developmentDependency>
     <description>JSLint.NET for MSBuild adds JavaScript validation targets to any Visual Studio project.</description>
     <summary>JSLint.NET MSBuild targets.</summary>
-    <copyright>Copyright © JSLint.NET Contributors 2013-2015</copyright>
+    <copyright></copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
 2.0.0-beta6 - JSLint 2015-07-01.
