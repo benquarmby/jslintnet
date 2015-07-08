@@ -151,7 +151,7 @@
                     {
                         var source = this.fileSystemWrapper.ReadAllText(file, Encoding.UTF8);
 
-                        return context.Lint(source, settings.Options);
+                        return context.Lint(source, settings.Options, settings.GlobalVariables);
                     });
 
                     if (result.Success)

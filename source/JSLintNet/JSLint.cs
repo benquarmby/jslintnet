@@ -1,5 +1,6 @@
 ﻿namespace JSLintNet
 {
+    using System.Collections.Generic;
     using System.IO;
     using JSLintNet.Models;
 
@@ -33,6 +34,23 @@
             using (var context = new JSLintContext())
             {
                 return context.Lint(source, options);
+            }
+        }
+
+        /// <summary>
+        /// Validates the specified source using JSLint with the provided options and global variables.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="options">The options.</param>
+        /// <param name="globalVariables">The global variables.</param>
+        /// <returns>
+        /// A <see cref="IJSLintData" /> containing any validation errors.
+        /// </returns>
+        public static IJSLintData Lint(string source, JSLintOptions options, IList<string> globalVariables)
+        {
+            using (var context = new JSLintContext())
+            {
+                return context.Lint(source, options, globalVariables);
             }
         }
 

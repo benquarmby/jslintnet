@@ -68,7 +68,7 @@
                     }
 
                     testable.JSLintContextMock
-                        .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>()))
+                        .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()))
                         .Throws<Exception>();
 
                     testable.Instance.Lint(testable.Options);
@@ -106,7 +106,7 @@
                         .Returns(source);
 
                     this.JSLintContextMock
-                        .Setup(x => x.Lint(source, null))
+                        .Setup(x => x.Lint(source, null, It.IsAny<IList<string>>()))
                         .Returns(fake);
 
                     this.Options.SourceFiles.Add(filePath);

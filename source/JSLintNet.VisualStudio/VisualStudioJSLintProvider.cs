@@ -99,7 +99,7 @@
 
             using (var jsLintContext = this.jsLintFactory.CreateContext())
             {
-                var result = jsLintContext.Lint(source, settings.Options);
+                var result = jsLintContext.Lint(source, settings.Options, settings.GlobalVariables);
 
                 this.errorListProvider.AddJSLintErrors(document.FullName, result.Warnings, settings.Output, hierarchy);
 
@@ -174,7 +174,7 @@
                             source = this.fileSystemWrapper.ReadAllText(fileName, Encoding.UTF8);
                         }
 
-                        return jsLintContext.Lint(source, settings.Options);
+                        return jsLintContext.Lint(source, settings.Options, settings.GlobalVariables);
                     });
 
                     if (result.Success)

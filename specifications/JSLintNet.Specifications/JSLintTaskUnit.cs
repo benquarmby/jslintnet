@@ -97,9 +97,9 @@
 
                     testable.Instance.Execute();
 
-                    testable.JSLintContextMock.Verify(x => x.Lint("file1.js contents", It.IsAny<JSLintOptions>()));
-                    testable.JSLintContextMock.Verify(x => x.Lint("jsfile2.js contents", It.IsAny<JSLintOptions>()));
-                    testable.JSLintContextMock.Verify(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>()), Times.Exactly(2));
+                    testable.JSLintContextMock.Verify(x => x.Lint("file1.js contents", It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()));
+                    testable.JSLintContextMock.Verify(x => x.Lint("jsfile2.js contents", It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()));
+                    testable.JSLintContextMock.Verify(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()), Times.Exactly(2));
                 }
             }
 
@@ -266,7 +266,7 @@
                     }
 
                     testable.JSLintContextMock
-                        .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>()))
+                        .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()))
                         .Throws<Exception>();
 
                     testable.Instance.Execute();
@@ -365,7 +365,7 @@
                             .Returns(contents);
 
                         this.JSLintContextMock
-                            .Setup(x => x.Lint(contents, It.IsAny<JSLintOptions>()))
+                            .Setup(x => x.Lint(contents, It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()))
                             .Returns(data);
 
                         this.ProcessedFileCount += 1;

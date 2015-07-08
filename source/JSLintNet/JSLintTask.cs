@@ -182,7 +182,6 @@
 
             if (sourceFiles.Count > 0)
             {
-                var options = settings.Options;
                 var logger = this.GetLogger(output);
                 var errorLimit = settings.ErrorLimitOrDefault();
                 var fileLimit = settings.FileLimitOrDefault();
@@ -200,7 +199,7 @@
                         {
                             var source = this.fileSystemWrapper.ReadAllText(file.Absolute, Encoding.UTF8);
 
-                            return context.Lint(source, options);
+                            return context.Lint(source, settings.Options, settings.GlobalVariables);
                         });
 
                         if (result.Success)

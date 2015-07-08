@@ -185,8 +185,8 @@
                     testable.Instance.LintProjectItems(testable.ProjectItems, testable.Settings);
 
                     testable.Verify<IJSLintErrorListProvider>(x => x.AddCustomError(Resources.ErrorLimitReachedFormat, 10));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file5.js contents", null));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file6.js contents", null), Times.Never());
+                    testable.JSLintContextMock.Verify(x => x.Lint("file5.js contents", null, It.IsAny<IList<string>>()));
+                    testable.JSLintContextMock.Verify(x => x.Lint("file6.js contents", null, It.IsAny<IList<string>>()), Times.Never());
                 }
             }
 
@@ -205,8 +205,8 @@
                     testable.Instance.LintProjectItems(testable.ProjectItems, testable.Settings);
 
                     testable.Verify<IJSLintErrorListProvider>(x => x.AddCustomError(Resources.FileLimitReachedFormat, 5));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file5.js contents", null));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file6.js contents", null), Times.Never());
+                    testable.JSLintContextMock.Verify(x => x.Lint("file5.js contents", null, It.IsAny<IList<string>>()));
+                    testable.JSLintContextMock.Verify(x => x.Lint("file6.js contents", null, It.IsAny<IList<string>>()), Times.Never());
                 }
             }
 
@@ -279,7 +279,7 @@
                             .Returns(source);
 
                         this.JSLintContextMock
-                            .Setup(x => x.Lint(source, null))
+                            .Setup(x => x.Lint(source, null, It.IsAny<IList<string>>()))
                             .Returns(new JSLintDataFake(fileName, errorCount));
                     }
 
