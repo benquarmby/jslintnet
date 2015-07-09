@@ -137,9 +137,9 @@
             var errorLimit = settings.ErrorLimitOrDefault();
             var fileLimit = settings.FileLimitOrDefault();
             var exceptions = 0;
+            var reportBuilder = new JSLintReportBuilder();
 
             using (var context = this.jsLintFactory.CreateContext())
-            using (var reportBuilder = this.jsLintFactory.CreateReportBuilder())
             {
                 reportBuilder.SourceDirectory = sourceDirectory;
                 reportBuilder.AddSettings(settings.Files);

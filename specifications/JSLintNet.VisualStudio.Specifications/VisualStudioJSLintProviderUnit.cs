@@ -310,7 +310,7 @@
             }
         }
 
-        private abstract class VisualStudioJSLintProviderTestableBase : TestFixture<VisualStudioJSLintProvider>
+        private abstract class VisualStudioJSLintProviderTestableBase : MockTestFixture<VisualStudioJSLintProvider>
         {
             public VisualStudioJSLintProviderTestableBase()
             {

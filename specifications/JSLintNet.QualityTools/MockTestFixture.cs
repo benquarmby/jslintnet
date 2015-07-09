@@ -10,13 +10,13 @@
     /// </summary>
     /// <typeparam name="T">Any testable class.</typeparam>
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Implemented correctly in base class.")]
-    public partial class TestFixture<T> : TestFixtureBase<T>
+    public partial class MockTestFixture<T> : TestFixtureBase<T>
         where T : class
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestFixture{T}"/> class.
+        /// Initializes a new instance of the <see cref="MockTestFixture{T}"/> class.
         /// </summary>
-        public TestFixture()
+        public MockTestFixture()
         {
             this.AutoMocker = AutoMock.GetLoose();
         }

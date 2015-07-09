@@ -16,27 +16,23 @@
 
         private IJsonProvider jsonProvider;
 
-        private IFileSystemWrapper fileSystemWrapper;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="JSLintContext"/> class.
         /// </summary>
         public JSLintContext()
-            : this(new AbstractionFactory(), new JsonProvider(), new FileSystemWrapper())
+            : this(() => new JavaScriptContext(), new JsonProvider())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JSLintContext" /> class.
         /// </summary>
-        /// <param name="abstractionFactory">The abstraction factory.</param>
+        /// <param name="javaScriptContextFactory">The JavaScript context factory.</param>
         /// <param name="jsonProvider">The JSON provider.</param>
-        /// <param name="fileSystemWrapper">The file system wrapper.</param>
-        internal JSLintContext(IAbstractionFactory abstractionFactory, IJsonProvider jsonProvider, IFileSystemWrapper fileSystemWrapper)
+        internal JSLintContext(Func<IJavaScriptContext> javaScriptContextFactory, IJsonProvider jsonProvider)
         {
-            this.context = abstractionFactory.CreateJavaScriptContext();
+            this.context = javaScriptContextFactory();
             this.jsonProvider = jsonProvider;
-            this.fileSystemWrapper = fileSystemWrapper;
 
             this.LoadJSLint();
         }

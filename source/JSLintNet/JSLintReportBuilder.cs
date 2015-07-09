@@ -10,7 +10,7 @@
     /// <summary>
     /// Records JSLint errors and builds a report in HTML format.
     /// </summary>
-    public class JSLintReportBuilder : IJSLintReportBuilder
+    public class JSLintReportBuilder
     {
         private Dictionary<string, ReportFile> files;
 
@@ -159,30 +159,6 @@
                 this.ErrorFileCount,
                 this.ErrorCount,
                 fileBuilder.ToString());
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (this.files != null)
-                {
-                    this.files.Clear();
-                    this.files = null;
-                }
-            }
         }
 
         private class ReportFile

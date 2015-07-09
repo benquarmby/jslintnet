@@ -17,7 +17,7 @@
     /// </summary>
     public class JSLintTask : Task
     {
-        private IJSLintFactory jsLintFactory;
+        private Func<IJSLintContext> jsLintFactory;
 
         private IFileSystemWrapper fileSystemWrapper;
 
@@ -31,7 +31,7 @@
         /// Initializes a new instance of the <see cref="JSLintTask"/> class with default services.
         /// </summary>
         public JSLintTask()
-            : this(new JSLintFactory(), new FileSystemWrapper(), new AbstractionFactory(), new SettingsRepository())
+            : this(() => new JSLintContext(), new SettingsRepository(), new FileSystemWrapper())
         {
         }
 
@@ -39,16 +39,13 @@
         /// Initializes a new instance of the <see cref="JSLintTask" /> class with custom services.
         /// </summary>
         /// <param name="jsLintFactory">The JSLint factory.</param>
-        /// <param name="fileSystemWrapper">The file system wrapper.</param>
-        /// <param name="abstractionFactory">The task logging helper factory.</param>
         /// <param name="settingsRepository">The settings repository.</param>
-        internal JSLintTask(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, IAbstractionFactory abstractionFactory, ISettingsRepository settingsRepository)
+        /// <param name="fileSystemWrapper">The file system wrapper.</param>
+        internal JSLintTask(Func<IJSLintContext> jsLintFactory, ISettingsRepository settingsRepository, IFileSystemWrapper fileSystemWrapper)
         {
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
             this.settingsRepository = settingsRepository;
-
-            this.LoggingHelper = abstractionFactory.CreateTaskLoggingHelper(this);
         }
 
         private delegate void Logger(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs);
@@ -134,14 +131,6 @@
         public int ProcessedFileCount { get; private set; }
 
         /// <summary>
-        /// Gets the logging helper.
-        /// </summary>
-        /// <value>
-        /// The logging helper.
-        /// </value>
-        internal ITaskLoggingHelper LoggingHelper { get; private set; }
-
-        /// <summary>
         /// Executes the task.
         /// </summary>
         /// <returns>
@@ -159,9 +148,9 @@
                 var errorLimit = settings.ErrorLimitOrDefault();
                 var fileLimit = settings.FileLimitOrDefault();
                 var exceptions = 0;
+                var reportBuilder = new JSLintReportBuilder();
 
-                using (var context = this.jsLintFactory.CreateContext())
-                using (var reportBuilder = this.jsLintFactory.CreateReportBuilder())
+                using (var context = this.jsLintFactory())
                 {
                     reportBuilder.SourceDirectory = this.SourceDirectory;
                     reportBuilder.AddSettings(settings.Files);
@@ -196,14 +185,14 @@
 
                             if (reportBuilder.ErrorCount >= errorLimit)
                             {
-                                this.LoggingHelper.LogError(Resources.ErrorLimitReachedFormat, reportBuilder.ErrorCount);
+                                this.Log.LogError(Resources.ErrorLimitReachedFormat, reportBuilder.ErrorCount);
 
                                 break;
                             }
                         }
                         else
                         {
-                            this.LoggingHelper.LogError(
+                            this.Log.LogError(
                                 Resources.ErrorEncounteredFormat,
                                 file.Virtual,
                                 Environment.NewLine,
@@ -213,7 +202,7 @@
 
                             if (exceptions >= JSLintNetSettings.ExceptionLimit)
                             {
-                                this.LoggingHelper.LogError(Resources.ExceptionLimitReachedFormat, exceptions);
+                                this.Log.LogError(Resources.ExceptionLimitReachedFormat, exceptions);
 
                                 break;
                             }
@@ -221,7 +210,7 @@
 
                         if (reportBuilder.ProcessedFileCount >= fileLimit)
                         {
-                            this.LoggingHelper.LogError(Resources.FileLimitReachedFormat, reportBuilder.ProcessedFileCount);
+                            this.Log.LogError(Resources.FileLimitReachedFormat, reportBuilder.ProcessedFileCount);
 
                             break;
                         }
@@ -259,9 +248,9 @@
             {
                 case Output.Warning:
                 case Output.Message:
-                    return this.LoggingHelper.LogWarning;
+                    return this.Log.LogWarning;
                 default:
-                    return this.LoggingHelper.LogError;
+                    return this.Log.LogError;
             }
         }
 

@@ -149,7 +149,7 @@
             }
         }
 
-        private class SettingsRepositoryTestableBase : TestFixture<SettingsRepository>
+        private class SettingsRepositoryTestableBase : MockTestFixture<SettingsRepository>
         {
         }
     }

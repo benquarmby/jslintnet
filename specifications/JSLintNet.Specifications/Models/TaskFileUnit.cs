@@ -108,7 +108,7 @@
                 }
             }
 
-            private class IsIgnoredTestable : TestFixture<TaskFile>
+            private class IsIgnoredTestable : MockTestFixture<TaskFile>
             {
                 public IsIgnoredTestable()
                 {

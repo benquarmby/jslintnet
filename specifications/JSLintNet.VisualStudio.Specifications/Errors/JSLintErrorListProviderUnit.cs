@@ -64,7 +64,7 @@
             }
         }
 
-        private abstract class JSLintErrorListProviderTestableBase : TestFixture<JSLintErrorListProvider>
+        private abstract class JSLintErrorListProviderTestableBase : MockTestFixture<JSLintErrorListProvider>
         {
             public JSLintErrorListProviderTestableBase()
             {

@@ -67,7 +67,7 @@
             }
         }
 
-        private abstract class ConsoleWriterTestableBase : TestFixture<ConsoleWriter>
+        private abstract class ConsoleWriterTestableBase : MockTestFixture<ConsoleWriter>
         {
             public ConsoleWriterTestableBase()
             {

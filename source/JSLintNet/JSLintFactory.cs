@@ -15,16 +15,5 @@
         {
             return new JSLintContext();
         }
-
-        /// <summary>
-        /// Creates and returns an implementation of <see cref="IJSLintReportBuilder"/>.
-        /// </summary>
-        /// <returns>
-        /// An implementation of <see cref="IJSLintReportBuilder"/>.
-        /// </returns>
-        public IJSLintReportBuilder CreateReportBuilder()
-        {
-            return new JSLintReportBuilder();
-        }
     }
 }

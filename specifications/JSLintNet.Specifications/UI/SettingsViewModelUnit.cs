@@ -96,7 +96,7 @@
             }
         }
 
-        private class GlobalVariablesTestable : TestFixture<SettingsViewModel>
+        private class GlobalVariablesTestable : MockTestFixture<SettingsViewModel>
         {
             public GlobalVariablesTestable()
             {

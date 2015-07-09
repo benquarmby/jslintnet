@@ -69,6 +69,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacTestFixture.cs" />
     <Compile Include="Expectations\ExpectationActionExtensions.cs" />
     <Compile Include="Expectations\ExpectationBooleanExtensions.cs" />
     <Compile Include="Expectations\ExpectationDictionaryExtensions.cs" />
@@ -88,8 +89,8 @@
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="IntegrationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestFixture.cs" />
-    <Compile Include="TestFixture.Moq.cs" />
+    <Compile Include="MockTestFixture.cs" />
+    <Compile Include="MockTestFixture.Moq.cs" />
     <Compile Include="UnitBase.cs" />
   </ItemGroup>
   <ItemGroup>

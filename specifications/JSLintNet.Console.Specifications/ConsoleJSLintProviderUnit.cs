@@ -84,12 +84,9 @@
                 public LintTestable()
                 {
                     this.JSLintContextMock = new Mock<IJSLintContext>();
-                    this.JSLintReportBuilderMock = new Mock<IJSLintReportBuilder>();
                 }
 
                 public Mock<IJSLintContext> JSLintContextMock { get; set; }
-
-                public Mock<IJSLintReportBuilder> JSLintReportBuilderMock { get; set; }
 
                 public int ErrorCount { get; set; }
 
@@ -121,22 +118,6 @@
                     this.GetMock<IJSLintFactory>()
                         .Setup(x => x.CreateContext())
                         .Returns(this.JSLintContextMock.Object);
-
-                    this.GetMock<IJSLintFactory>()
-                        .Setup(x => x.CreateReportBuilder())
-                        .Returns(this.JSLintReportBuilderMock.Object);
-
-                    this.JSLintReportBuilderMock
-                        .SetupGet(x => x.ErrorCount)
-                        .Returns(() => this.ErrorCount);
-
-                    this.JSLintReportBuilderMock
-                        .SetupGet(x => x.ProcessedFileCount)
-                        .Returns(() => this.ProcessedFileCount);
-
-                    this.JSLintReportBuilderMock
-                        .SetupGet(x => x.SettingsFiles)
-                        .Returns(new List<string>());
                 }
             }
         }
@@ -204,7 +185,7 @@
             }
         }
 
-        private abstract class ConsoleJSLintProviderTestableBase : TestFixture<ConsoleJSLintProvider>
+        private abstract class ConsoleJSLintProviderTestableBase : MockTestFixture<ConsoleJSLintProvider>
         {
             public ConsoleJSLintProviderTestableBase()
             {

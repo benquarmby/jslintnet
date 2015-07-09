@@ -200,7 +200,7 @@
             }
         }
 
-        private abstract class ConsoleOptionsFactoryUnitTestableBase : TestFixture<ConsoleOptionsFactory>
+        private abstract class ConsoleOptionsFactoryUnitTestableBase : MockTestFixture<ConsoleOptionsFactory>
         {
             public ConsoleOptionsFactoryUnitTestableBase()
             {

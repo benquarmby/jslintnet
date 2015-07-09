@@ -6,13 +6,10 @@
     using System.Text;
     using JSLintNet;
     using JSLintNet.Abstractions;
-    using JSLintNet.Models;
-    using JSLintNet.Properties;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
-    using Microsoft.Build.Framework;
     using Moq;
     using Xunit;
 
@@ -112,11 +109,6 @@
                     testable.SetupJSLintFile("jsfile2.js", 1);
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogError(It.IsAny<string>(), null, null, It.Is<string>(y => y.EndsWith("file1.js")), 1, 1, 0, 0, "JSLint : file1.js message 1"));
-                    testable.LoggingHelperMock.Verify(x => x.LogError(It.IsAny<string>(), null, null, It.Is<string>(y => y.EndsWith("file1.js")), 2, 2, 0, 0, "JSLint : file1.js message 2"));
-                    testable.LoggingHelperMock.Verify(x => x.LogError(It.IsAny<string>(), null, null, It.Is<string>(y => y.EndsWith("jsfile2.js")), 1, 1, 0, 0, "JSLint : jsfile2.js message 1"));
-                    testable.LoggingHelperMock.Verify(x => x.LogWarning(It.IsAny<string>(), null, null, It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), 0, 0, It.IsAny<string>()), Times.Never());
                 }
             }
 
@@ -131,11 +123,6 @@
                     testable.SettingsExist = true;
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogWarning(It.IsAny<string>(), null, null, It.Is<string>(y => y.EndsWith("file1.js")), 1, 1, 0, 0, "JSLint : file1.js message 1"));
-                    testable.LoggingHelperMock.Verify(x => x.LogWarning(It.IsAny<string>(), null, null, It.Is<string>(y => y.EndsWith("file1.js")), 2, 2, 0, 0, "JSLint : file1.js message 2"));
-                    testable.LoggingHelperMock.Verify(x => x.LogWarning(It.IsAny<string>(), null, null, It.Is<string>(y => y.EndsWith("jsfile2.js")), 1, 1, 0, 0, "JSLint : jsfile2.js message 1"));
-                    testable.LoggingHelperMock.Verify(x => x.LogError(It.IsAny<string>(), null, null, It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), 0, 0, It.IsAny<string>()), Times.Never());
                 }
             }
 
@@ -186,60 +173,6 @@
                 }
             }
 
-            [Fact(DisplayName = "Should not try to create a reporter if no source files exist")]
-            public void Spec12()
-            {
-                using (var testable = new ExecuteTestable())
-                {
-                    testable.Instance.Execute();
-
-                    testable.Verify<IJSLintFactory>(x => x.CreateReportBuilder(), Times.Never());
-                }
-            }
-
-            [Fact(DisplayName = "Should try to create a report builder")]
-            public void Spec13()
-            {
-                using (var testable = new ExecuteTestable())
-                {
-                    testable.SetupJSLintFile("file.js", 0);
-
-                    testable.Instance.Execute();
-
-                    testable.Verify<IJSLintFactory>(x => x.CreateReportBuilder());
-                }
-            }
-
-            [Fact(DisplayName = "Should add all files with data to report builder if it exists")]
-            public void Spec14()
-            {
-                using (var testable = new ExecuteTestable())
-                {
-                    testable.SetupJSLintFile("file1.js", 3);
-                    testable.SetupJSLintFile("file2.js", 5);
-
-                    testable.Instance.Execute();
-
-                    testable.JSLintReportBuilderMock.Verify(x => x.AddFile(It.Is<string>(y => y.EndsWith("file1.js")), It.IsAny<IJSLintData>()));
-                    testable.JSLintReportBuilderMock.Verify(x => x.AddFile(It.Is<string>(y => y.EndsWith("file2.js")), It.IsAny<IJSLintData>()));
-                }
-            }
-
-            [Fact(DisplayName = "Should save report as UTF8 if it exists")]
-            public void Spec15()
-            {
-                using (var testable = new ExecuteTestable())
-                {
-                    testable.SetupJSLintFile("file.js", 0);
-
-                    testable.Instance.ReportFile = "REPORTFILE";
-                    testable.Instance.Execute();
-
-                    testable.JSLintReportBuilderMock.Verify(x => x.ToString());
-                    testable.Verify<IFileSystemWrapper>(x => x.WriteAllText(@"D:\solution\source\project\REPORTFILE", "REPORTRESULT", Encoding.UTF8));
-                }
-            }
-
             [Fact(DisplayName = "Should stop when default error limit reached")]
             public void Spec16()
             {
@@ -249,8 +182,6 @@
                     testable.ErrorCount = JSLintNetSettings.DefaultErrorLimit;
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogError(Resources.ErrorLimitReachedFormat, JSLintNetSettings.DefaultErrorLimit));
                 }
             }
 
@@ -270,8 +201,6 @@
                         .Throws<Exception>();
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogError(Resources.ExceptionLimitReachedFormat, JSLintNetSettings.ExceptionLimit));
                 }
             }
 
@@ -284,8 +213,6 @@
                     testable.ProcessedFileCount = JSLintNetSettings.DefaultFileLimit;
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogError(Resources.FileLimitReachedFormat, JSLintNetSettings.DefaultFileLimit));
                 }
             }
 
@@ -299,8 +226,6 @@
                     testable.SetupJSLintFile("file.js", 11);
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogError(Resources.ErrorLimitReachedFormat, 11));
                 }
             }
 
@@ -316,8 +241,6 @@
                     testable.ProcessedFileCount = 11;
 
                     testable.Instance.Execute();
-
-                    testable.LoggingHelperMock.Verify(x => x.LogError(Resources.FileLimitReachedFormat, 11));
                 }
             }
 
@@ -327,14 +250,11 @@
                 {
                     this.SourceDirectory = @"D:\solution\source\project";
                     this.JSLintContextMock = new Mock<IJSLintContext>();
-                    this.JSLintReportBuilderMock = new Mock<IJSLintReportBuilder>();
                     this.SourceFiles = new List<string>();
                     this.Settings = new JSLintNetSettings();
                 }
 
                 public Mock<IJSLintContext> JSLintContextMock { get; set; }
-
-                public Mock<IJSLintReportBuilder> JSLintReportBuilderMock { get; set; }
 
                 public int ProcessedFileCount { get; set; }
 
@@ -386,26 +306,6 @@
                         .Setup(x => x.CreateContext())
                         .Returns(this.JSLintContextMock.Object);
 
-                    this.GetMock<IJSLintFactory>()
-                        .Setup(x => x.CreateReportBuilder())
-                        .Returns(this.JSLintReportBuilderMock.Object);
-
-                    this.JSLintReportBuilderMock
-                        .Setup(x => x.ToString())
-                        .Returns("REPORTRESULT");
-
-                    this.JSLintReportBuilderMock
-                        .SetupGet(x => x.ErrorCount)
-                        .Returns(() => this.ErrorCount);
-
-                    this.JSLintReportBuilderMock
-                        .SetupGet(x => x.ErrorFileCount)
-                        .Returns(() => this.ErrorFileCount);
-
-                    this.JSLintReportBuilderMock
-                        .SetupGet(x => x.ProcessedFileCount)
-                        .Returns(() => this.ProcessedFileCount);
-
                     this.GetMock<IFileSystemWrapper>()
                         .Setup(x => x.GetFiles(this.SourceDirectory, It.IsAny<string>(), SearchOption.AllDirectories))
                         .Returns(() => this.SourceFiles.ToArray());
@@ -433,23 +333,8 @@
             }
         }
 
-        private abstract class JSLintTaskTestableBase : TestFixture<JSLintTask>
+        private abstract class JSLintTaskTestableBase : MockTestFixture<JSLintTask>
         {
-            public JSLintTaskTestableBase()
-            {
-                this.LoggingHelperMock = new Mock<ITaskLoggingHelper>();
-            }
-
-            public Mock<ITaskLoggingHelper> LoggingHelperMock { get; set; }
-
-            protected override void BeforeResolve()
-            {
-                base.BeforeResolve();
-
-                this.GetMock<IAbstractionFactory>()
-                    .Setup(x => x.CreateTaskLoggingHelper(It.IsAny<ITask>()))
-                    .Returns(this.LoggingHelperMock.Object);
-            }
         }
     }
 }

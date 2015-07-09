@@ -90,8 +90,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BuildEngineStub.cs" />
+    <Compile Include="FileSystemWrapperStub.cs" />
     <Compile Include="JSLintContextIntegration.cs" />
     <Compile Include="JSLintContextUnit.cs" />
+    <Compile Include="JSLintTaskFixture.cs" />
+    <Compile Include="JSLintTaskTests.cs" />
     <Compile Include="Settings\JSLintNetSettingsUnit.cs" />
     <Compile Include="JSLintOptionsUnit.cs" />
     <Compile Include="Json\JsonProviderIntegration.cs" />

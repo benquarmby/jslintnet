@@ -7,7 +7,7 @@
     using JSLintNet.VisualStudio.EventControllers;
     using Moq;
 
-    internal abstract class EventControllerTestableBase<T> : TestFixture<T>
+    internal abstract class EventControllerTestableBase<T> : MockTestFixture<T>
         where T : EventControllerBase
     {
         public EventControllerTestableBase()

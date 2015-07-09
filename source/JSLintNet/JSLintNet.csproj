@@ -76,12 +76,8 @@
     <Compile Include="Abstractions\FileSystemWrapper.cs" />
     <Compile Include="Abstractions\IBuildProjectManager.cs" />
     <Compile Include="Abstractions\IFileSystemWrapper.cs" />
-    <Compile Include="Abstractions\IJavaScriptContext.cs" />
-    <Compile Include="Abstractions\ITaskLoggingHelper.cs" />
-    <Compile Include="Abstractions\IAbstractionFactory.cs" />
-    <Compile Include="Abstractions\JavaScriptContext.cs" />
-    <Compile Include="Abstractions\TaskLoggingHelper.cs" />
-    <Compile Include="Abstractions\AbstractionFactory.cs" />
+    <Compile Include="IJavaScriptContext.cs" />
+    <Compile Include="JavaScriptContext.cs" />
     <Compile Include="CacheProvider.cs" />
     <Compile Include="Helpers\ExecutionHelper.cs" />
     <Compile Include="ICacheProvider.cs" />
@@ -120,7 +116,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="JSLintReportBuilder.cs" />
-    <Compile Include="IJSLintReportBuilder.cs" />
     <Compile Include="Settings\SettingsRepository.cs" />
     <Compile Include="UI\Views\IView.cs" />
     <Compile Include="UI\Views\IViewFactory.cs" />

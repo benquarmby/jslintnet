@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
-    using JSLintNet.Abstractions;
     using JSLintNet.Json;
     using JSLintNet.Models;
     using JSLintNet.QualityTools;
@@ -15,17 +14,6 @@
     {
         public class Constructor : UnitBase
         {
-            [Fact(DisplayName = "Should create a new javascript context")]
-            public void Spec01()
-            {
-                using (var testable = new ConstructorTestable())
-                {
-                    testable.Initialize();
-
-                    testable.Verify<IAbstractionFactory>(x => x.CreateJavaScriptContext());
-                }
-            }
-
             [Fact(DisplayName = "Should setup jslint inside a javascript context")]
             public void Spec02()
             {
@@ -140,7 +128,7 @@
             }
         }
 
-        private abstract class JSLintContextTestableBase : TestFixture<JSLintContext>
+        private abstract class JSLintContextTestableBase : MockTestFixture<JSLintContext>
         {
             public JSLintContextTestableBase()
             {
@@ -172,10 +160,6 @@
                 this.GetMock<IJsonProvider>()
                     .Setup(x => x.DeserializeData(It.IsAny<string>()))
                     .Returns(() => new JSLintData());
-
-                this.GetMock<IAbstractionFactory>()
-                    .Setup(x => x.CreateJavaScriptContext())
-                    .Returns(this.JavaScriptContextMock.Object);
             }
         }
     }

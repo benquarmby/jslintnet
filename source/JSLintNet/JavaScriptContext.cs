@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.Abstractions
+﻿namespace JSLintNet
 {
     using Microsoft.ClearScript.V8;
 
