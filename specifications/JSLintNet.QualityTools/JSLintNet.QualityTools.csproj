@@ -83,6 +83,7 @@
     <Compile Include="Expectations\IReversibleExpectation`1.cs" />
     <Compile Include="Fakes\JSLintDataFake.cs" />
     <Compile Include="Fakes\JSLintWarningFake.cs" />
+    <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="TestFixtureBase.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\ProcessResult.cs" />

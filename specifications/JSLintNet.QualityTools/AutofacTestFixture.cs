@@ -4,7 +4,7 @@
     using System.Reflection;
     using Autofac;
 
-    public class AutofacTestFixture<T> : TestFixtureBase<T>
+    public class AutofacTestFixture<T> : TestFixtureBase<T>, IDependencyRegistrar
         where T : class
     {
         private readonly IContainer container;
@@ -19,30 +19,32 @@
             return this.container.Resolve<TService>();
         }
 
-        public void RegisterInstance<TService>(TService service)
+        public IDependencyRegistrar RegisterInstance<TService>(TService service)
             where TService : class
         {
             var builder = new ContainerBuilder();
             builder.RegisterInstance(service);
             builder.Update(this.container);
+
+            return this;
         }
 
-        public void RegisterType<TImplementer, TService>()
+        public IDependencyRegistrar RegisterType<TImplementer, TService>()
             where TService : class
             where TImplementer : TService
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<TImplementer>().As<TService>();
             builder.Update(this.container);
+
+            return this;
         }
 
-        protected override void BeforeResolve()
+        public IDependencyRegistrar RegisterAssemblies(params Assembly[] assemblies)
         {
-            base.BeforeResolve();
-
             var builder = new ContainerBuilder();
 
-            builder.RegisterAssemblyTypes(typeof(JSLint).Assembly)
+            builder.RegisterAssemblyTypes(assemblies)
                 .Where(IsClass)
                 .AsImplementedInterfaces()
                 .AsSelf()
@@ -52,6 +54,15 @@
                 });
 
             builder.Update(this.container);
+
+            return this;
+        }
+
+        protected override void BeforeResolve()
+        {
+            base.BeforeResolve();
+
+            this.RegisterAssemblies(typeof(JSLint).Assembly);
         }
 
         protected override T Resolve()
