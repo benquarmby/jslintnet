@@ -247,8 +247,9 @@
             switch (output)
             {
                 case Output.Warning:
-                case Output.Message:
                     return this.Log.LogWarning;
+                case Output.Message:
+                    return this.Log.LogCriticalMessage;
                 default:
                     return this.Log.LogError;
             }
