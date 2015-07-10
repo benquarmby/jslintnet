@@ -22,7 +22,6 @@
       SourceFiles="@(JSLintNetSourceFiles)"
       ReportFile="$(JSLintNetReportFile)"
       SettingsFile="$(JSLintNetSettingsFile)"
-      OutputOverride="$(JSLintNetOutputOverride)"
       Configuration="$(JSLintNetConfiguration)" />
   </Target>
 </Project>

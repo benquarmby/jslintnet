@@ -25,8 +25,6 @@
 
         private ITaskItem[] sourceFiles;
 
-        private string outputOverride;
-
         private bool sourceFilesSet;
 
         /// <summary>
@@ -81,26 +79,6 @@
             {
                 this.sourceFiles = value;
                 this.sourceFilesSet = true;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the output override.
-        /// </summary>
-        /// <value>
-        /// The output override.
-        /// </value>
-        [Obsolete("Use the Configuration property together with a matching JSLintNet.CONFIGURATION.json file to override settings.")]
-        public string OutputOverride
-        {
-            get
-            {
-                return this.outputOverride;
-            }
-
-            set
-            {
-                this.outputOverride = value;
             }
         }
 
@@ -173,12 +151,7 @@
         {
             var settings = this.LoadSettings();
             var sourceFiles = this.GetSourceFiles(settings);
-
-            Output output;
-            if (!Enum.TryParse(this.outputOverride, out output))
-            {
-                output = settings.Output.HasValue ? settings.Output.Value : default(Output);
-            }
+            var output = settings.Output.GetValueOrDefault();
 
             if (sourceFiles.Count > 0)
             {

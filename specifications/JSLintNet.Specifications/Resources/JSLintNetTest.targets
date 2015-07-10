@@ -12,7 +12,6 @@
       SourceFiles="@(JSLintNetSourceFiles)"
       ReportFile="$(JSLintNetReportFile)"
       SettingsFile="$(JSLintNetSettingsFile)"
-      OutputOverride="$(JSLintNetOutputOverride)"
       Configuration="$(JSLintNetConfiguration)"
       ContinueOnError="ErrorAndContinue">
       <Output TaskParameter="ErrorCount" PropertyName="JSLintNetErrorCount" />

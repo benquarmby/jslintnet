@@ -12,7 +12,7 @@
     public class JSLintTaskIntegration : IntegrationBase
     {
         [Fact(DisplayName = "Should fail with correct counts using errors project")]
-        public void Spec01()
+        public void Errors()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("Errors");
 
@@ -23,7 +23,7 @@
         }
 
         [Fact(DisplayName = "Should fail with correct counts using source files project")]
-        public void Spec02()
+        public void SourceFiles()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("SourceFiles");
 
@@ -34,7 +34,7 @@
         }
 
         [Fact(DisplayName = "Should succeed with correct counts using warnings project")]
-        public void Spec03()
+        public void Warnings()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("Warnings");
 
@@ -45,7 +45,7 @@
         }
 
         [Fact(DisplayName = "Should fail when source directory property omitted")]
-        public void Spec04()
+        public void NoSourceDirectory()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("NoSourceDirectory");
 
@@ -54,7 +54,7 @@
         }
 
         [Fact(DisplayName = "Should save html report with report file property")]
-        public void Spec05()
+        public void HtmlReport()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("HtmlReport");
             var reportPath = Path.Combine(JSLintTaskHelper.ProjectRoot, @"Scripts\JSLintReport.html");
@@ -64,17 +64,8 @@
             File.Delete(reportPath);
         }
 
-        [Fact(DisplayName = "Should override output from settings with explicit property")]
-        public void Spec06()
-        {
-            var actual = JSLintTaskHelper.ExecuteMSBuildProject("OutputOverride");
-
-            I.Expect(actual.Success).ToBeFalse();
-            I.Expect(actual.ErrorCount).ToBe(11);
-        }
-
         [Fact(DisplayName = "Should merge settings from configuration version")]
-        public void Spec07()
+        public void ConfigurationMerge()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("Configuration", "/p:Configuration=Release");
 
@@ -83,7 +74,7 @@
         }
 
         [Fact(DisplayName = "Should load settings from linked JSLintNet.json file")]
-        public void Spec08()
+        public void LinkedSettings()
         {
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("LinkedSettings");
 

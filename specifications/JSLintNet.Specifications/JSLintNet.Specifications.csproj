@@ -114,7 +114,6 @@
     <None Include="Resources\LinkedSettings.proj">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\OutputOverride.proj" />
     <None Include="Resources\Settings\JSLintNet.json" />
     <None Include="Resources\SourceFiles.proj" />
     <None Include="Resources\Errors.proj" />
