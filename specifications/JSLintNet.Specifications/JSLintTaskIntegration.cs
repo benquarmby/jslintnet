@@ -17,7 +17,7 @@
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("Errors");
 
             I.Expect(actual.Success).ToBeFalse();
-            I.Expect(actual.ErrorCount).ToBe(11);
+            I.Expect(actual.ErrorCount).ToBe(9);
             I.Expect(actual.ErrorFileCount).ToBe(3);
             I.Expect(actual.ProcessedFileCount).ToBe(5);
         }
@@ -28,7 +28,7 @@
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("SourceFiles");
 
             I.Expect(actual.Success).ToBeFalse();
-            I.Expect(actual.ErrorCount).ToBe(11);
+            I.Expect(actual.ErrorCount).ToBe(9);
             I.Expect(actual.ErrorFileCount).ToBe(3);
             I.Expect(actual.ProcessedFileCount).ToBe(3);
         }
@@ -39,7 +39,7 @@
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("Warnings");
 
             I.Expect(actual.Success).ToBeTrue();
-            I.Expect(actual.ErrorCount).ToBe(11);
+            I.Expect(actual.ErrorCount).ToBe(9);
             I.Expect(actual.ErrorFileCount).ToBe(3);
             I.Expect(actual.ProcessedFileCount).ToBe(5);
         }
@@ -70,7 +70,7 @@
             var actual = JSLintTaskHelper.ExecuteMSBuildProject("Configuration", "/p:Configuration=Release");
 
             I.Expect(actual.Success).ToBeFalse();
-            I.Expect(actual.ErrorCount).ToBe(11);
+            I.Expect(actual.ErrorCount).ToBe(9);
         }
 
         [Fact(DisplayName = "Should load settings from linked JSLintNet.json file")]

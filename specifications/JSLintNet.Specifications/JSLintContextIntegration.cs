@@ -32,7 +32,7 @@
                             MaximumErrors = 1
                         });
 
-                    I.Expect(result.Warnings.Count).ToBe(3);
+                    I.Expect(result.Warnings.Count).ToBe(2);
                     I.Expect(result.Stop).ToBeTrue();
                 }
             }
