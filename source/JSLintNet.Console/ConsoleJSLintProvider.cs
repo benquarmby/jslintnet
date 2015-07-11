@@ -18,7 +18,7 @@
     {
         private static readonly Assembly ThisAssembly = typeof(ConsoleJSLintProvider).Assembly;
 
-        private IJSLintFactory jsLintFactory;
+        private Func<IJSLintContext> jsLintFactory;
 
         private IFileSystemWrapper fileSystemWrapper;
 
@@ -29,11 +29,11 @@
         private IViewFactory viewFactory;
 
         public ConsoleJSLintProvider()
-            : this(new JSLintFactory(), new FileSystemWrapper(), new SettingsRepository(), new ConsoleWriter(), new ViewFactory())
+            : this(() => new JSLintContext(), new FileSystemWrapper(), new SettingsRepository(), new ConsoleWriter(), new ViewFactory())
         {
         }
 
-        public ConsoleJSLintProvider(IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingRepository, IConsoleWriter consoleWriter, IViewFactory viewFactory)
+        public ConsoleJSLintProvider(Func<IJSLintContext> jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingRepository, IConsoleWriter consoleWriter, IViewFactory viewFactory)
         {
             this.jsLintFactory = jsLintFactory;
             this.fileSystemWrapper = fileSystemWrapper;
@@ -139,7 +139,7 @@
             var exceptions = 0;
             var reportBuilder = new JSLintReportBuilder();
 
-            using (var context = this.jsLintFactory.CreateContext())
+            using (var context = this.jsLintFactory())
             {
                 reportBuilder.SourceDirectory = sourceDirectory;
                 reportBuilder.AddSettings(settings.Files);

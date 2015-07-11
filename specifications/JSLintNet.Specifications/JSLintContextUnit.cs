@@ -61,7 +61,7 @@
                 {
                     testable.Instance.Dispose();
 
-                    testable.JavaScriptContextMock.Verify(x => x.Dispose());
+                    testable.Verify<IJavaScriptContext>(x => x.Dispose());
                 }
             }
 
@@ -133,7 +133,6 @@
             public JSLintContextTestableBase()
             {
                 this.ContextRuns = new List<string>();
-                this.JavaScriptContextMock = new Mock<IJavaScriptContext>();
                 this.Script = new ExpandoObject();
                 this.Script.jslintnet = new Func<string, string, string, string>((x, y, z) => x + "_" + y);
             }
@@ -142,18 +141,16 @@
 
             public dynamic Script { get; private set; }
 
-            public Mock<IJavaScriptContext> JavaScriptContextMock { get; private set; }
-
             protected override void BeforeResolve()
             {
                 base.BeforeResolve();
 
-                this.JavaScriptContextMock
+                this.GetMock<IJavaScriptContext>()
                     .Setup(x => x.Run(It.IsAny<string>()))
                     .Callback((string x) => this.ContextRuns.Add(x))
                     .Returns(new Dictionary<string, object>());
 
-                this.JavaScriptContextMock
+                this.GetMock<IJavaScriptContext>()
                     .SetupGet(x => x.Script)
                     .Returns(this.Script as ExpandoObject);
 

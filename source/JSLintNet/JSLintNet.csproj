@@ -88,10 +88,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JSLintNetSettings.generated.tt</DependentUpon>
     </Compile>
-    <Compile Include="IJSLintFactory.cs" />
     <Compile Include="IJSLintContext.cs" />
     <Compile Include="JSLint.cs" />
-    <Compile Include="JSLintFactory.cs" />
     <Compile Include="JSLintTask.cs" />
     <Compile Include="Json\IJsonProvider.cs" />
     <Compile Include="Json\JSLintWarningConverter.cs" />

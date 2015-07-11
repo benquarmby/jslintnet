@@ -23,7 +23,7 @@
 
         private IJSLintErrorListProvider errorListProvider;
 
-        private IJSLintFactory jsLintFactory;
+        private Func<IJSLintContext> jsLintFactory;
 
         private IFileSystemWrapper fileSystemWrapper;
 
@@ -41,7 +41,7 @@
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="errorListProvider">The error list provider.</param>
         public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider)
-            : this(serviceProvider, errorListProvider, new JSLintFactory(), new FileSystemWrapper(), new SettingsRepository(), new CacheProvider())
+            : this(serviceProvider, errorListProvider, () => new JSLintContext(), new FileSystemWrapper(), new SettingsRepository(), new CacheProvider())
         {
         }
 
@@ -54,7 +54,7 @@
         /// <param name="fileSystemWrapper">The file system wrapper.</param>
         /// <param name="settingsRepository">The settings repository.</param>
         /// <param name="cacheProvider">The cache provider.</param>
-        public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, IJSLintFactory jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingsRepository, ICacheProvider cacheProvider)
+        public VisualStudioJSLintProvider(IServiceProvider serviceProvider, IJSLintErrorListProvider errorListProvider, Func<IJSLintContext> jsLintFactory, IFileSystemWrapper fileSystemWrapper, ISettingsRepository settingsRepository, ICacheProvider cacheProvider)
         {
             this.serviceProvider = serviceProvider;
             this.errorListProvider = errorListProvider;
@@ -97,7 +97,7 @@
             var source = document.Access().Source;
             var hierarchy = this.GetHierarchy(document.ProjectItem.ContainingProject);
 
-            using (var jsLintContext = this.jsLintFactory.CreateContext())
+            using (var jsLintContext = this.jsLintFactory())
             {
                 var result = jsLintContext.Lint(source, settings.Options, settings.GlobalVariables);
 
@@ -153,7 +153,7 @@
             var errorLimit = settings.ErrorLimitOrDefault();
             var filesLimit = settings.FileLimitOrDefault();
 
-            using (var jsLintContext = this.jsLintFactory.CreateContext())
+            using (var jsLintContext = this.jsLintFactory())
             {
                 foreach (var item in projectItems)
                 {

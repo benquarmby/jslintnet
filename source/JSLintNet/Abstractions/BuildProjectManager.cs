@@ -5,11 +5,6 @@
 
     internal class BuildProjectManager : IBuildProjectManager
     {
-        public void SetGlobalPropert(string name, string value)
-        {
-            ProjectCollection.GlobalProjectCollection.SetGlobalProperty(name, value);
-        }
-
         public Project GetProject(string fullPath)
         {
             return ProjectCollection.GlobalProjectCollection

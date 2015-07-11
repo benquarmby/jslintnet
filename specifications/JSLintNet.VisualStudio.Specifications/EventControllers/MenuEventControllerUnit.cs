@@ -7,7 +7,6 @@
     using EnvDTE;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
-    using JSLintNet.QualityTools.Helpers;
     using JSLintNet.Settings;
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;
@@ -28,7 +27,7 @@
                 using (var testable = new OnBeforeErrorListClearTestable())
                 {
                     testable.Initialize();
-                    testable.BeforeHandler(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     testable.GetMock<IJSLintErrorListProvider>().VerifyGet(x => x.ErrorCount);
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -45,7 +44,7 @@
                         .Returns(10);
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     testable.VerifyGet<IJSLintErrorListProvider, int>(x => x.ErrorCount);
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
@@ -102,7 +101,7 @@
                     testable.AddSelectedItem("lintable.json");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -114,7 +113,7 @@
                 using (var testable = new OnBeforeItemNodeRunTestable())
                 {
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -129,7 +128,7 @@
                     testable.AddSelectedItem("lintable.json");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
                 }
@@ -194,7 +193,7 @@
                     testable.DocumentName = "unlintable.txt";
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     testable.EnvironmentMock.VerifyGet(x => x.ActiveDocument);
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
@@ -209,7 +208,7 @@
                     testable.DocumentName = "lintable.json";
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     testable.EnvironmentMock.VerifyGet(x => x.ActiveDocument);
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
@@ -269,7 +268,7 @@
                     testable.AddSelectedItem(@"data.json");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -281,7 +280,7 @@
                 using (var testable = new OnBeforeItemNodeIgnoreTestable())
                 {
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -295,7 +294,7 @@
                     testable.AddSelectedItem(@"some\path\to\non.lintable");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -309,7 +308,7 @@
                     testable.AddSelectedItem(@"some\path\to\file.js");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
                 }
@@ -324,7 +323,7 @@
                     testable.Settings.Ignore.Add(@"some");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeFalse();
                     I.Expect(testable.MenuCommand.Checked).ToBeTrue();
@@ -340,7 +339,7 @@
                     testable.Settings.Ignore.Add(@"some\path\to\file.js");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
                     I.Expect(testable.MenuCommand.Checked).ToBeTrue();
@@ -356,7 +355,7 @@
                     testable.Settings.Ignore.Add(@"other\path");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
                     I.Expect(testable.MenuCommand.Checked).ToBeFalse();
@@ -461,7 +460,7 @@
                     testable.AddSelectedItem(@"data\");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -473,7 +472,7 @@
                 using (var testable = new OnBeforeFolderNodeIgnoreTestable())
                 {
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeFalse();
                 }
@@ -487,7 +486,7 @@
                     testable.AddSelectedItem(@"some\path\to\");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Visible).ToBeTrue();
                 }
@@ -502,7 +501,7 @@
                     testable.Settings.Ignore.Add(@"some");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeFalse();
                     I.Expect(testable.MenuCommand.Checked).ToBeTrue();
@@ -518,7 +517,7 @@
                     testable.Settings.Ignore.Add(@"some\path\to\");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
                     I.Expect(testable.MenuCommand.Checked).ToBeTrue();
@@ -534,7 +533,7 @@
                     testable.Settings.Ignore.Add(@"other\path");
 
                     testable.Initialize();
-                    testable.BeforeHandler.Invoke(testable.MenuCommand, null);
+                    var checkStatus = testable.MenuCommand.OleStatus;
 
                     I.Expect(testable.MenuCommand.Enabled).ToBeTrue();
                     I.Expect(testable.MenuCommand.Checked).ToBeFalse();
@@ -731,8 +730,6 @@
 
             public OleMenuCommand MenuCommand { get; set; }
 
-            public EventHandler BeforeHandler { get; set; }
-
             protected override void BeforeResolve()
             {
                 base.BeforeResolve();
@@ -749,8 +746,6 @@
             protected override void AfterResolve()
             {
                 base.AfterResolve();
-
-                this.BeforeHandler = ReflectionHelper.GetFieldValue<EventHandler>(this.MenuCommand, "beforeQueryStatusHandler");
             }
         }
 

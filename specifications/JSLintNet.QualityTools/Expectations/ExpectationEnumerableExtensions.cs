@@ -1,5 +1,6 @@
 ﻿namespace JSLintNet.QualityTools.Expectations
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,6 +17,12 @@
             where E : IEnumerable<T>
         {
             ExpectationHelper.PassFail(expectation.Actual.Contains(expected), expectation, expected.ToString());
+        }
+
+        public static void ToContain<E, T>(this IExpectation<E> expectation, Func<T, bool> predicate)
+            where E : IEnumerable<T>
+        {
+            ExpectationHelper.PassFail(expectation.Actual.Any(predicate), expectation, predicate.ToString());
         }
     }
 }

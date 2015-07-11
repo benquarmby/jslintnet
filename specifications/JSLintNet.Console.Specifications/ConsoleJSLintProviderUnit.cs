@@ -23,17 +23,17 @@
             {
                 using (var testable = new LintTestable())
                 {
-                    testable.SetupFile("some1.js", 2);
-                    testable.SetupFile("some2.js", 2);
+                    testable.SetupFile("some1.js", 5);
+                    testable.SetupFile("some2.js", 6);
+                    testable.SetupFile("some3.js", 1);
 
                     testable.Settings.ErrorLimit = 10;
-                    testable.ErrorCount = 11;
 
                     testable.Instance.Lint(testable.Options);
 
                     testable.ConsoleWriterMock.Verify(x => x.WriteErrorLine(CoreResources.ErrorLimitReachedFormat, 11));
                     testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[0], Encoding.UTF8));
-                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[1], Encoding.UTF8), Times.Never());
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[2], Encoding.UTF8), Times.Never());
                 }
             }
 
@@ -42,17 +42,25 @@
             {
                 using (var testable = new LintTestable())
                 {
+                    testable.SetupFile("some0.js", 2);
                     testable.SetupFile("some1.js", 2);
                     testable.SetupFile("some2.js", 2);
+                    testable.SetupFile("some3.js", 2);
+                    testable.SetupFile("some4.js", 2);
+                    testable.SetupFile("some5.js", 2);
+                    testable.SetupFile("some6.js", 2);
+                    testable.SetupFile("some7.js", 2);
+                    testable.SetupFile("some8.js", 2);
+                    testable.SetupFile("some9.js", 2);
+                    testable.SetupFile("somea.js", 2);
 
                     testable.Settings.FileLimit = 10;
-                    testable.ProcessedFileCount = 11;
 
                     testable.Instance.Lint(testable.Options);
 
-                    testable.ConsoleWriterMock.Verify(x => x.WriteErrorLine(CoreResources.FileLimitReachedFormat, 11));
+                    testable.ConsoleWriterMock.Verify(x => x.WriteErrorLine(CoreResources.FileLimitReachedFormat, 10));
                     testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[0], Encoding.UTF8));
-                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[1], Encoding.UTF8), Times.Never());
+                    testable.Verify<IFileSystemWrapper>(x => x.ReadAllText(testable.Options.SourceFiles[10], Encoding.UTF8), Times.Never());
                 }
             }
 
@@ -67,7 +75,7 @@
                         testable.Options.SourceFiles.Add(filePath);
                     }
 
-                    testable.JSLintContextMock
+                    testable.GetMock<IJSLintContext>()
                         .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()))
                         .Throws<Exception>();
 
@@ -81,15 +89,6 @@
 
             private class LintTestable : ConsoleJSLintProviderTestableBase
             {
-                public LintTestable()
-                {
-                    this.JSLintContextMock = new Mock<IJSLintContext>();
-                }
-
-                public Mock<IJSLintContext> JSLintContextMock { get; set; }
-
-                public int ErrorCount { get; set; }
-
                 public int ProcessedFileCount { get; set; }
 
                 public JSLintDataFake SetupFile(string fileName, int errorCount)
@@ -102,22 +101,13 @@
                         .Setup(x => x.ReadAllText(filePath, Encoding.UTF8))
                         .Returns(source);
 
-                    this.JSLintContextMock
+                    this.GetMock<IJSLintContext>()
                         .Setup(x => x.Lint(source, null, It.IsAny<IList<string>>()))
                         .Returns(fake);
 
                     this.Options.SourceFiles.Add(filePath);
 
                     return fake;
-                }
-
-                protected override void BeforeResolve()
-                {
-                    base.BeforeResolve();
-
-                    this.GetMock<IJSLintFactory>()
-                        .Setup(x => x.CreateContext())
-                        .Returns(this.JSLintContextMock.Object);
                 }
             }
         }

@@ -6,10 +6,12 @@
     using System.Text;
     using JSLintNet;
     using JSLintNet.Abstractions;
+    using JSLintNet.Properties;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
+    using Microsoft.Build.Framework;
     using Moq;
     using Xunit;
 
@@ -94,9 +96,11 @@
 
                     testable.Instance.Execute();
 
-                    testable.JSLintContextMock.Verify(x => x.Lint("file1.js contents", It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()));
-                    testable.JSLintContextMock.Verify(x => x.Lint("jsfile2.js contents", It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()));
-                    testable.JSLintContextMock.Verify(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()), Times.Exactly(2));
+                    var mock = testable.GetMock<IJSLintContext>();
+
+                    mock.Verify(x => x.Lint("file1.js contents", It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()));
+                    mock.Verify(x => x.Lint("jsfile2.js contents", It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()));
+                    mock.Verify(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()), Times.Exactly(2));
                 }
             }
 
@@ -109,6 +113,10 @@
                     testable.SetupJSLintFile("jsfile2.js", 1);
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents.Count).ToBe(3);
+                    I.Expect(testable.BuildEngine.WarningEvents.Count).ToBe(0);
+                    I.Expect(testable.BuildEngine.MessageEvents.Count).ToBe(0);
                 }
             }
 
@@ -123,6 +131,10 @@
                     testable.SettingsExist = true;
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents.Count).ToBe(0);
+                    I.Expect(testable.BuildEngine.WarningEvents.Count).ToBe(3);
+                    I.Expect(testable.BuildEngine.MessageEvents.Count).ToBe(0);
                 }
             }
 
@@ -173,15 +185,30 @@
                 }
             }
 
+            [Fact(DisplayName = "Should save report as UTF8 if it exists")]
+            public void Spec15()
+            {
+                using (var testable = new ExecuteTestable())
+                {
+                    testable.SetupJSLintFile("file.js", 0);
+
+                    testable.Instance.ReportFile = "REPORTFILE";
+                    testable.Instance.Execute();
+
+                    testable.Verify<IFileSystemWrapper>(x => x.WriteAllText(@"D:\solution\source\project\REPORTFILE", It.IsAny<string>(), Encoding.UTF8));
+                }
+            }
+
             [Fact(DisplayName = "Should stop when default error limit reached")]
             public void Spec16()
             {
                 using (var testable = new ExecuteTestable())
                 {
-                    testable.SetupJSLintFile("file.js", 0);
-                    testable.ErrorCount = JSLintNetSettings.DefaultErrorLimit;
+                    testable.SetupJSLintFile("file.js", JSLintNetSettings.DefaultErrorLimit);
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.ErrorLimitReachedFormat, JSLintNetSettings.DefaultErrorLimit));
                 }
             }
 
@@ -196,11 +223,13 @@
                         testable.SourceFiles.Add(filePath);
                     }
 
-                    testable.JSLintContextMock
+                    testable.GetMock<IJSLintContext>()
                         .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()))
                         .Throws<Exception>();
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.ExceptionLimitReachedFormat, JSLintNetSettings.ExceptionLimit));
                 }
             }
 
@@ -209,10 +238,14 @@
             {
                 using (var testable = new ExecuteTestable())
                 {
-                    testable.SetupJSLintFile("file.js", 0);
-                    testable.ProcessedFileCount = JSLintNetSettings.DefaultFileLimit;
+                    for (int i = 0; i < JSLintNetSettings.DefaultFileLimit; i++)
+                    {
+                        testable.SetupJSLintFile("file" + i + ".js", 0);
+                    }
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.FileLimitReachedFormat, JSLintNetSettings.DefaultFileLimit));
                 }
             }
 
@@ -226,6 +259,8 @@
                     testable.SetupJSLintFile("file.js", 11);
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.ErrorLimitReachedFormat, 11));
                 }
             }
 
@@ -237,10 +272,14 @@
                     testable.Settings.FileLimit = 10;
                     testable.SettingsExist = true;
 
-                    testable.SetupJSLintFile("file.js", 0);
-                    testable.ProcessedFileCount = 11;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        testable.SetupJSLintFile("file" + i + ".js", 0);
+                    }
 
                     testable.Instance.Execute();
+
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.FileLimitReachedFormat, 10));
                 }
             }
 
@@ -249,18 +288,10 @@
                 public ExecuteTestable()
                 {
                     this.SourceDirectory = @"D:\solution\source\project";
-                    this.JSLintContextMock = new Mock<IJSLintContext>();
                     this.SourceFiles = new List<string>();
                     this.Settings = new JSLintNetSettings();
+                    this.BuildEngine = new BuildEngineStub();
                 }
-
-                public Mock<IJSLintContext> JSLintContextMock { get; set; }
-
-                public int ProcessedFileCount { get; set; }
-
-                public int ErrorFileCount { get; set; }
-
-                public int ErrorCount { get; set; }
 
                 public string SourceDirectory { get; set; }
 
@@ -269,6 +300,8 @@
                 public bool SettingsExist { get; set; }
 
                 public JSLintNetSettings Settings { get; set; }
+
+                public BuildEngineStub BuildEngine { get; set; }
 
                 public void SetupJSLintFile(string fileName, int errorCount = 0)
                 {
@@ -284,27 +317,15 @@
                             .Setup(x => x.ReadAllText(filePath, It.IsAny<Encoding>()))
                             .Returns(contents);
 
-                        this.JSLintContextMock
+                        this.GetMock<IJSLintContext>()
                             .Setup(x => x.Lint(contents, It.IsAny<JSLintOptions>(), It.IsAny<IList<string>>()))
                             .Returns(data);
-
-                        this.ProcessedFileCount += 1;
-
-                        if (errorCount > 0)
-                        {
-                            this.ErrorFileCount += 1;
-                            this.ErrorCount += errorCount;
-                        }
                     }
                 }
 
                 protected override void BeforeResolve()
                 {
                     base.BeforeResolve();
-
-                    this.GetMock<IJSLintFactory>()
-                        .Setup(x => x.CreateContext())
-                        .Returns(this.JSLintContextMock.Object);
 
                     this.GetMock<IFileSystemWrapper>()
                         .Setup(x => x.GetFiles(this.SourceDirectory, It.IsAny<string>(), SearchOption.AllDirectories))
@@ -328,6 +349,7 @@
                 {
                     base.AfterResolve();
 
+                    this.Instance.BuildEngine = this.BuildEngine;
                     this.Instance.SourceDirectory = this.SourceDirectory;
                 }
             }

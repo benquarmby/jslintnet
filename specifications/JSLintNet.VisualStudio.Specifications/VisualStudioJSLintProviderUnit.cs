@@ -185,8 +185,8 @@
                     testable.Instance.LintProjectItems(testable.ProjectItems, testable.Settings);
 
                     testable.Verify<IJSLintErrorListProvider>(x => x.AddCustomError(Resources.ErrorLimitReachedFormat, 10));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file5.js contents", null, It.IsAny<IList<string>>()));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file6.js contents", null, It.IsAny<IList<string>>()), Times.Never());
+                    testable.Verify<IJSLintContext>(x => x.Lint("file5.js contents", null, It.IsAny<IList<string>>()));
+                    testable.Verify<IJSLintContext>(x => x.Lint("file6.js contents", null, It.IsAny<IList<string>>()), Times.Never());
                 }
             }
 
@@ -205,8 +205,8 @@
                     testable.Instance.LintProjectItems(testable.ProjectItems, testable.Settings);
 
                     testable.Verify<IJSLintErrorListProvider>(x => x.AddCustomError(Resources.FileLimitReachedFormat, 5));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file5.js contents", null, It.IsAny<IList<string>>()));
-                    testable.JSLintContextMock.Verify(x => x.Lint("file6.js contents", null, It.IsAny<IList<string>>()), Times.Never());
+                    testable.Verify<IJSLintContext>(x => x.Lint("file5.js contents", null, It.IsAny<IList<string>>()));
+                    testable.Verify<IJSLintContext>(x => x.Lint("file6.js contents", null, It.IsAny<IList<string>>()), Times.Never());
                 }
             }
 
@@ -215,7 +215,7 @@
             {
                 using (var testable = new LintProjectItemsTestable())
                 {
-                    testable.JSLintContextMock
+                    testable.GetMock<IJSLintContext>()
                         .Setup(x => x.Lint(It.IsAny<string>(), It.IsAny<JSLintOptions>()))
                         .Throws<Exception>();
 
@@ -247,12 +247,9 @@
             {
                 public LintProjectItemsTestable()
                 {
-                    this.JSLintContextMock = new Mock<IJSLintContext>();
                     this.Settings = new JSLintNetSettings();
                     this.ProjectItems = new List<ProjectItem>();
                 }
-
-                public Mock<IJSLintContext> JSLintContextMock { get; set; }
 
                 public JSLintNetSettings Settings { get; set; }
 
@@ -278,7 +275,7 @@
                             .Setup(x => x.ReadAllText(fileName, Encoding.UTF8))
                             .Returns(source);
 
-                        this.JSLintContextMock
+                        this.GetMock<IJSLintContext>()
                             .Setup(x => x.Lint(source, null, It.IsAny<IList<string>>()))
                             .Returns(new JSLintDataFake(fileName, errorCount));
                     }
@@ -291,10 +288,6 @@
                 protected override void BeforeResolve()
                 {
                     base.BeforeResolve();
-
-                    this.GetMock<IJSLintFactory>()
-                        .Setup(x => x.CreateContext())
-                        .Returns(this.JSLintContextMock.Object);
 
                     var solutionServiceMock = new Mock<IVsSolution>();
                     var statusBarMock = new Mock<IVsStatusbar>();
