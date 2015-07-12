@@ -19,7 +19,8 @@
         {
             base.BeforeResolve();
 
-            this.RegisterInstance<IFileSystemWrapper>(this.FileSystemWrapper);
+            this.RegisterModule(new CoreModule())
+                .RegisterInstance<IFileSystemWrapper>(this.FileSystemWrapper);
         }
 
         protected override void AfterResolve()

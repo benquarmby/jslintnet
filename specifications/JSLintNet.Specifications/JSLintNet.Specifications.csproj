@@ -87,6 +87,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BuildEngineStub.cs" />
+    <Compile Include="CoreModule.cs" />
     <Compile Include="FileSystemWrapperStub.cs" />
     <Compile Include="JSLintContextIntegration.cs" />
     <Compile Include="JSLintContextUnit.cs" />

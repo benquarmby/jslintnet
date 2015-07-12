@@ -1,6 +1,6 @@
 ﻿namespace JSLintNet.QualityTools
 {
-    using System.Reflection;
+    using Autofac;
 
     public interface IDependencyRegistrar
     {
@@ -11,6 +11,6 @@
             where TImplementer : TService
             where TService : class;
 
-        IDependencyRegistrar RegisterAssemblies(params Assembly[] assemblies);
+        IDependencyRegistrar RegisterModule(Module module);
     }
 }

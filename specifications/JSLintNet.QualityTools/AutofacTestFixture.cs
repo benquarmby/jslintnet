@@ -1,7 +1,5 @@
 ﻿namespace JSLintNet.QualityTools
 {
-    using System;
-    using System.Reflection;
     using Autofac;
 
     public class AutofacTestFixture<T> : TestFixtureBase<T>, IDependencyRegistrar
@@ -40,42 +38,18 @@
             return this;
         }
 
-        public IDependencyRegistrar RegisterAssemblies(params Assembly[] assemblies)
+        public IDependencyRegistrar RegisterModule(Module module)
         {
             var builder = new ContainerBuilder();
-
-            builder.RegisterAssemblyTypes(assemblies)
-                .Where(IsClass)
-                .AsImplementedInterfaces()
-                .AsSelf()
-                .FindConstructorsWith(x =>
-                {
-                    return x.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                });
-
+            builder.RegisterModule(module);
             builder.Update(this.container);
 
             return this;
         }
 
-        protected override void BeforeResolve()
-        {
-            base.BeforeResolve();
-
-            this.RegisterAssemblies(typeof(JSLint).Assembly);
-        }
-
         protected override T Resolve()
         {
             return this.Resolve<T>();
-        }
-
-        private static bool IsClass(Type type)
-        {
-            return type.IsClass &&
-                !type.IsAbstract &&
-                !type.IsGenericTypeDefinition &&
-                !type.Namespace.Contains("Abstraction");
         }
     }
 }
