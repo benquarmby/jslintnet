@@ -1,7 +1,6 @@
 ﻿namespace JSLintNet.Specifications.Models
 {
     using System.Collections.Generic;
-    using JSLintNet.Models;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using Microsoft.Build.Framework;

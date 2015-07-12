@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using JSLintNet.Abstractions;
     using JSLintNet.Json;
-    using JSLintNet.Models;
     using JSLintNet.Properties;
 
     /// <summary>

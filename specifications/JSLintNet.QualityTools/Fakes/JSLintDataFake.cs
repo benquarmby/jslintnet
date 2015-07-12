@@ -1,9 +1,6 @@
 ﻿namespace JSLintNet.QualityTools.Fakes
 {
-    using System.Collections.Generic;
-    using JSLintNet.Models;
-
-    public class JSLintDataFake : IJSLintData
+    internal class JSLintDataFake : JSLintData
     {
         public JSLintDataFake()
         {
@@ -16,26 +13,6 @@
         }
 
         public string FileName { get; set; }
-
-        public IList<IJSLintWarning> Warnings { get; set; }
-
-        public IList<string> Global { get; set; }
-
-        public bool Json { get; set; }
-
-        public string Report { get; set; }
-
-        public bool Stop { get; set; }
-
-        public string Edition { get; set; }
-
-        public IList<string> Imports { get; set; }
-
-        public bool Module { get; set; }
-
-        public bool OK { get; set; }
-
-        public IDictionary<string, int> Property { get; set; }
 
         public void SetWarnings(int count)
         {

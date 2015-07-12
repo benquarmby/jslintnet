@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using EnvDTE;
-    using JSLintNet.Models;
     using JSLintNet.Settings;
     using Microsoft.VisualStudio.Shell.Interop;
 

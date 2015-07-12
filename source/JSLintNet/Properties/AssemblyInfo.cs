@@ -30,7 +30,7 @@ namespace JSLintNet
     /// <summary>
     /// Version number and copyright constants for sharing between projects.
     /// </summary>
-    public static class AssemblyInfo
+    internal static class AssemblyInfo
     {
         /// <summary>
         /// The core version number for JSLint.NET.

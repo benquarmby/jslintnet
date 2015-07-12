@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.Models
+﻿namespace JSLintNet
 {
     /// <summary>
     /// Contains the details of a JSLint error.

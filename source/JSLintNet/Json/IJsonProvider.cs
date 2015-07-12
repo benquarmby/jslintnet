@@ -1,6 +1,5 @@
 ﻿namespace JSLintNet.Json
 {
-    using JSLintNet.Models;
     using JSLintNet.Settings;
 
     /// <summary>

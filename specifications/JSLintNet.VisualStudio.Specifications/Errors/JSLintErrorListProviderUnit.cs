@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using EnvDTE;
     using EnvDTE80;
-    using JSLintNet.Models;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;

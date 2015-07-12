@@ -5,7 +5,6 @@
     using System.Linq;
     using EnvDTE;
     using EnvDTE80;
-    using JSLintNet.Models;
     using JSLintNet.Properties;
     using JSLintNet.Settings;
     using Microsoft.VisualStudio;

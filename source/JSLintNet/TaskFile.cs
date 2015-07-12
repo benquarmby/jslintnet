@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.Models
+﻿namespace JSLintNet
 {
     using System;
     using System.Collections.Generic;

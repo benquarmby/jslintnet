@@ -1,7 +1,6 @@
-﻿namespace JSLintNet.Helpers
+﻿namespace JSLintNet.Execution
 {
     using System;
-    using JSLintNet.Models;
 
     internal static class ExecutionHelper
     {

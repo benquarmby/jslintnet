@@ -7,7 +7,7 @@
     using System.Text;
     using EnvDTE;
     using JSLintNet.Abstractions;
-    using JSLintNet.Helpers;
+    using JSLintNet.Execution;
     using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Properties;

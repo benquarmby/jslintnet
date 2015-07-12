@@ -8,7 +8,7 @@
     using System.Text;
     using JSLintNet.Abstractions;
     using JSLintNet.Console.Properties;
-    using JSLintNet.Helpers;
+    using JSLintNet.Execution;
     using JSLintNet.Settings;
     using JSLintNet.UI.ViewModels;
     using JSLintNet.UI.Views;

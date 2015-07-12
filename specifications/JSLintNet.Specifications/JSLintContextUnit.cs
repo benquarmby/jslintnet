@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Dynamic;
     using JSLintNet.Json;
-    using JSLintNet.Models;
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using Moq;

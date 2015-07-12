@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using JSLintNet.Models;
 
     /// <summary>
     /// Provides static JSLint validation.
@@ -18,7 +17,7 @@
         /// </returns>
         public static IJSLintData Lint(string source)
         {
-            return Lint(source, null);
+            return Lint(source, null, null);
         }
 
         /// <summary>
@@ -31,10 +30,7 @@
         /// </returns>
         public static IJSLintData Lint(string source, JSLintOptions options)
         {
-            using (var context = new JSLintContext())
-            {
-                return context.Lint(source, options);
-            }
+            return Lint(source, options, null);
         }
 
         /// <summary>

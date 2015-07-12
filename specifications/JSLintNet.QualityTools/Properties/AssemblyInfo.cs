@@ -35,4 +35,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("JSLintNet.Specifications")]
+[assembly: InternalsVisibleTo("JSLintNet.Console.Specifications")]
 [assembly: InternalsVisibleTo("JSLintNet.VisualStudio.Specifications")]

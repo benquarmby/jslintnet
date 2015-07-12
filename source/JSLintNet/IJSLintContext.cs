@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using JSLintNet.Models;
 
     /// <summary>
     /// Provides a context for running JSLint.

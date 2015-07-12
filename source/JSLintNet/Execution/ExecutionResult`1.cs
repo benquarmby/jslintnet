@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.Models
+﻿namespace JSLintNet.Execution
 {
     internal class ExecutionResult<T> : ExecutionResult
     {

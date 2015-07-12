@@ -4,13 +4,12 @@
     using System.Collections.Generic;
     using System.Security;
     using System.Text;
-    using JSLintNet.Models;
     using JSLintNet.Properties;
 
     /// <summary>
     /// Records JSLint errors and builds a report in HTML format.
     /// </summary>
-    public class JSLintReportBuilder
+    internal class JSLintReportBuilder
     {
         private Dictionary<string, ReportFile> files;
 
@@ -32,29 +31,6 @@
         /// The source directory.
         /// </value>
         public string SourceDirectory { get; set; }
-
-        /// <summary>
-        /// Gets or sets the settings file.
-        /// </summary>
-        /// <value>
-        /// The settings file.
-        /// </value>
-        [Obsolete("Use the SettingsFiles property.")]
-        public string SettingsFile
-        {
-            get
-            {
-                return this.settingsFiles.Count > 0 ? this.settingsFiles[0] : null;
-            }
-
-            set
-            {
-                if (this.settingsFiles.Count > 0)
-                {
-                    this.settingsFiles[0] = value;
-                }
-            }
-        }
 
         /// <summary>
         /// Gets the settings files.

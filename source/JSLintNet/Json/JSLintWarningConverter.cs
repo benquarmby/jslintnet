@@ -1,7 +1,6 @@
 ﻿namespace JSLintNet.Json
 {
     using System;
-    using JSLintNet.Models;
     using Newtonsoft.Json.Converters;
 
     /// <summary>

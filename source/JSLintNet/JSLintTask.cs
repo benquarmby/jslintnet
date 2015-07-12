@@ -5,8 +5,7 @@
     using System.IO;
     using System.Text;
     using JSLintNet.Abstractions;
-    using JSLintNet.Helpers;
-    using JSLintNet.Models;
+    using JSLintNet.Execution;
     using JSLintNet.Properties;
     using JSLintNet.Settings;
     using Microsoft.Build.Framework;

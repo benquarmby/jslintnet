@@ -1,7 +1,6 @@
 ﻿namespace JSLintNet.Json
 {
     using System.Collections.Generic;
-    using JSLintNet.Models;
     using JSLintNet.Settings;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
@@ -20,6 +19,7 @@
             NullValueHandling = NullValueHandling.Ignore,
             Formatting = Formatting.Indented,
             Error = OnError,
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
             Converters = new List<JsonConverter>()
             {
                 new StringEnumConverter(),

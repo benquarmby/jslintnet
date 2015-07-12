@@ -79,7 +79,7 @@
     <Compile Include="IJavaScriptContext.cs" />
     <Compile Include="JavaScriptContext.cs" />
     <Compile Include="CacheProvider.cs" />
-    <Compile Include="Helpers\ExecutionHelper.cs" />
+    <Compile Include="Execution\ExecutionHelper.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="Settings\ISettingsRepository.cs" />
     <Compile Include="Settings\JSLintNetSettings.cs" />
@@ -94,19 +94,19 @@
     <Compile Include="Json\IJsonProvider.cs" />
     <Compile Include="Json\JSLintWarningConverter.cs" />
     <Compile Include="Json\JsonProvider.cs" />
-    <Compile Include="Models\ExecutionResult.cs" />
-    <Compile Include="Models\ExecutionResult`1.cs" />
-    <Compile Include="Models\IJSLintData.cs" />
-    <Compile Include="Models\IJSLintWarning.cs" />
+    <Compile Include="Execution\ExecutionResult.cs" />
+    <Compile Include="Execution\ExecutionResult`1.cs" />
+    <Compile Include="IJSLintData.cs" />
+    <Compile Include="IJSLintWarning.cs" />
     <Compile Include="JSLintOptions.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JSLintOptions.generated.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\JSLintData.cs" />
+    <Compile Include="JSLintData.cs" />
     <Compile Include="JSLintContext.cs" />
-    <Compile Include="Models\JSLintWarning.cs" />
-    <Compile Include="Models\TaskFile.cs" />
+    <Compile Include="JSLintWarning.cs" />
+    <Compile Include="TaskFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

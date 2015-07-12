@@ -1,7 +1,6 @@
 ﻿namespace JSLintNet.VisualStudio.Errors
 {
     using EnvDTE;
-    using JSLintNet.Models;
     using JSLintNet.Properties;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
