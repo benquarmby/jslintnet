@@ -1,35 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <JSLintNetBuildDir>$(SolutionDir)build\</JSLintNetBuildDir>
-    <JSLintNetPackageDir>$(TargetDir)Package\</JSLintNetPackageDir>
+  <PropertyGroup Condition="$(Configuration) == Release">
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
-
-  <UsingTask TaskName="GetAssemblyVersionInfo" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
-    <ParameterGroup>
-      <File ParameterType="System.String" Required="true" />
-      <Version ParameterType="System.String" Output="true" />
-      <InformationalVersion ParameterType="System.String" Output="true" />
-      <Copyright ParameterType="System.String" Output="true" />
-      <CompanyName ParameterType="System.String" Output="true" />
-    </ParameterGroup>
-    <Task>
-      <Code Type="Fragment" Language="cs">
-        var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(File);
-        Version = info.FileVersion;
-        InformationalVersion = info.ProductVersion;
-        Copyright = info.LegalCopyright;
-        CompanyName = info.CompanyName;
-      </Code>
-    </Task>
-  </UsingTask>
-
-  <Target Name="JSLintNetVersion" BeforeTargets="AfterBuild">
-    <GetAssemblyVersionInfo File="$(TargetPath)">
-      <Output TaskParameter="Version" PropertyName="JSLintNetVersion" />
-      <Output TaskParameter="InformationalVersion" PropertyName="JSLintNetInformationalVersion" />
-      <Output TaskParameter="Copyright" PropertyName="JSLintNetCopyright" />
-      <Output TaskParameter="CompanyName" PropertyName="JSLintNetCompanyName" />
-    </GetAssemblyVersionInfo>
-  </Target>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\JSLint.NET.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 </Project>

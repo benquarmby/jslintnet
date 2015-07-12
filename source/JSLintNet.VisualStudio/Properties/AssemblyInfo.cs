@@ -16,6 +16,6 @@ using JSLintNet;
 [assembly: CLSCompliant(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: InternalsVisibleTo("JSLintNet.Specifications")]
-[assembly: InternalsVisibleTo("JSLintNet.VisualStudio.Specifications")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("JSLintNet.Specifications, PublicKey=" + AssemblyInfo.PublicKey)]
+[assembly: InternalsVisibleTo("JSLintNet.VisualStudio.Specifications, PublicKey=" + AssemblyInfo.PublicKey)]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2, PublicKey=" + AssemblyInfo.DynamicPublicKey)]

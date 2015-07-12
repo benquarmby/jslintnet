@@ -17,5 +17,5 @@ using JSLintNet;
 [assembly: Guid("55b05043-edf8-4643-bb3e-0620e0b10eb2")]
 [assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: InternalsVisibleTo("JSLintNet.Console.Specifications")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("JSLintNet.Console.Specifications, PublicKey=" + AssemblyInfo.PublicKey)]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2, PublicKey=" + AssemblyInfo.DynamicPublicKey)]
