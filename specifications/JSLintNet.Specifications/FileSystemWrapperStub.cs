@@ -9,27 +9,38 @@
     {
         public FileSystemWrapperStub()
         {
-            this.Files = new Dictionary<string, string>();
+            this.TextFiles = new Dictionary<string, string>();
             this.FileResults = new Dictionary<string, List<string>>();
         }
 
-        public Dictionary<string, string> Files { get; set; }
+        public Dictionary<string, string> TextFiles { get; set; }
 
         public Dictionary<string, List<string>> FileResults { get; set; }
 
+        public void AddFile(string directory, string fileName, string contents)
+        {
+            if (!this.FileResults.ContainsKey(directory))
+            {
+                this.FileResults[directory] = new List<string>();
+            }
+
+            this.FileResults[directory].Add(fileName);
+            this.TextFiles.Add(Path.Combine(directory, fileName), contents);
+        }
+
         public string ReadAllText(string path, Encoding encoding)
         {
-            return this.Files[path];
+            return this.TextFiles[path];
         }
 
         public bool FileExists(string path)
         {
-            return this.Files.ContainsKey(path);
+            return this.TextFiles.ContainsKey(path);
         }
 
         public void WriteAllText(string path, string contents, Encoding encoding)
         {
-            this.Files[path] = contents;
+            this.TextFiles[path] = contents;
         }
 
         public string ResolveFile(string path)

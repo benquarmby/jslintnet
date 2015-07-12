@@ -1,5 +1,6 @@
-﻿namespace JSLintNet.Specifications
+﻿namespace JSLintNet.Specifications.Tasks
 {
+    using System;
     using JSLintNet.Abstractions;
     using JSLintNet.QualityTools;
 
@@ -14,6 +15,18 @@
         public BuildEngineStub BuildEngine { get; set; }
 
         public FileSystemWrapperStub FileSystemWrapper { get; set; }
+
+        public void AddFile(string fileName, string contents)
+        {
+            var sourceDirectory = this.Instance.SourceDirectory;
+
+            if (string.IsNullOrEmpty(sourceDirectory))
+            {
+                throw new InvalidOperationException("Cannot add a file without first setting the source directory.");
+            }
+
+            this.FileSystemWrapper.AddFile(sourceDirectory, fileName, contents);
+        }
 
         protected override void BeforeResolve()
         {

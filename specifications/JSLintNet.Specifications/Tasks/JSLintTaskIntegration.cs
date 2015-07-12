@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.Specifications
+﻿namespace JSLintNet.Specifications.Tasks
 {
     using System;
     using System.IO;

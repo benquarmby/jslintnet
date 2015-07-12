@@ -91,16 +91,21 @@
     <Compile Include="FileSystemWrapperStub.cs" />
     <Compile Include="JSLintContextIntegration.cs" />
     <Compile Include="JSLintContextUnit.cs" />
-    <Compile Include="JSLintTaskFixture.cs" />
-    <Compile Include="JSLintTaskTests.cs" />
+    <Compile Include="Tasks\JSLintTaskFixture.cs" />
+    <Compile Include="Tasks\JSLintTaskTests.cs" />
     <Compile Include="Settings\JSLintNetSettingsUnit.cs" />
     <Compile Include="JSLintOptionsUnit.cs" />
     <Compile Include="Json\JsonProviderIntegration.cs" />
-    <Compile Include="JSLintTaskIntegration.cs" />
-    <Compile Include="JSLintTaskUnit.cs" />
+    <Compile Include="Tasks\JSLintTaskIntegration.cs" />
+    <Compile Include="Tasks\JSLintTaskUnit.cs" />
     <Compile Include="Models\TaskFileUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\SettingsRepositoryUnit.cs" />
+    <Compile Include="Tasks\TaskResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\SettingsViewModelUnit.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +130,8 @@
     <None Include="Resources\Warnings.json" />
     <None Include="Resources\NoSourceDirectory.proj" />
     <None Include="Resources\Warnings.proj" />
+    <None Include="Tasks\Resources\MessageSettings.json" />
+    <None Include="Tasks\Resources\WarningSettings.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\source\JSLintNet\JSLintNet.csproj">
@@ -136,7 +143,13 @@
       <Name>JSLintNet.QualityTools</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Tasks\TaskResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TaskResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Scripts\ignored.js" />
     <Content Include="Resources\Scripts\iife.js" />
@@ -145,6 +158,9 @@
     <Content Include="Resources\Scripts\Libraries\jquery-1.9.1.min.js" />
     <Content Include="Resources\Scripts\Modules\Calculator.js" />
     <Content Include="Resources\Scripts\objectliteral.js" />
+    <Content Include="Tasks\Resources\AmdNoStrict.js" />
+    <Content Include="Tasks\Resources\GlobalVariableDef.js" />
+    <Content Include="Tasks\Resources\WindowGlobalStrict.js" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
