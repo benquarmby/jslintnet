@@ -40,7 +40,7 @@ namespace JSLintNet
         /// <summary>
         /// The informational version for JSLint.NET.
         /// </summary>
-        public const string InformationalVersion = Version + "-beta6";
+        public const string InformationalVersion = Version + "-beta7";
 
         /// <summary>
         /// The copyright line for JSLint.NET.
@@ -60,7 +60,7 @@ namespace JSLintNet
         /// <summary>
         /// The edition of JSLint bundled with this release.
         /// </summary>
-        public const string Edition = "2015-07-01";
+        public const string Edition = "2015-07-10";
 
         /// <summary>
         /// The public key for JSLint.NET.
