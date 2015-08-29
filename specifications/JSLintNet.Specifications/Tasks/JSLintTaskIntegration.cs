@@ -7,6 +7,7 @@
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
     using JSLintNet.Settings;
+    using Microsoft.Win32;
     using Xunit;
 
     public class JSLintTaskIntegration : IntegrationBase
@@ -85,9 +86,9 @@
 
         private static class JSLintTaskHelper
         {
-            public static readonly string MSBuildExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Microsoft.NET\Framework\v4.0.30319\MSBuild.exe");
+            public static readonly string MSBuildExecutable;
 
-            public static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\Resources"));
+            public static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "Resources"));
 
             public static readonly Regex ErrorCountPattern = new Regex(@"JSLINTERRORCOUNT=(?<Count>[\d]+)=JSLINTERRORCOUNT", RegexOptions.Compiled);
 
@@ -96,6 +97,17 @@
             public static readonly Regex ProcessedFileCountPattern = new Regex(@"JSLINTPROCESSEDFILECOUNT=(?<Count>[\d]+)=JSLINTPROCESSEDFILECOUNT", RegexOptions.Compiled);
 
             public static readonly Regex OutputPattern = new Regex(AssemblyInfo.Product + " (error|warning|message) :", RegexOptions.Compiled);
+
+            static JSLintTaskHelper()
+            {
+                var msBuildDirectory = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0", "MSBuildToolsPath", null) as string;
+                if (string.IsNullOrEmpty(msBuildDirectory))
+                {
+                    throw new Exception("Could not locate MSBuild tools path in the registry.");
+                }
+
+                MSBuildExecutable = Path.Combine(msBuildDirectory, "MSBuild.exe");
+            }
 
             public static int ParseCount(Regex pattern, string input)
             {

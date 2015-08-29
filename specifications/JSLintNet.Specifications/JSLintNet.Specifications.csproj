@@ -113,23 +113,52 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Resources\Configuration.json" />
-    <None Include="Resources\Configuration.proj" />
-    <None Include="Resources\Configuration.Release.json" />
-    <None Include="Resources\JSLintNetTest.targets" />
+    <None Include="Resources\Configuration.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Configuration.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Configuration.Release.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\JSLintNetTest.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\LinkedSettings.proj">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Settings\JSLintNet.json" />
-    <None Include="Resources\SourceFiles.proj" />
-    <None Include="Resources\Errors.proj" />
-    <None Include="Resources\HtmlReport.proj" />
-    <None Include="Resources\Scripts\JSLintNet.json" />
-    <None Include="Resources\SourceFiles.json" />
-    <None Include="Resources\SourceFiles.props" />
-    <None Include="Resources\Warnings.json" />
-    <None Include="Resources\NoSourceDirectory.proj" />
-    <None Include="Resources\Warnings.proj" />
+    <None Include="Resources\Settings\JSLintNet.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\SourceFiles.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Errors.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\HtmlReport.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Scripts\JSLintNet.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\SourceFiles.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\SourceFiles.props">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Warnings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\NoSourceDirectory.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Warnings.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Tasks\Resources\MessageSettings.json" />
     <None Include="Tasks\Resources\WarningSettings.json" />
   </ItemGroup>
@@ -151,13 +180,27 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Scripts\ignored.js" />
-    <Content Include="Resources\Scripts\iife.js" />
-    <Content Include="Resources\Scripts\jasmine.js" />
-    <Content Include="Resources\Scripts\Libraries\jquery-1.9.1.js" />
-    <Content Include="Resources\Scripts\Libraries\jquery-1.9.1.min.js" />
-    <Content Include="Resources\Scripts\Modules\Calculator.js" />
-    <Content Include="Resources\Scripts\objectliteral.js" />
+    <Content Include="Resources\Scripts\ignored.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scripts\iife.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scripts\jasmine.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scripts\Libraries\jquery-1.9.1.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scripts\Libraries\jquery-1.9.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scripts\Modules\Calculator.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scripts\objectliteral.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Tasks\Resources\AmdNoStrict.js" />
     <Content Include="Tasks\Resources\GlobalVariableDef.js" />
     <Content Include="Tasks\Resources\WindowGlobalStrict.js" />

@@ -30,6 +30,7 @@
         <CollectionProperty Name="Hungarian">
           <Value>js</Value>
           <Value>nu</Value>
+          <Value>ms</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

@@ -27,6 +27,9 @@
         private const string VS11Exp = "11.0Exp";
 
         [TestClass]
+#if APPVEYOR
+        [Ignore]
+#endif
         public class GetSettings : IntegrationBase
         {
             public TestContext TestContext { get; set; }
