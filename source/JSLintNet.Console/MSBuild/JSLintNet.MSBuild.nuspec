@@ -13,9 +13,10 @@
     <developmentDependency>true</developmentDependency>
     <description>JSLint.NET for MSBuild adds JavaScript validation targets to any Visual Studio project.</description>
     <summary>JSLint.NET MSBuild targets.</summary>
-    <copyright>Copyright © JSLint.NET Contributors 2013-2014</copyright>
+    <copyright>Copyright © JSLint.NET Contributors 2013-2015</copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+1.8.4 - Downgraded V8 to improve VS2012 support.
 1.8.3 - Upgrade announcement: https://github.com/benquarmby/jslintnet/wiki/Upgrade-Announcement
 1.8.2 - Improved support for C++, Node.js and Cordova projects.
 1.8.1 - Fixed sticky cancelled settings. Revised links to new home on GitHub.
