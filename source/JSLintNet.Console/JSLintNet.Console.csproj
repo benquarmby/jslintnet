@@ -103,7 +103,7 @@
   -->
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(SolutionDir)\packages\MSBuildTasks.1.4.0.88\tools</MSBuildCommunityTasksPath>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\external\MSBuildTasks</MSBuildCommunityTasksPath>
     <MSBuildCommunityTasksTargets>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets</MSBuildCommunityTasksTargets>
   </PropertyGroup>
   <Import Project="$(MSBuildCommunityTasksTargets)" Condition="Exists('$(MSBuildCommunityTasksTargets)')" />
