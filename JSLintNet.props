@@ -8,5 +8,6 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\JSLint.NET.snk</AssemblyOriginatorKeyFile>
+    <NuGetRestoreAdditionalSwitches>-Verbosity quiet</NuGetRestoreAdditionalSwitches>
   </PropertyGroup>
 </Project>
