@@ -16,7 +16,7 @@
 
   <Target Name="JSLintNetPackage">
     <PropertyGroup>
-      <JSLintNetPackageFile>$(MSBuildProjectName).$(JSLintNetInformationalVersion).zip</JSLintNetPackageFile>
+      <JSLintNetPackageFile>$(MSBuildProjectName).Core.$(JSLintNetInformationalVersion).zip</JSLintNetPackageFile>
     </PropertyGroup>
 
     <ItemGroup>
