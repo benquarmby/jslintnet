@@ -325,8 +325,8 @@
             var description = string.Concat(Resources.ErrorTextPrefix, error.Message);
 
             return item.Description.Equals(description, StringComparison.OrdinalIgnoreCase) &&
-                item.Line == error.Line &&
-                item.Column == error.Column;
+                item.Line == error.Line + 1 &&
+                item.Column == error.Column + 1;
         }
 
         /// <summary>

@@ -175,8 +175,8 @@
                                     errorCode: null,
                                     helpKeyword: null,
                                     file: file.Absolute,
-                                    lineNumber: error.Line,
-                                    columnNumber: error.Column,
+                                    lineNumber: error.Line + 1,
+                                    columnNumber: error.Column + 1,
                                     endLineNumber: 0,
                                     endColumnNumber: 0,
                                     message: string.Concat(Resources.ErrorTextPrefix, error.Message));

@@ -18,8 +18,8 @@
                 var firstError = fixture.BuildEngine.ErrorEvents[0];
 
                 Assert.False(actual);
-                Assert.Equal(2, firstError.LineNumber);
-                Assert.Equal(13, firstError.ColumnNumber);
+                Assert.Equal(3, firstError.LineNumber);
+                Assert.Equal(14, firstError.ColumnNumber);
             }
         }
 

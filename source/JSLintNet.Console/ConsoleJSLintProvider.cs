@@ -170,7 +170,7 @@
                             foreach (var error in data.Warnings)
                             {
                                 this.consoleWriter
-                                    .WriteErrorLine(4, Resources.ErrorItemFormat, error.Message, error.Line, error.Column);
+                                    .WriteErrorLine(4, Resources.ErrorItemFormat, error.Message, error.Line + 1, error.Column + 1);
                             }
                         }
 
