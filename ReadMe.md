@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/o20i7mcihb9uldn3?svg=true)](https://ci.appveyor.com/project/benquarmby/jslintnet)
+
 ## Install
 
 #### JSLint.NET for MSBuild
