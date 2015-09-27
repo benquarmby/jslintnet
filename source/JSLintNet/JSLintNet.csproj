@@ -125,7 +125,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -141,7 +140,6 @@
     </None>
     <None Include="JSLintOptions.t4" />
     <None Include="packages.config" />
-    <None Include="Resources\jslint.js" />
     <None Include="JSLintNet.targets" />
     <None Include="UI\ViewModels\SettingsViewModel.generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -160,7 +158,12 @@
       <Link>License.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\report.js" />
+    <None Include="..\..\submodules\JSLint\jslint.js">
+      <Link>Resources\jslint.js</Link>
+    </None>
+    <None Include="..\..\submodules\JSLint\report.js">
+      <Link>Resources\report.js</Link>
+    </None>
     <None Include="Resources\jslintnet.js" />
     <None Include="Resources\ReportDocumentStyle.css" />
   </ItemGroup>

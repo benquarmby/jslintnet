@@ -1,0 +1,22 @@
+version: +{branch}.build{build}
+
+install:
+  - git submodule update --init --recursive
+
+configuration: Release
+
+platform: Any CPU
+
+build:
+  project: JSLint.NET.VisualStudio.sln
+  verbosity: minimal
+
+artifacts:
+- path: build\JSLintNet.Core.*.zip
+  name: Core
+- path: build\JSLintNet.Console.*.zip
+  name: Console
+- path: build\JSLintNet.VisualStudio.*.vsix
+  name: VisualStudio
+- path: build\JSLintNet.MSBuild.*.nupkg
+  name: MSBuild
