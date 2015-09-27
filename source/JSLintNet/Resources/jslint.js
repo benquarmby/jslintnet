@@ -1,5 +1,5 @@
 // jslint.js
-// 2015-09-19
+// 2015-09-22
 // Copyright (c) 2015 Douglas Crockford  (www.JSLint.com)
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -146,10 +146,9 @@ var jslint = (function JSLint() {
         bitwise: true,
         browser: [
             'Audio', 'clearInterval', 'clearTimeout', 'document', 'event',
-            'FormData', 'frames', 'history', 'Image', 'localStorage',
-            'location', 'name', 'navigator', 'Option', 'screen',
-            'sessionStorage', 'setInterval', 'setTimeout', 'Storage',
-            'XMLHttpRequest'
+            'FormData', 'history', 'Image', 'localStorage', 'location', 'name',
+            'navigator', 'Option', 'screen', 'sessionStorage', 'setInterval',
+            'setTimeout', 'Storage', 'XMLHttpRequest'
         ],
         couch: [
             'emit', 'getRow', 'isArray', 'log', 'provides', 'registerType',
@@ -1658,8 +1657,8 @@ var jslint = (function JSLint() {
     function enroll(name, role, readonly) {
 
 // Enroll a name into the current function context. The role can be exception,
-// label, parameter, or variable. We look for variable redefinition because it
-// causes confusion.
+// function, label, parameter, or variable. We look for variable redefinition
+// because it causes confusion.
 
         var id = name.id;
 
@@ -1672,7 +1671,7 @@ var jslint = (function JSLint() {
 // Has the name been enrolled in this context?
 
             var earlier = functionage.context[id];
-            if (role !== 'function' && earlier) {
+            if (earlier) {
                 warn(
                     'redefinition_a_b',
                     name,
@@ -1695,11 +1694,10 @@ var jslint = (function JSLint() {
                             warn('unexpected_a', name);
                         }
                     } else {
-                        if (
-                            (role !== 'exception' || earlier.role !== 'exception') &&
-                            role !== 'parameter' &&
-                            role !== 'function'
-                        ) {
+                        if ((
+                            role !== 'exception' ||
+                            earlier.role !== 'exception'
+                        ) && role !== 'parameter') {
                             warn(
                                 'redefinition_a_b',
                                 name,
@@ -1944,13 +1942,7 @@ var jslint = (function JSLint() {
 // It is an expression statement.
 
             the_statement = expression(0, true);
-            if (
-                the_statement.wrapped &&
-                (
-                    the_statement.id !== '(' ||
-                    the_statement.expression[0].id !== 'function'
-                )
-            ) {
+            if (the_statement.wrapped && the_statement.id !== '(') {
                 warn('unexpected_a', first);
             }
             semicolon();
@@ -2370,7 +2362,6 @@ var jslint = (function JSLint() {
         if (left.id !== 'function') {
             left_check(left, the_paren);
         }
-        the_paren.free = false;
         the_paren.expression = [left];
         if (left.identifier) {
             if (left.new) {
@@ -2429,12 +2420,15 @@ var jslint = (function JSLint() {
         }
         advance(')', the_paren);
         if (the_paren.expression.length === 2) {
+            the_paren.free = true;
             if (the_argument.wrapped === true) {
                 warn('unexpected_a', the_paren);
             }
             if (the_argument.id === '(') {
                 the_argument.wrapped = true;
             }
+        } else {
+            the_paren.free = false;
         }
         return the_paren;
     });
@@ -2886,8 +2880,7 @@ var jslint = (function JSLint() {
                         } else if (extra !== true) {
                             advance(':');
                         }
-                        name.arity = 'variable';
-                        value = name;
+                        value = expression(Infinity, true);
                         break;
                     case '(':
                         if (!option.es6 && typeof extra !== 'string') {
@@ -3135,17 +3128,18 @@ var jslint = (function JSLint() {
     });
     stmt('export', function () {
         var the_export = token;
-        if (export_mode) {
-            warn('es6', the_export);
-        }
         if (!option.es6) {
             warn('es6', the_export);
         }
         if (typeof module_mode === 'object') {
             warn('unexpected_directive_a', module_mode, module_mode.directive);
         }
-        module_mode = true;
         advance('default');
+        if (export_mode) {
+            warn('duplicate_a', token);
+        }
+        module_mode = true;
+        export_mode = true;
         the_export.expression = expression(0);
         semicolon();
         return the_export;
@@ -4222,6 +4216,8 @@ var jslint = (function JSLint() {
                                 margin -= 4 * result[2].length;
                             }
                             at_margin(0);
+                        } else if (right.arity === 'binary' && right.id === '(' && free) {
+                            no_space();
                         } else if (
                             left.id === '.' ||
                             left.id === '...' ||
@@ -4344,7 +4340,7 @@ var jslint = (function JSLint() {
 
 // The jslint function itself.
 
-    return function jslint(source, option_object, global_array) {
+    return function (source, option_object, global_array) {
         try {
             warnings = [];
             option = option_object || empty();
@@ -4353,7 +4349,7 @@ var jslint = (function JSLint() {
             declared_globals = empty();
             directive_mode = true;
             early_stop = true;
-            export_mode = true;
+            export_mode = false;
             fudge = option.fudge
                 ? 1
                 : 0;
@@ -4439,7 +4435,7 @@ var jslint = (function JSLint() {
             }
         }
         return {
-            edition: "2015-09-19",
+            edition: "2015-09-22",
             functions: functions,
             global: global,
             id: "(JSLint)",
