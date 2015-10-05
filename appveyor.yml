@@ -1,5 +1,7 @@
 version: +{branch}.build{build}
 
+skip_tags: true
+
 install:
   - git submodule update --init --recursive
 
