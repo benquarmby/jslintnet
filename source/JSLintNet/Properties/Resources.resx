@@ -151,9 +151,6 @@
   <data name="ProcessingExceptionFormat" xml:space="preserve">
     <value>An unexpected exception occurred processing file "{0}": {1}</value>
   </data>
-  <data name="JSLintEditionErrorFormat" xml:space="preserve">
-    <value>JSLint edition from file system ({0}) cannot be lower than built-in edition ({1}).</value>
-  </data>
   <data name="ErrorTextPrefix" xml:space="preserve">
     <value>JSLint : </value>
   </data>
