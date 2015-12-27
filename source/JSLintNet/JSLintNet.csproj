@@ -68,10 +68,13 @@
     <Compile Include="Abstractions\IBuildProjectManager.cs" />
     <Compile Include="Abstractions\IFileSystemWrapper.cs" />
     <Compile Include="IJavaScriptContext.cs" />
+    <Compile Include="IJSLintToken.cs" />
     <Compile Include="JavaScriptContext.cs" />
     <Compile Include="CacheProvider.cs" />
     <Compile Include="Execution\ExecutionHelper.cs" />
     <Compile Include="ICacheProvider.cs" />
+    <Compile Include="JSLintToken.cs" />
+    <Compile Include="Json\JSLintTokenConverter.cs" />
     <Compile Include="Settings\ISettingsRepository.cs" />
     <Compile Include="Settings\JSLintNetSettings.cs" />
     <Compile Include="Settings\JSLintNetSettings.generated.cs">

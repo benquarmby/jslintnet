@@ -60,6 +60,29 @@ var ValidSource = (function () {
                     I.Expect(result.Warnings).ToBeEmpty();
                 }
             }
+
+            [Fact(DisplayName = "Should populate directives")]
+            public void Directives()
+            {
+                using (var instance = new JSLintContext())
+                {
+                    var result = instance.Lint(@"
+/*jslint browser*/
+/*global require, define*/
+/*property act, value*/
+
+define(['service', 'bag'], function (service, bag) {
+    'use strict';
+
+    return service.act(bag.value);
+});");
+
+                    I.Expect(result.Directives).Not.ToBeEmpty();
+                    I.Expect(result.Directives[0].Directive).ToBe("jslint");
+                    I.Expect(result.Directives[1].Directive).ToBe("global");
+                    I.Expect(result.Directives[2].Directive).ToBe("property");
+                }
+            }
         }
     }
 }

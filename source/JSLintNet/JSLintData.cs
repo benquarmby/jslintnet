@@ -6,6 +6,8 @@
     {
         public string Edition { get; set; }
 
+        public IList<IJSLintToken> Directives { get; set; }
+
         public IList<string> Imports { get; set; }
 
         public bool Json { get; set; }

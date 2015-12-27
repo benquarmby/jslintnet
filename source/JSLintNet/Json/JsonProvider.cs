@@ -23,7 +23,8 @@
             Converters = new List<JsonConverter>()
             {
                 new StringEnumConverter(),
-                new JSLintWarningConverter()
+                new JSLintWarningConverter(),
+                new JSLintTokenConverter()
             }
         };
 

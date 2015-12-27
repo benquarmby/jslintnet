@@ -16,6 +16,14 @@
         string Edition { get; }
 
         /// <summary>
+        /// Gets the directives.
+        /// </summary>
+        /// <value>
+        /// The directives.
+        /// </value>
+        IList<IJSLintToken> Directives { get; }
+
+        /// <summary>
         /// Gets the array of strings representing each of the imports.
         /// </summary>
         /// <value>
@@ -67,7 +75,7 @@
         /// Gets the array of warning objects.
         /// </summary>
         /// <value>
-        /// The errors.
+        /// The warnings.
         /// </value>
         IList<IJSLintWarning> Warnings { get; }
 

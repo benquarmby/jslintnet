@@ -1,4 +1,5 @@
-﻿/*global define, ko*/
+﻿/*jslint browser*/
+/*global define, ko*/
 
 define([], function () {
     'use strict';

@@ -3,12 +3,13 @@
 var jslintnet = function (source, optionJson, globalJson) {
     'use strict';
 
-    var optionObject = JSON.parse(optionJson),
-        globalArray = JSON.parse(globalJson),
-        data = jslint(source, optionObject || undefined, globalArray || undefined);
+    var optionObject = JSON.parse(optionJson);
+    var globalArray = JSON.parse(globalJson);
+    var data = jslint(source, optionObject || undefined, globalArray || undefined);
 
     return JSON.stringify({
         edition: data.edition,
+        directives: data.directives,
         imports: data.imports,
         json: data.json,
         module: data.module,
