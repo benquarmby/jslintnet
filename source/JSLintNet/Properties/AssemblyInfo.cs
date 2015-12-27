@@ -35,7 +35,7 @@ namespace JSLintNet
         /// <summary>
         /// The core version number for JSLint.NET.
         /// </summary>
-        public const string Version = "2.0.3";
+        public const string Version = "2.0.4";
 
         /// <summary>
         /// The informational version for JSLint.NET.
