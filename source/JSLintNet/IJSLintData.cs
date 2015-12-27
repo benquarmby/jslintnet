@@ -64,6 +64,14 @@
         IDictionary<string, int> Property { get; }
 
         /// <summary>
+        /// Gets the property directive.
+        /// </summary>
+        /// <value>
+        /// The property directive.
+        /// </value>
+        string PropertyDirective { get; }
+
+        /// <summary>
         /// Gets a value indicating whether JSLint was unable to finish.
         /// </summary>
         /// <value>

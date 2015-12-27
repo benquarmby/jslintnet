@@ -17,6 +17,7 @@ var jslintnet = function (source, optionJson, globalJson) {
         property: data.property,
         stop: data.stop,
         warnings: data.warnings,
-        report: REPORT.error(data)
+        report: REPORT.error(data),
+        propertyDirective: REPORT.property(data)
     });
 };

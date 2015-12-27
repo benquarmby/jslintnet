@@ -18,6 +18,8 @@
 
         public IDictionary<string, int> Property { get; set; }
 
+        public string PropertyDirective { get; set; }
+
         public bool Stop { get; set; }
 
         public IList<IJSLintWarning> Warnings { get; set; }

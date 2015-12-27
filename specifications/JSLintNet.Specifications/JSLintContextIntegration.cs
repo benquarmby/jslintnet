@@ -83,6 +83,31 @@ define(['service', 'bag'], function (service, bag) {
                     I.Expect(result.Directives[2].Directive).ToBe("property");
                 }
             }
+
+            [Fact(DisplayName = "Should produce a property directive")]
+            public void PropertyDirective()
+            {
+                using (var instance = new JSLintContext())
+                {
+                    var result = instance.Lint(@"
+var ValidSource = (function () {
+    'use strict';
+
+    var self = {
+        memberProperty: 'value'
+    };
+
+    return {
+        memberFunction: function (arg) {
+            return self.memberProperty + arg;
+        }
+    };
+}());");
+
+                    I.Expect(result.PropertyDirective).ToStartWith("/*property");
+                    I.Expect(result.PropertyDirective).ToContain("memberFunction, memberProperty");
+                }
+            }
         }
     }
 }
