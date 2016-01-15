@@ -11,11 +11,19 @@
             this.document = document;
         }
 
+        public TextDocument TextDocument
+        {
+            get
+            {
+                return (TextDocument)this.document.Object("TextDocument");
+            }
+        }
+
         public string Source
         {
             get
             {
-                var textDocument = (TextDocument)this.document.Object("TextDocument");
+                var textDocument = this.TextDocument;
                 var editPoint = textDocument.StartPoint.CreateEditPoint();
                 var source = editPoint.GetText(textDocument.EndPoint);
 

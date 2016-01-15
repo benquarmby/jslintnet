@@ -38,7 +38,8 @@
             this.AddCommand(JSLintCommands.FolderNodeIgnore, this.OnFolderNodeIgnore, this.OnBeforeFolderNodeIgnore);
             this.AddCommand(JSLintCommands.ProjectNodeRun, this.OnProjectNodeRun);
             this.AddCommand(JSLintCommands.ProjectNodeSettings, this.OnProjectNodeSettings);
-            this.AddCommand(JSLintCommands.CodeWindowRun, this.OnCodeWindowRun, this.OnBeforeCodeWindowRun);
+            this.AddCommand(JSLintCommands.CodeWindowRun, this.OnCodeWindowRun, this.OnBeforeCodeWindow);
+            this.AddCommand(JSLintCommands.CodeWindowPropertyDirective, this.OnCodeWindowPropertyDirective, this.OnBeforeCodeWindow);
         }
 
         private void AddCommand(CommandID commandId, EventHandler invokeHandler)
@@ -190,7 +191,7 @@
             }
         }
 
-        private void OnBeforeCodeWindowRun(object sender, EventArgs e)
+        private void OnBeforeCodeWindow(object sender, EventArgs e)
         {
             var menuCommand = (OleMenuCommand)sender;
             var document = this.Environment.ActiveDocument;
@@ -205,6 +206,16 @@
             if (document != null && JSLint.CanLint(document.Name))
             {
                 this.VisualStudioJSLintProvider.LintDocument(document);
+            }
+        }
+
+        private void OnCodeWindowPropertyDirective(object sender, EventArgs e)
+        {
+            var document = this.Environment.ActiveDocument;
+
+            if (document != null && JSLint.CanLint(document.Name))
+            {
+                this.VisualStudioJSLintProvider.GeneratePropertyDirective(document);
             }
         }
 

@@ -10,6 +10,12 @@
     internal interface IVisualStudioJSLintProvider
     {
         /// <summary>
+        /// Generates a property directive for the specified document.
+        /// </summary>
+        /// <param name="document">The document.</param>
+        void GeneratePropertyDirective(Document document);
+
+        /// <summary>
         /// Validates the specified document using JSLint.
         /// </summary>
         /// <param name="document">The document.</param>

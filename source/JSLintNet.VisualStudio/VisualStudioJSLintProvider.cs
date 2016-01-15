@@ -68,6 +68,52 @@
         }
 
         /// <summary>
+        /// Generates a property directive for the specified document.
+        /// </summary>
+        /// <param name="document">The document.</param>
+        public void GeneratePropertyDirective(Document document)
+        {
+            var source = document.Access().Source;
+            var settings = this.LoadSettings(document.ProjectItem.ContainingProject);
+
+            using (var jsLintContext = this.jsLintFactory())
+            {
+                var results = jsLintContext.Lint(source, settings.Options, settings.GlobalVariables);
+                var existing = results.Directives.FirstOrDefault(x => x.Directive == "property");
+                var startPoint = document.Access().TextDocument.StartPoint.CreateEditPoint();
+
+                if (existing != null)
+                {
+                    var lines = existing.Value.Count - 1;
+                    var endLine = existing.Line + 1;
+                    var endChar = existing.Thru + 1;
+                    var startLine = endLine - lines;
+                    var startChar = existing.From + 1;
+
+                    startPoint.MoveToLineAndOffset(startLine, startChar);
+
+                    var endPoint = startPoint.CreateEditPoint();
+
+                    if (lines > 0)
+                    {
+                        endPoint.LineDown(lines);
+                        endPoint.CharRight(endChar);
+                    }
+                    else
+                    {
+                        endPoint.CharRight(endChar - existing.From);
+                    }
+
+                    startPoint.ReplaceText(endPoint, results.PropertyDirective, (int)(vsEPReplaceTextOptions.vsEPReplaceTextNormalizeNewlines | vsEPReplaceTextOptions.vsEPReplaceTextAutoformat));
+                }
+                else
+                {
+                    startPoint.Insert(results.PropertyDirective);
+                }
+            }
+        }
+
+        /// <summary>
         /// Validates the specified document using JSLint.
         /// </summary>
         /// <param name="document">The document.</param>
