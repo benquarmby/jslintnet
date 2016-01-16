@@ -222,6 +222,21 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual bool TolerateMultipleVariables
+        {
+            get
+            {
+                return this.Model.Options.TolerateMultipleVariables.GetValueOrDefault();
+            }
+
+            set
+            {
+                this.Model.Options.TolerateMultipleVariables = value ? (bool?)true : null;
+
+                this.RaisePropertyChanged("TolerateMultipleVariables");
+            }
+        }
+
         public virtual bool AssumeNode
         {
             get

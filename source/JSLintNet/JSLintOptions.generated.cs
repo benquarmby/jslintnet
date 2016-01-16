@@ -119,6 +119,18 @@ namespace JSLintNet
         public int? MaximumLineLength { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether a var, let, or const statement can declare two or more variables in a single statement.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if a var, let, or const statement can declare two or more variables in a single statement; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        /// JSLint "multivar" option.
+        /// </remarks>
+        [JsonProperty("multivar")]
+        public bool? TolerateMultipleVariables { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether Node.js globals should be predefined.
         /// </summary>
         /// <value>
@@ -173,6 +185,7 @@ namespace JSLintNet
             clone.TolerateForStatement = this.TolerateForStatement;
             clone.MaximumErrors = this.MaximumErrors;
             clone.MaximumLineLength = this.MaximumLineLength;
+            clone.TolerateMultipleVariables = this.TolerateMultipleVariables;
             clone.AssumeNode = this.AssumeNode;
             clone.TolerateThis = this.TolerateThis;
             clone.TolerateMessyWhitespace = this.TolerateMessyWhitespace;
@@ -240,6 +253,11 @@ namespace JSLintNet
             if (merge.MaximumLineLength.HasValue)
             {
                 this.MaximumLineLength = merge.MaximumLineLength;
+            }
+
+            if (merge.TolerateMultipleVariables.HasValue)
+            {
+                this.TolerateMultipleVariables = merge.TolerateMultipleVariables;
             }
 
             if (merge.AssumeNode.HasValue)
