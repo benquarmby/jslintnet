@@ -73,14 +73,30 @@
         /// <param name="document">The document.</param>
         public void GeneratePropertyDirective(Document document)
         {
-            var source = document.Access().Source;
+            const string UnixLineEnding = "\n";
+
             var settings = this.LoadSettings(document.ProjectItem.ContainingProject);
 
             using (var jsLintContext = this.jsLintFactory())
             {
-                var results = jsLintContext.Lint(source, settings.Options, settings.GlobalVariables);
+                var docAccess = document.Access();
+                var results = jsLintContext.Lint(docAccess.Source, settings.Options, settings.GlobalVariables);
+                var propertyDirective = results.PropertyDirective;
+
+                if (string.IsNullOrEmpty(propertyDirective))
+                {
+                    return;
+                }
+
+                var lineEnding = docAccess.LineEnding;
+
+                if (lineEnding != UnixLineEnding)
+                {
+                    propertyDirective = propertyDirective.Replace(UnixLineEnding, lineEnding);
+                }
+
                 var existing = results.Directives.FirstOrDefault(x => x.Directive == "property");
-                var startPoint = document.Access().TextDocument.StartPoint.CreateEditPoint();
+                var startPoint = docAccess.TextDocument.StartPoint.CreateEditPoint();
 
                 if (existing != null)
                 {
@@ -104,11 +120,11 @@
                         endPoint.CharRight(endChar - existing.From);
                     }
 
-                    startPoint.ReplaceText(endPoint, results.PropertyDirective, (int)(vsEPReplaceTextOptions.vsEPReplaceTextNormalizeNewlines | vsEPReplaceTextOptions.vsEPReplaceTextAutoformat));
+                    startPoint.ReplaceText(endPoint, propertyDirective, (int)(vsEPReplaceTextOptions.vsEPReplaceTextNormalizeNewlines | vsEPReplaceTextOptions.vsEPReplaceTextAutoformat));
                 }
                 else
                 {
-                    startPoint.Insert(results.PropertyDirective);
+                    startPoint.Insert(propertyDirective);
                 }
             }
         }

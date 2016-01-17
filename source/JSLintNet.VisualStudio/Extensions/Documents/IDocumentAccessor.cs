@@ -7,5 +7,7 @@
         TextDocument TextDocument { get; }
 
         string Source { get; }
+
+        string LineEnding { get; }
     }
 }
