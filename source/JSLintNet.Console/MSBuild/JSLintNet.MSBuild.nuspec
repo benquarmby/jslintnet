@@ -16,6 +16,7 @@
     <copyright></copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
+2.1.0 - Property directive support.
 2.0.4 - JSLint 2015-12-26 (allow "arguments" outside ES6, output directives).
 2.0.3 - JSLint 2015-10-02.
 2.0.2 - Fix library references.
