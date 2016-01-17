@@ -121,7 +121,7 @@
 
         private abstract class VisualStudioJSLintProviderTestableBase : TestFixtureBase<VisualStudioJSLintProvider>
         {
-            private const string ArtifactSolution = @"..\..\..\specifications\artifacts\Artifacts.sln";
+            private const string ArtifactSolution = @"..\..\..\artifacts\Artifacts.sln";
 
             private const string AspNetProject = @"Artifacts.AspNet\Artifacts.AspNet.csproj";
 

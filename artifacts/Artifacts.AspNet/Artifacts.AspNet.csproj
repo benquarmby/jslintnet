@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="one-line.js" />
     <Content Include="vendor\jquery-2.0.3.js" />
     <Content Include="SomeFile.js" />
     <Content Include="Web.config" />

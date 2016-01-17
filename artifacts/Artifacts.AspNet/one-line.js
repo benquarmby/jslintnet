@@ -1,0 +1,1 @@
+﻿var temp = (function () { return { prop: true }; }());
