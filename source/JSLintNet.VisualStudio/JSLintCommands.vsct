@@ -107,14 +107,14 @@
         </Strings>
       </Button>
 
-      <Button guid="CommandSet" id="CodeWindowPropertyDirectiveCommand" priority="0x0001" type="Button">
+      <Button guid="CommandSet" id="CodeWindowGeneratePropertyCommand" priority="0x0001" type="Button">
         <Parent guid="GroupSet" id="CodeWindowGroup" />
-        <Icon guid="BitmapSet" id="RunBitmap" />
+        <Icon guid="BitmapSet" id="GenerateBitmap" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
 
         <Strings>
-          <CommandName>GeneratePropertyDirective</CommandName>
+          <CommandName>GenerateProperty</CommandName>
           <ButtonText>Generate Property Directive</ButtonText>
         </Strings>
       </Button>
@@ -179,7 +179,7 @@
       <IDSymbol name="ProjectNodeRunCommand" value="0x0150" />
       <IDSymbol name="ProjectNodeSettingsCommand" value="0x0160" />
       <IDSymbol name="CodeWindowRunCommand" value="0x0170" />
-      <IDSymbol name="CodeWindowPropertyDirectiveCommand" value="0x0180" />
+      <IDSymbol name="CodeWindowGeneratePropertyCommand" value="0x0180" />
     </GuidSymbol>
 
     <GuidSymbol name="BitmapSet" value="{6fbf7338-b6e2-4cab-8803-989604f26097}">
@@ -187,6 +187,7 @@
       <IDSymbol name="SettingsBitmap" value="2" />
       <IDSymbol name="ClearBitmap" value="3" />
       <IDSymbol name="IgnoreBitmap" value="4" />
+      <IDSymbol name="GenerateBitmap" value="5" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

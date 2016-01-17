@@ -1,0 +1,10 @@
+﻿{
+  "version": "2.0.4",
+  "output": "Warning",
+  "ignore": [],
+  "options": {
+    "browser": true
+  },
+  "globalVariables": [],
+  "runOnSave": true
+}

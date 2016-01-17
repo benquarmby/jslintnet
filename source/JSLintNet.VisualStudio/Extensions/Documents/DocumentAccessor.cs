@@ -1,7 +1,7 @@
 ﻿namespace JSLintNet.VisualStudio.Extensions.Documents
 {
-    using EnvDTE;
     using System;
+    using EnvDTE;
 
     internal class DocumentAccessor : IDocumentAccessor
     {

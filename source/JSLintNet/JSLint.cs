@@ -59,9 +59,35 @@
         /// </returns>
         public static bool CanLint(string fileName)
         {
+            return IsJavaScript(fileName) || IsJson(fileName);
+        }
+
+        /// <summary>
+        /// Determines whether the specified file name has a supported JavaScript extension.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified file name has a supported JavaScript extension; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsJavaScript(string fileName)
+        {
             var extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-            return extension == ".js" || extension == ".json" || extension == "._js";
+            return extension == ".js" || extension == "._js";
+        }
+
+        /// <summary>
+        /// Determines whether the specified file name has a supported JSON extension.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified file name has a supported JSON extension; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsJson(string fileName)
+        {
+            var extension = Path.GetExtension(fileName).ToLowerInvariant();
+
+            return extension == ".json";
         }
     }
 }

@@ -25,6 +25,6 @@
 
         public static readonly CommandID CodeWindowRun = new CommandID(CommandSet, 0x0170);
 
-        public static readonly CommandID CodeWindowPropertyDirective = new CommandID(CommandSet, 0x0180);
+        public static readonly CommandID CodeWindowGenerateProperty = new CommandID(CommandSet, 0x0180);
     }
 }
