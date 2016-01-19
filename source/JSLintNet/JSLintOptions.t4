@@ -5,7 +5,7 @@
         new OptionDefinition("browser", "AssumeBrowser", "the standard browser globals should be predefined"),
         new OptionDefinition("couch", "AssumeCouchDB", "Couch DB globals should be predefined"),
         new OptionDefinition("devel", "AssumeInDevelopment", "browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed"),
-        new OptionDefinition("es6", "AssumeES6", "using the good parts of ECMAScript Sixth Edition."),
+        new OptionDefinition("es6", "AssumeES6", "using the good parts of ECMAScript Sixth Edition"),
         new OptionDefinition("eval", "TolerateEval", "eval should be allowed"),
         new OptionDefinition("for", "TolerateForStatement", "the for statement should be allowed"),
         new OptionDefinition("maxerr", "MaximumErrors", "maximum number of warnings reported", "int"),

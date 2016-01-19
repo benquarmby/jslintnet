@@ -83,6 +83,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string TolerateBitwiseOperatorsTooltip
+        {
+            get
+            {
+                return "True if bitwise operators should be allowed.";
+            }
+        }
+
         public virtual bool TolerateBitwiseOperators
         {
             get
@@ -95,6 +103,14 @@ namespace JSLintNet.UI.ViewModels
                 this.Model.Options.TolerateBitwiseOperators = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateBitwiseOperators");
+            }
+        }
+
+        public virtual string AssumeBrowserTooltip
+        {
+            get
+            {
+                return "True if the standard browser globals should be predefined.";
             }
         }
 
@@ -113,6 +129,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string AssumeCouchDBTooltip
+        {
+            get
+            {
+                return "True if Couch DB globals should be predefined.";
+            }
+        }
+
         public virtual bool AssumeCouchDB
         {
             get
@@ -125,6 +149,14 @@ namespace JSLintNet.UI.ViewModels
                 this.Model.Options.AssumeCouchDB = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeCouchDB");
+            }
+        }
+
+        public virtual string AssumeInDevelopmentTooltip
+        {
+            get
+            {
+                return "True if browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed.";
             }
         }
 
@@ -143,6 +175,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string AssumeES6Tooltip
+        {
+            get
+            {
+                return "True if using the good parts of ECMAScript Sixth Edition.";
+            }
+        }
+
         public virtual bool AssumeES6
         {
             get
@@ -155,6 +195,14 @@ namespace JSLintNet.UI.ViewModels
                 this.Model.Options.AssumeES6 = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("AssumeES6");
+            }
+        }
+
+        public virtual string TolerateEvalTooltip
+        {
+            get
+            {
+                return "True if eval should be allowed.";
             }
         }
 
@@ -173,6 +221,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string TolerateForStatementTooltip
+        {
+            get
+            {
+                return "True if the for statement should be allowed.";
+            }
+        }
+
         public virtual bool TolerateForStatement
         {
             get
@@ -185,6 +241,14 @@ namespace JSLintNet.UI.ViewModels
                 this.Model.Options.TolerateForStatement = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateForStatement");
+            }
+        }
+
+        public virtual string MaximumErrorsTooltip
+        {
+            get
+            {
+                return "The maximum number of warnings reported.";
             }
         }
 
@@ -205,6 +269,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string MaximumLineLengthTooltip
+        {
+            get
+            {
+                return "The maximum number of characters in a line.";
+            }
+        }
+
         public virtual string MaximumLineLength
         {
             get
@@ -219,6 +291,14 @@ namespace JSLintNet.UI.ViewModels
                 this.Model.Options.MaximumLineLength = ParseIntFromString(value);
 
                 this.RaisePropertyChanged("MaximumLineLength");
+            }
+        }
+
+        public virtual string TolerateMultipleVariablesTooltip
+        {
+            get
+            {
+                return "True if a var, let, or const statement can declare two or more variables in a single statement.";
             }
         }
 
@@ -237,6 +317,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string AssumeNodeTooltip
+        {
+            get
+            {
+                return "True if Node.js globals should be predefined.";
+            }
+        }
+
         public virtual bool AssumeNode
         {
             get
@@ -252,6 +340,14 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string TolerateThisTooltip
+        {
+            get
+            {
+                return "True if this should be allowed.";
+            }
+        }
+
         public virtual bool TolerateThis
         {
             get
@@ -264,6 +360,14 @@ namespace JSLintNet.UI.ViewModels
                 this.Model.Options.TolerateThis = value ? (bool?)true : null;
 
                 this.RaisePropertyChanged("TolerateThis");
+            }
+        }
+
+        public virtual string TolerateMessyWhitespaceTooltip
+        {
+            get
+            {
+                return "True if strict whitespace rules should be ignored.";
             }
         }
 
