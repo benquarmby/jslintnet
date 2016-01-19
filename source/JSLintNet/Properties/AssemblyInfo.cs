@@ -60,7 +60,7 @@ namespace JSLintNet
         /// <summary>
         /// The edition of JSLint bundled with this release.
         /// </summary>
-        public const string Edition = "2015-12-26";
+        public const string Edition = "2016-01-14";
 
         /// <summary>
         /// The public key for JSLint.NET.
