@@ -7,7 +7,7 @@
     <authors></authors>
     <owners></owners>
     <licenseUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/License.txt</licenseUrl>
-    <projectUrl>https://github.com/benquarmby/jslintnet</projectUrl>
+    <projectUrl>https://github.com/benquarmby/jslintnet/releases</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/benquarmby/jslintnet/master/graphics/JSLint.NET-128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <developmentDependency>true</developmentDependency>
@@ -16,35 +16,12 @@
     <copyright></copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
-2.1.0 - Property directive support.
-2.0.4 - JSLint 2015-12-26 (allow "arguments" outside ES6, output directives).
-2.0.3 - JSLint 2015-10-02.
-2.0.2 - Fix library references.
-2.0.1 - JSLint 2015-08-22.
-2.0.0-beta7 - JSLint 2015-07-10. Fixed global variables.
-2.0.0-beta6 - JSLint 2015-07-01.
-2.0.0-beta5 - JSLint 2015-05-28 BETA.
-1.8.4 - Downgraded V8 to improve VS2012 support.
-1.8.3 - Upgrade announcement: https://github.com/benquarmby/jslintnet/wiki/Upgrade-Announcement
-1.8.2 - Improved support for C++, Node.js and Cordova projects.
-1.8.1 - Fixed sticky cancelled settings. Revised links to new home on GitHub.
-1.8.0 - Visual Studio 2015 support.
-1.7.0 - Fix intermittent MSBuild failures.
-1.6.5 - Prevent duplicate warnings between NuGet and VSIX.
-1.6.4 - Support linked settings file.
-1.6.3 - JSLint 2014-07-08 (disallow inefficient literal access).
-1.6.2 - JSLint 2014-04-21 (allow leading semicolon).
-1.6.1 - JSLint 2014-04-08.
-1.6.0 - Added support for streamline.js files.
-1.5.1 - Added minClientVersion attribute for NuGet 2.8.0.
-1.5.0 - All settings can be overriden with a build configuration specific JSON file. Deprecated OutputOverride property. Upgraded JSLint to 2014-02-06.
-1.4.1 - NuGet 2.8 is now required. Marked package as a development dependency. Upgraded JSLint to 2014-01-26.
-1.4.0 - Added support for 64-bit MSBuild. Made targets even more configurable. Included console app in tools for settings editor.
-1.3.1 - Added configurable properties to JSLint.NET targets.
-For all release information see:
-https://github.com/benquarmby/jslintnet/releases
-For the legacy changelog see:
-https://github.com/benquarmby/jslintnet/wiki/Change-Log
+      - JSLint edition 2016-01-27.
+      - JSLint now warns if a var, let, or const statement declares two or more variables in a single statement.
+      - Added support for the new "multivar" option which tolerates the above condition.
+
+      For all release information see:
+      https://github.com/benquarmby/jslintnet/releases
     </releaseNotes>
   </metadata>
 </package>

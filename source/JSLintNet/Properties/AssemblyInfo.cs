@@ -35,7 +35,7 @@ namespace JSLintNet
         /// <summary>
         /// The core version number for JSLint.NET.
         /// </summary>
-        public const string Version = "2.1.0";
+        public const string Version = "2.2.0";
 
         /// <summary>
         /// The informational version for JSLint.NET.
@@ -45,7 +45,7 @@ namespace JSLintNet
         /// <summary>
         /// The copyright line for JSLint.NET.
         /// </summary>
-        public const string Copyright = "Copyright © JSLint.NET Contributors 2013-2015";
+        public const string Copyright = "Copyright © JSLint.NET Contributors 2013-2016";
 
         /// <summary>
         /// The company name for JSLint.NET.
@@ -60,7 +60,7 @@ namespace JSLintNet
         /// <summary>
         /// The edition of JSLint bundled with this release.
         /// </summary>
-        public const string Edition = "2016-01-14";
+        public const string Edition = "2016-01-27";
 
         /// <summary>
         /// The public key for JSLint.NET.
