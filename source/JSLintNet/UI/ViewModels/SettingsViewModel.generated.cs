@@ -19,6 +19,21 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual bool RunOnOpen
+        {
+            get
+            {
+                return this.Model.RunOnOpen.GetValueOrDefault();
+            }
+
+            set
+            {
+                this.Model.RunOnOpen = value ? (bool?)true : null;
+
+                this.RaisePropertyChanged("RunOnOpen");
+            }
+        }
+
         public virtual bool RunOnBuild
         {
             get

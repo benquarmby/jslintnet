@@ -2,6 +2,7 @@
     private static readonly List<SettingDefinition> SettingDefinitions =  new List<SettingDefinition>()
     {
         new SettingDefinition("RunOnSave", "JSLint should run on save"),
+        new SettingDefinition("RunOnOpen", "JSLint should run on open"),
         new SettingDefinition("RunOnBuild", "JSLint should run on build"),
         new SettingDefinition("CancelBuild", "the build should be canceled for JSLint errors"),
         new SettingDefinition("ErrorLimit", "the total error limit", "int"),

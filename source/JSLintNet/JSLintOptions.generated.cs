@@ -59,10 +59,10 @@ namespace JSLintNet
         public bool? AssumeInDevelopment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether using the good parts of ECMAScript Sixth Edition..
+        /// Gets or sets a value indicating whether using the good parts of ECMAScript Sixth Edition.
         /// </summary>
         /// <value>
-        /// <c>true</c> if using the good parts of ECMAScript Sixth Edition.; otherwise, <c>false</c>.
+        /// <c>true</c> if using the good parts of ECMAScript Sixth Edition; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
         /// JSLint "es6" option.

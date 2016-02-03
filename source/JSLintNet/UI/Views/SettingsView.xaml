@@ -8,23 +8,24 @@
         <TabControl Margin="10,10,10,0" Height="314" VerticalAlignment="Top">
             <TabItem Header="Settings">
                 <Grid>
-                    <GroupBox Header="Output warnings as..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="240">
+                    <GroupBox Header="Output warnings as..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="121" Width="240">
                         <Canvas>
                             <RadioButton Content="Errors" Canvas.Left="10" Canvas.Top="10" GroupName="Output" IsChecked="{Binding OutputError}" />
                             <RadioButton Content="Warnings" Canvas.Left="10" Canvas.Top="31" GroupName="Output" IsChecked="{Binding OutputWarning}" />
                             <RadioButton Content="Messages" Canvas.Left="10" Canvas.Top="52" GroupName="Output" IsChecked="{Binding OutputMessage}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Visual Studio..." HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" Height="100" VerticalAlignment="Top">
+                    <GroupBox Header="Visual Studio..." HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" Height="121" VerticalAlignment="Top">
                         <Canvas>
                             <CheckBox Content="Run on save" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding RunOnSave}" />
-                            <CheckBox Content="Run on build" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding RunOnBuild}" Name="RunOnBuild" />
-                            <CheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
+                            <CheckBox Content="Run on open" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding RunOnOpen}" />
+                            <CheckBox Content="Run on build" Canvas.Left="10" Canvas.Top="52" IsChecked="{Binding RunOnBuild}" Name="RunOnBuild" />
+                            <CheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="73" IsChecked="{Binding CancelBuild}" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Ignore" Margin="10,0,10,10" Height="157" VerticalAlignment="Bottom">
+                    <GroupBox Header="Ignore" Margin="10,0,10,10" Height="136" VerticalAlignment="Bottom">
                         <Canvas>
-                            <ListBox Height="87" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" Canvas.Right="10" Width="712" ItemsSource="{Binding Ignore}" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch">
+                            <ListBox Height="66" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" Canvas.Right="10" Width="712" ItemsSource="{Binding Ignore}" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -34,15 +35,15 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <TextBox Height="23" Canvas.Left="10" Canvas.Bottom="10" Width="632" Name="IgnoreAdd" Canvas.Top="102">
+                            <TextBox Height="23" Canvas.Left="10" Canvas.Bottom="10" Width="632" Name="IgnoreAdd">
                                 <TextBox.InputBindings>
                                     <KeyBinding Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" Key="Enter" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <Button Content="Add" Canvas.Right="10" Canvas.Bottom="10" Width="75" Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" RenderTransformOrigin="1.3,2.75" Canvas.Left="647" Canvas.Top="103" />
+                            <Button Content="Add" Canvas.Right="10" Canvas.Bottom="10" Width="75" Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Limits..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="100" VerticalAlignment="Top">
+                    <GroupBox Header="Limits..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="121" VerticalAlignment="Top">
                         <Canvas>
                             <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Width="50" Padding="0" FontSize="9" Text="{Binding ErrorLimit}" />
                             <Label Content="Maximum total errors" Canvas.Left="65" Canvas.Top="10" Height="16" Padding="0" />

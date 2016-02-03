@@ -2,6 +2,7 @@
 {
     using System;
     using EnvDTE;
+    using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
 
     internal class DocumentEventController : EventControllerBase
@@ -22,16 +23,27 @@
         public override void Initialize()
         {
             this.documentEvents.DocumentSaved += this.OnDocumentSaved;
+            this.documentEvents.DocumentOpened += this.OnDocumentOpened;
         }
 
         private void OnDocumentSaved(Document document)
+        {
+            this.LintDocument(document, x => x.RunOnSave);
+        }
+
+        private void OnDocumentOpened(Document document)
+        {
+            this.LintDocument(document, x => x.RunOnOpen);
+        }
+
+        private void LintDocument(Document document, Func<JSLintNetSettings, bool?> setting)
         {
             if (JSLint.CanLint(document.Name))
             {
                 var settings = this.VisualStudioJSLintProvider.LoadSettings(document.ProjectItem.ContainingProject);
                 var ignored = settings.NormalizeIgnore();
 
-                if (settings.RunOnSave.GetValueOrDefault() && !document.ProjectItem.Is().Ignored(ignored))
+                if (setting(settings).GetValueOrDefault() && !document.ProjectItem.Is().Ignored(ignored))
                 {
                     this.VisualStudioJSLintProvider.LintDocument(document, settings);
                 }

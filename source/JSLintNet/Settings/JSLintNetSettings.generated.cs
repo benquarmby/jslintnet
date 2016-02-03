@@ -16,6 +16,15 @@ namespace JSLintNet.Settings
         public bool? RunOnSave { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether JSLint should run on open.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if JSLint should run on open; otherwise, <c>false</c>.
+        /// </value>
+        [JsonProperty("runOnOpen")]
+        public bool? RunOnOpen { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether JSLint should run on build.
         /// </summary>
         /// <value>
@@ -58,6 +67,11 @@ namespace JSLintNet.Settings
                 this.RunOnSave = merge.RunOnSave;
             }
 
+            if (merge.RunOnOpen.HasValue)
+            {
+                this.RunOnOpen = merge.RunOnOpen;
+            }
+
             if (merge.RunOnBuild.HasValue)
             {
                 this.RunOnBuild = merge.RunOnBuild;
@@ -82,6 +96,7 @@ namespace JSLintNet.Settings
         private void CloneRoot(JSLintNetSettings target)
         {
             target.RunOnSave = this.RunOnSave;
+            target.RunOnOpen = this.RunOnOpen;
             target.RunOnBuild = this.RunOnBuild;
             target.CancelBuild = this.CancelBuild;
             target.ErrorLimit = this.ErrorLimit;
