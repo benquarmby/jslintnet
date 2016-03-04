@@ -16,9 +16,7 @@
     <copyright></copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
-      - JSLint edition 2016-01-27.
-      - JSLint now warns if a var, let, or const statement declares two or more variables in a single statement.
-      - Added support for the new "multivar" option which tolerates the above condition.
+      - JSLint edition 2016-03-03.
 
       For all release information see:
       https://github.com/benquarmby/jslintnet/releases
