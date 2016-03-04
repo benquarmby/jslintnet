@@ -69,6 +69,26 @@ namespace JSLintNet.Properties
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=9&quot; /&gt;
+        ///&lt;title&gt;Browser Context&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;
+        ///.
+        /// </summary>
+        internal static string BrowserContext
+        {
+            get
+            {
+                return ResourceManager.GetString("BrowserContext", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Error linting file: {0}{1}{2}.
         /// </summary>
         internal static string ErrorEncounteredFormat
@@ -120,6 +140,17 @@ namespace JSLintNet.Properties
             get
             {
                 return ResourceManager.GetString("FileLimitReachedFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to initialize a JavaScript context..
+        /// </summary>
+        internal static string JavaScriptContextFailedError
+        {
+            get
+            {
+                return ResourceManager.GetString("JavaScriptContextFailedError", resourceCulture);
             }
         }
 

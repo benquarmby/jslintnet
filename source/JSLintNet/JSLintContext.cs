@@ -73,7 +73,7 @@
         {
             var jsonOptions = this.jsonProvider.SerializeOptions(options);
             var jsonGlobalVariables = this.jsonProvider.SerializeObject(globalVariables);
-            var jsonData = this.context.Script.jslintnet(source, jsonOptions, jsonGlobalVariables);
+            var jsonData = this.context.InvokeFunction("jslintnet", source, jsonOptions, jsonGlobalVariables) as string;
             var data = this.jsonProvider.DeserializeData(jsonData);
 
             return data;
@@ -105,9 +105,9 @@
 
         private void LoadJSLint()
         {
-            this.context.Run(Resources.jslint);
-            this.context.Run(Resources.report);
-            this.context.Run(Resources.jslintnet);
+            this.context.InjectScript(Resources.jslint);
+            this.context.InjectScript(Resources.report);
+            this.context.InjectScript(Resources.jslintnet);
         }
     }
 }

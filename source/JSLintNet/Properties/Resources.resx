@@ -160,4 +160,10 @@
   <data name="ReportTitle" xml:space="preserve">
     <value>JSLint Report</value>
   </data>
+  <data name="BrowserContext" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\browsercontext.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="JavaScriptContextFailedError" xml:space="preserve">
+    <value>Failed to initialize a JavaScript context.</value>
+  </data>
 </root>

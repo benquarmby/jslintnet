@@ -4,12 +4,8 @@
 
     internal interface IJavaScriptContext : IDisposable
     {
-        dynamic Script { get; }
+        void InjectScript(string source);
 
-        object Run(string source);
-
-        void SetParameter(string name, object value);
-
-        void TerminateExecution();
+        object InvokeFunction(string function, params object[] args);
     }
 }

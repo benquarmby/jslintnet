@@ -90,7 +90,6 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="FileSystemWrapperStub.cs" />
     <Compile Include="JSLintContextIntegration.cs" />
-    <Compile Include="JSLintContextUnit.cs" />
     <Compile Include="Tasks\JSLintTaskFixture.cs" />
     <Compile Include="Tasks\JSLintTaskTests.cs" />
     <Compile Include="Settings\JSLintNetSettingsUnit.cs" />
