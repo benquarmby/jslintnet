@@ -16,8 +16,8 @@
     <copyright></copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
-      - JSLint edition 2016-03-03.
-      - Restored toleration of leading semicolon.
+      - JSLint edition 2016-04-08.
+      - Handles Date.UTC edge case.
 
       For all release information see:
       https://github.com/benquarmby/jslintnet/releases
