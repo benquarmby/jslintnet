@@ -3,7 +3,9 @@
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
+    using JSLintNet.UI;
     using JSLintNet.UI.Settings;
+    using Moq;
     using Xunit;
 
     public class SettingsViewModelUnit
@@ -104,13 +106,16 @@
                 settings.Options = new JSLintOptions();
 
                 this.Model = settings;
+                this.ViewMock = new Mock<IView>();
             }
 
             public JSLintNetSettings Model { get; set; }
 
+            public Mock<IView> ViewMock { get; set; }
+
             protected override SettingsViewModel Resolve()
             {
-                return new SettingsViewModel(this.Model);
+                return new SettingsViewModel(this.ViewMock.Object, this.Model);
             }
         }
     }

@@ -4,20 +4,16 @@
     using System.ComponentModel;
     using System.Linq.Expressions;
 
-    internal abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
+    internal abstract class ViewModelBase : INotifyPropertyChanged
     {
+        public ViewModelBase(IView view)
+        {
+            this.View = view;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IView View { get; set; }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-        }
-
-        protected virtual void Dispose(bool managed)
-        {
-        }
+        protected IView View { get; private set; }
 
         protected virtual void RaisePropertyChanged(string propertyName)
         {
@@ -41,11 +37,6 @@
             }
 
             this.RaisePropertyChanged(memberExpression.Member.Name);
-        }
-
-        protected virtual void HandleAndClose(EventHandler handler)
-        {
-            this.HandleAndClose(handler, null);
         }
 
         protected virtual void HandleAndClose(EventHandler handler, bool? result)

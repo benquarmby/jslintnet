@@ -12,7 +12,8 @@
     {
         private static readonly Regex SeparatorPattern = new Regex(@"[\s,;'""]+", RegexOptions.Compiled);
 
-        public SettingsViewModel(JSLintNetSettings model)
+        public SettingsViewModel(IView view, JSLintNetSettings model)
+            : base(view)
         {
             this.Model = model;
 

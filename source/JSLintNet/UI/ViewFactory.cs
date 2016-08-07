@@ -7,13 +7,9 @@
     {
         public IView CreateSettings(JSLintNetSettings settings)
         {
-            var viewModel = new SettingsViewModel(settings);
-            var view = new SettingsView()
-            {
-                DataContext = viewModel
-            };
-
-            viewModel.View = view;
+            var view = new SettingsView();
+            var viewModel = new SettingsViewModel(view, settings);
+            view.DataContext = viewModel;
 
             return view;
         }
