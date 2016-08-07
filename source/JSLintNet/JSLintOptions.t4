@@ -1,37 +1,47 @@
 <#+
+    private enum OptionGroup
+    {
+        Assume,
+        Tolerate,
+        Number
+    }
+
     private static readonly List<OptionDefinition> OptionDefinitions =  new List<OptionDefinition>()
     {
-        new OptionDefinition("bitwise", "TolerateBitwiseOperators", "bitwise operators", "bitwise operators should be allowed"),
-        new OptionDefinition("browser", "AssumeBrowser", "a browser", "the standard browser globals should be predefined"),
-        new OptionDefinition("couch", "AssumeCouchDB", "CouchDB", "Couch DB globals should be predefined"),
-        new OptionDefinition("devel", "AssumeInDevelopment", "in development", "browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed"),
-        new OptionDefinition("es6", "AssumeES6", "ES6", "using the good parts of ECMAScript Sixth Edition"),
-        new OptionDefinition("eval", "TolerateEval", "eval", "eval should be allowed"),
-        new OptionDefinition("for", "TolerateForStatement", "for statement", "the for statement should be allowed"),
-        new OptionDefinition("maxerr", "MaximumErrors", "Maximum line length", "maximum number of warnings reported", "int"),
-        new OptionDefinition("maxlen", "MaximumLineLength", "Maximum warnings", "maximum number of characters in a line", "int"),
-        new OptionDefinition("multivar", "TolerateMultipleVariables", "multiple vars", "a var, let, or const statement can declare two or more variables in a single statement"),
-        new OptionDefinition("node", "AssumeNode", "Node.js", "Node.js globals should be predefined"),
-        new OptionDefinition("single", "TolerateSingleQuoteStrings", "single quote strings", "single quote should be allowed to enclose string literals"),
-        new OptionDefinition("this", "TolerateThis", "this", "this should be allowed"),
-        new OptionDefinition("white", "TolerateMessyWhitespace", "whitespace mess", "strict whitespace rules should be ignored")
+        new OptionDefinition(OptionGroup.Tolerate, "bitwise", "TolerateBitwiseOperators", "bitwise operators", "bitwise operators should be allowed"),
+        new OptionDefinition(OptionGroup.Assume, "browser", "AssumeBrowser", "a browser", "the standard browser globals should be predefined"),
+        new OptionDefinition(OptionGroup.Assume, "couch", "AssumeCouchDB", "CouchDB", "Couch DB globals should be predefined"),
+        new OptionDefinition(OptionGroup.Assume, "devel", "AssumeInDevelopment", "in development", "browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed"),
+        new OptionDefinition(OptionGroup.Assume, "es6", "AssumeES6", "ES6", "using the good parts of ECMAScript Sixth Edition"),
+        new OptionDefinition(OptionGroup.Tolerate, "eval", "TolerateEval", "eval", "eval should be allowed"),
+        new OptionDefinition(OptionGroup.Tolerate, "for", "TolerateForStatement", "for statement", "the for statement should be allowed"),
+        new OptionDefinition(OptionGroup.Number, "maxerr", "MaximumErrors", "Maximum line length", "maximum number of warnings reported", "int"),
+        new OptionDefinition(OptionGroup.Number, "maxlen", "MaximumLineLength", "Maximum warnings", "maximum number of characters in a line", "int"),
+        new OptionDefinition(OptionGroup.Tolerate, "multivar", "TolerateMultipleVariables", "multiple vars", "a var, let, or const statement can declare two or more variables in a single statement"),
+        new OptionDefinition(OptionGroup.Assume, "node", "AssumeNode", "Node.js", "Node.js globals should be predefined"),
+        new OptionDefinition(OptionGroup.Tolerate, "single", "TolerateSingleQuoteStrings", "single quote strings", "single quote should be allowed to enclose string literals"),
+        new OptionDefinition(OptionGroup.Tolerate, "this", "TolerateThis", "this", "this should be allowed"),
+        new OptionDefinition(OptionGroup.Tolerate, "white", "TolerateMessyWhitespace", "whitespace mess", "strict whitespace rules should be ignored"),
     };
 
     private class OptionDefinition
     {
-        public OptionDefinition(string key, string propertyName, string summary, string description)
-            : this(key, propertyName, summary, description, "bool")
+        public OptionDefinition(OptionGroup group, string key, string propertyName, string summary, string description)
+            : this(group, key, propertyName, summary, description, "bool")
         {
         }
 
-        public OptionDefinition(string key, string propertyName, string summary, string description, string propertyType)
+        public OptionDefinition(OptionGroup group, string key, string propertyName, string summary, string description, string propertyType)
         {
+            this.Group = group;
             this.Key = key;
             this.PropertyName = propertyName;
             this.Summary = summary;
             this.Description = description;
             this.PropertyType = propertyType;
         }
+
+        public OptionGroup Group { get; set; }
 
         public string Key { get; set; }
 
