@@ -59,10 +59,10 @@ namespace JSLintNet
         public bool? AssumeInDevelopment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether using the good parts of ECMAScript Sixth Edition..
+        /// Gets or sets a value indicating whether using the good parts of ECMAScript Sixth Edition.
         /// </summary>
         /// <value>
-        /// <c>true</c> if using the good parts of ECMAScript Sixth Edition.; otherwise, <c>false</c>.
+        /// <c>true</c> if using the good parts of ECMAScript Sixth Edition; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
         /// JSLint "es6" option.
@@ -143,6 +143,18 @@ namespace JSLintNet
         public bool? AssumeNode { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether single quote should be allowed to enclose string literals.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if single quote should be allowed to enclose string literals; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        /// JSLint "single" option.
+        /// </remarks>
+        [JsonProperty("single")]
+        public bool? TolerateSingleQuoteStrings { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this should be allowed.
         /// </summary>
         /// <value>
@@ -187,6 +199,7 @@ namespace JSLintNet
             clone.MaximumLineLength = this.MaximumLineLength;
             clone.TolerateMultipleVariables = this.TolerateMultipleVariables;
             clone.AssumeNode = this.AssumeNode;
+            clone.TolerateSingleQuoteStrings = this.TolerateSingleQuoteStrings;
             clone.TolerateThis = this.TolerateThis;
             clone.TolerateMessyWhitespace = this.TolerateMessyWhitespace;
 
@@ -263,6 +276,11 @@ namespace JSLintNet
             if (merge.AssumeNode.HasValue)
             {
                 this.AssumeNode = merge.AssumeNode;
+            }
+
+            if (merge.TolerateSingleQuoteStrings.HasValue)
+            {
+                this.TolerateSingleQuoteStrings = merge.TolerateSingleQuoteStrings;
             }
 
             if (merge.TolerateThis.HasValue)

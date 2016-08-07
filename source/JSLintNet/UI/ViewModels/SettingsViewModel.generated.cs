@@ -340,6 +340,29 @@ namespace JSLintNet.UI.ViewModels
             }
         }
 
+        public virtual string TolerateSingleQuoteStringsTooltip
+        {
+            get
+            {
+                return "True if single quote should be allowed to enclose string literals.";
+            }
+        }
+
+        public virtual bool TolerateSingleQuoteStrings
+        {
+            get
+            {
+                return this.Model.Options.TolerateSingleQuoteStrings.GetValueOrDefault();
+            }
+
+            set
+            {
+                this.Model.Options.TolerateSingleQuoteStrings = value ? (bool?)true : null;
+
+                this.RaisePropertyChanged("TolerateSingleQuoteStrings");
+            }
+        }
+
         public virtual string TolerateThisTooltip
         {
             get

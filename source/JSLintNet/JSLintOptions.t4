@@ -12,6 +12,7 @@
         new OptionDefinition("maxlen", "MaximumLineLength", "maximum number of characters in a line", "int"),
         new OptionDefinition("multivar", "TolerateMultipleVariables", "a var, let, or const statement can declare two or more variables in a single statement"),
         new OptionDefinition("node", "AssumeNode", "Node.js globals should be predefined"),
+        new OptionDefinition("single", "TolerateSingleQuoteStrings", "single quote should be allowed to enclose string literals"),
         new OptionDefinition("this", "TolerateThis", "this should be allowed"),
         new OptionDefinition("white", "TolerateMessyWhitespace", "strict whitespace rules should be ignored")
     };
