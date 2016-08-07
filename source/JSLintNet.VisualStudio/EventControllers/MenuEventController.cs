@@ -5,8 +5,8 @@
     using System.ComponentModel.Design;
     using System.Linq;
     using EnvDTE;
+    using JSLintNet.UI;
     using JSLintNet.UI.ViewModels;
-    using JSLintNet.UI.Views;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Extensions.ProjectItems;
     using Microsoft.VisualStudio.Shell;

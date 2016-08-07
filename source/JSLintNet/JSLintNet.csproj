@@ -109,19 +109,19 @@
     </Compile>
     <Compile Include="JSLintReportBuilder.cs" />
     <Compile Include="Settings\SettingsRepository.cs" />
-    <Compile Include="UI\Views\IView.cs" />
-    <Compile Include="UI\Views\IViewFactory.cs" />
+    <Compile Include="UI\IView.cs" />
+    <Compile Include="UI\IViewFactory.cs" />
     <Compile Include="UI\RelayCommand.cs" />
     <Compile Include="UI\RelayCommand`1.cs" />
     <Compile Include="UI\Views\OptionsControl.xaml.cs" />
-    <Compile Include="UI\Views\ViewFactory.cs" />
+    <Compile Include="UI\ViewFactory.cs" />
     <Compile Include="UI\ViewModels\SettingsViewModel.cs" />
     <Compile Include="UI\ViewModels\SettingsViewModel.generated.cs">
       <DependentUpon>SettingsViewModel.generated.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="UI\ViewModels\ViewModelBase.cs" />
+    <Compile Include="UI\ViewModelBase.cs" />
     <Compile Include="UI\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>

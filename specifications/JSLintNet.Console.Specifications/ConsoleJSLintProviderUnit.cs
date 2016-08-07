@@ -8,8 +8,8 @@
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
+    using JSLintNet.UI;
     using JSLintNet.UI.ViewModels;
-    using JSLintNet.UI.Views;
     using Moq;
     using Xunit;
     using CoreResources = JSLintNet.Properties.Resources;

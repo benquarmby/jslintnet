@@ -1,6 +1,7 @@
-﻿namespace JSLintNet.UI.Views
+﻿namespace JSLintNet.UI
 {
     using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Views;
 
     internal class ViewFactory : IViewFactory
     {

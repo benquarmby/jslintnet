@@ -1,9 +1,8 @@
-﻿namespace JSLintNet.UI.ViewModels
+﻿namespace JSLintNet.UI
 {
     using System;
     using System.ComponentModel;
     using System.Linq.Expressions;
-    using JSLintNet.UI.Views;
 
     internal abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
