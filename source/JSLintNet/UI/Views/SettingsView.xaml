@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="JSLintNet.UI.Views.SettingsView"
         Name="RootWindow"
-        Title="JSLint.NET Settings" Height="400" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="JSLint.NET Settings" Height="420" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid>
-        <TabControl Margin="10,10,10,0" Height="314" VerticalAlignment="Top">
+        <TabControl Margin="10,10,10,0" Height="335" VerticalAlignment="Top">
             <TabItem Header="Settings">
                 <Grid>
                     <GroupBox Header="Output warnings as..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="240">
@@ -22,9 +22,9 @@
                             <CheckBox Content="Cancel build" Canvas.Left="30" Canvas.Top="52" IsChecked="{Binding CancelBuild}" IsEnabled="{Binding ElementName=RunOnBuild, Path=IsChecked}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Ignore" Margin="10,0,10,10" Height="157" VerticalAlignment="Bottom">
+                    <GroupBox Header="Ignore" Margin="10,0,10,10" Height="178" VerticalAlignment="Bottom">
                         <Canvas>
-                            <ListBox Height="87" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" Canvas.Right="10" Width="712" ItemsSource="{Binding Ignore}" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch">
+                            <ListBox Height="108" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="10" Canvas.Right="10" Width="712" ItemsSource="{Binding Ignore}" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -34,12 +34,12 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <TextBox Height="23" Canvas.Left="10" Canvas.Bottom="10" Width="632" Name="IgnoreAdd" Canvas.Top="102">
+                            <TextBox Height="23" Canvas.Left="10" Canvas.Bottom="10" Width="632" Name="IgnoreAdd" Canvas.Top="123">
                                 <TextBox.InputBindings>
                                     <KeyBinding Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" Key="Enter" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <Button Content="Add" Canvas.Right="10" Canvas.Bottom="10" Width="75" Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" RenderTransformOrigin="1.3,2.75" Canvas.Left="647" Canvas.Top="103" />
+                            <Button Content="Add" Canvas.Right="10" Canvas.Bottom="10" Width="75" Command="{Binding IgnoreAddCommand}" CommandParameter="{Binding ElementName=IgnoreAdd}" RenderTransformOrigin="1.3,2.75" Canvas.Left="647" Canvas.Top="124" />
                         </Canvas>
                     </GroupBox>
                     <GroupBox Header="Limits..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="100" VerticalAlignment="Top">
@@ -54,7 +54,7 @@
             </TabItem>
             <TabItem Header="JSLint Options">
                 <Grid>
-                    <GroupBox Header="Assume..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="161" Width="240">
+                    <GroupBox Header="Assume..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="182" Width="240">
                         <Canvas>
                             <CheckBox Content="in development" Canvas.Left="10" Canvas.Top="10" Tag="devel" IsChecked="{Binding AssumeInDevelopment}" ToolTip="{Binding AssumeInDevelopmentTooltip}" />
                             <CheckBox Content="ES6" Canvas.Left="10" Canvas.Top="31" Tag="es6" IsChecked="{Binding AssumeES6}" ToolTip="{Binding AssumeES6Tooltip}" />
@@ -63,17 +63,18 @@
                             <CheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="94" Tag="node" IsChecked="{Binding AssumeNode}" ToolTip="{Binding AssumeNodeTooltip}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Tolerate..." Margin="0,10,0,0" VerticalAlignment="Top" Height="161" HorizontalAlignment="Center" Width="240">
+                    <GroupBox Header="Tolerate..." Margin="0,10,0,0" VerticalAlignment="Top" Height="182" HorizontalAlignment="Center" Width="240">
                         <Canvas>
                             <CheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="10" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" ToolTip="{Binding TolerateBitwiseOperatorsTooltip}" />
                             <CheckBox Content="eval" Canvas.Left="10" Canvas.Top="31" Tag="eval" IsChecked="{Binding TolerateEval}" ToolTip="{Binding TolerateEvalTooltip}" />
                             <CheckBox Content="for statement" Canvas.Left="10" Canvas.Top="52" Tag="for" IsChecked="{Binding TolerateForStatement}" ToolTip="{Binding TolerateForStatementTooltip}" />
                             <CheckBox Content="multiple vars" Canvas.Left="10" Canvas.Top="73" Tag="multivar" IsChecked="{Binding TolerateMultipleVariables}" ToolTip="{Binding TolerateMultipleVariablesTooltip}" />
-                            <CheckBox Content="this" Canvas.Left="10" Canvas.Top="94" Tag="this" IsChecked="{Binding TolerateThis}" ToolTip="{Binding TolerateThisTooltip}" />
-                            <CheckBox Content="messy white space" Canvas.Left="10" Canvas.Top="115" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" ToolTip="{Binding TolerateMessyWhitespaceTooltip}" />
+                            <CheckBox Content="single quote strings" Canvas.Left="10" Canvas.Top="94" Tag="single" IsChecked="{Binding TolerateSingleQuoteStrings}" ToolTip="{Binding TolerateSingleQuoteStringsTooltip}" />
+                            <CheckBox Content="this" Canvas.Left="10" Canvas.Top="115" Tag="this" IsChecked="{Binding TolerateThis}" ToolTip="{Binding TolerateThisTooltip}" />
+                            <CheckBox Content="whitespace mess" Canvas.Left="10" Canvas.Top="136" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" ToolTip="{Binding TolerateMessyWhitespaceTooltip}" />
                         </Canvas>
                     </GroupBox>
-                    <GroupBox Header="Number..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="161" VerticalAlignment="Top">
+                    <GroupBox Header="Number..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="182" VerticalAlignment="Top">
                         <Canvas>
                             <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumLineLength}" />
                             <Label Content="Maximum line length" Canvas.Left="65" Canvas.Top="10" Height="16" Padding="0" ToolTip="{Binding MaximumLineLengthTooltip}" />
