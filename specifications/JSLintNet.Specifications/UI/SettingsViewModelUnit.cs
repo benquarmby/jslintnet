@@ -1,7 +1,7 @@
 ﻿namespace JSLintNet.Specifications.UI
 {
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.UI;
     using JSLintNet.UI.Settings;

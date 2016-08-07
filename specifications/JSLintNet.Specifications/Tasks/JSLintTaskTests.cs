@@ -1,6 +1,6 @@
 ﻿namespace JSLintNet.Specifications.Tasks
 {
-    using JSLintNet.QualityTools.Expectations;
+    using IExpect;
     using Xunit;
 
     [Trait("Category", "Unit")]

@@ -1,8 +1,8 @@
 ﻿namespace JSLintNet.Specifications.Models
 {
     using System.Collections.Generic;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using Microsoft.Build.Framework;
     using Moq;
     using Xunit;

@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
+    using IExpect;
     using JSLintNet.Json;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using Moq;
     using Xunit;
 

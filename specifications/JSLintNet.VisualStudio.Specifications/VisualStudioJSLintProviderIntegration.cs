@@ -4,8 +4,8 @@
     using System.Text;
     using EnvDTE;
     using EnvDTE80;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

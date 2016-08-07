@@ -4,11 +4,11 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using IExpect;
     using JSLintNet;
     using JSLintNet.Abstractions;
     using JSLintNet.Properties;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
     using Moq;

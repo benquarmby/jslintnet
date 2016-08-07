@@ -5,8 +5,8 @@
     using System.ComponentModel.Design;
     using System.IO;
     using EnvDTE;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.UI;
     using JSLintNet.VisualStudio.Errors;

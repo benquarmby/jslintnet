@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.IO;
     using EnvDTE;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.EventControllers;

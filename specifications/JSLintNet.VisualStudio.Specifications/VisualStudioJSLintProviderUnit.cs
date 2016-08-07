@@ -5,10 +5,10 @@
     using System.IO;
     using System.Text;
     using EnvDTE;
+    using IExpect;
     using JSLintNet.Abstractions;
     using JSLintNet.Properties;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
     using JSLintNet.VisualStudio.Errors;

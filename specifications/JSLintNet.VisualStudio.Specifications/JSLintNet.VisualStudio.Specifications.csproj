@@ -58,6 +58,10 @@
       <HintPath>..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="IExpect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37172eaa47133448, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IExpect.1.0.0-alpha2\lib\net45\IExpect.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
     </Reference>

@@ -1,10 +1,10 @@
 ﻿namespace JSLintNet.Specifications.Settings
 {
     using System.Text;
+    using IExpect;
     using JSLintNet.Abstractions;
     using JSLintNet.Json;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using Moq;
     using Xunit;

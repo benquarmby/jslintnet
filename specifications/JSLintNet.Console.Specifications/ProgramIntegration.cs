@@ -2,8 +2,8 @@
 {
     using System;
     using System.IO;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
     using Xunit;
 

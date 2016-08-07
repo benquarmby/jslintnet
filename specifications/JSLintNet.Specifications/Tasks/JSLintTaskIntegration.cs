@@ -3,8 +3,8 @@
     using System;
     using System.IO;
     using System.Text.RegularExpressions;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Helpers;
     using JSLintNet.Settings;
     using Microsoft.Win32;

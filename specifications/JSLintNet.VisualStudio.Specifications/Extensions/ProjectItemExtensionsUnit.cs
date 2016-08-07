@@ -1,8 +1,8 @@
 ﻿namespace JSLintNet.VisualStudio.Specifications.Extensions
 {
     using EnvDTE;
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using Moq;
     using Xunit;
 

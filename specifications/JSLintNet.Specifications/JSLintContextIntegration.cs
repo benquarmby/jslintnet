@@ -1,7 +1,7 @@
 ﻿namespace JSLintNet.Specifications
 {
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using Xunit;
 
     public class JSLintContextIntegration : IntegrationBase

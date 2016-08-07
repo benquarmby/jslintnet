@@ -1,7 +1,7 @@
 ﻿namespace JSLintNet.Specifications.Settings
 {
+    using IExpect;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using Xunit;
 

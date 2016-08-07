@@ -2,9 +2,9 @@
 {
     using System;
     using System.Linq;
+    using IExpect;
     using JSLintNet.Console.Abstractions;
     using JSLintNet.QualityTools;
-    using JSLintNet.QualityTools.Expectations;
     using Moq;
     using Xunit;
 

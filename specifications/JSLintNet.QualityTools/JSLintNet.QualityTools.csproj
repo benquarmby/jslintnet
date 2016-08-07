@@ -18,6 +18,9 @@
     <RestorePackages>true</RestorePackages>
     <CodeAnalysisAdditionalOptions>/assemblycomparemode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <Import Project="$(SolutionDir)JSLintNet.props" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,18 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacTestFixture.cs" />
-    <Compile Include="Expectations\ExpectationActionExtensions.cs" />
-    <Compile Include="Expectations\ExpectationBooleanExtensions.cs" />
-    <Compile Include="Expectations\ExpectationDictionaryExtensions.cs" />
-    <Compile Include="Expectations\ExpectationEnumerableExtensions.cs" />
-    <Compile Include="Expectations\ExpectationExtensions.cs" />
-    <Compile Include="Expectations\ExpectationHelper.cs" />
-    <Compile Include="Expectations\ExpectationInt32Extensions.cs" />
-    <Compile Include="Expectations\ExpectationStringExtensions.cs" />
-    <Compile Include="Expectations\Expectation.cs" />
-    <Compile Include="Expectations\I.cs" />
-    <Compile Include="Expectations\IExpectation.cs" />
-    <Compile Include="Expectations\IReversibleExpectation.cs" />
     <Compile Include="Fakes\JSLintDataFake.cs" />
     <Compile Include="Fakes\JSLintWarningFake.cs" />
     <Compile Include="IDependencyRegistrar.cs" />
