@@ -10,19 +10,26 @@
         /// <summary>
         /// Creates a new expectation.
         /// </summary>
-        /// <typeparam name="T">The type of the actual value.</typeparam>
+        /// <typeparam name="TActual">The type of the actual value.</typeparam>
         /// <param name="actual">The actual value.</param>
         /// <returns>
         /// The expectation.
         /// </returns>
-        public static IReversibleExpectation<T> Expect<T>(T actual)
+        public static IReversibleExpectation<TActual> Expect<TActual>(TActual actual)
         {
-            return new Expectation<T>(actual);
+            return new Expectation<TActual>(actual);
         }
 
-        public static IReversibleExpectation<Action> Expect(Action actual)
+        /// <summary>
+        /// Creates a new delegate expectation.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        /// The expectation.
+        /// </returns>
+        public static IReversibleExpectation<Action> Expect(Action action)
         {
-            return new Expectation<Action>(actual);
+            return new Expectation<Action>(action);
         }
     }
 }

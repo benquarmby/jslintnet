@@ -3,8 +3,8 @@
     /// <summary>
     /// An expectation.
     /// </summary>
-    /// <typeparam name="T">Any type.</typeparam>
-    public interface IExpectation<T>
+    /// <typeparam name="TActual">Any type.</typeparam>
+    public interface IExpectation<out TActual>
     {
         /// <summary>
         /// Gets the actual value.
@@ -12,7 +12,7 @@
         /// <value>
         /// The actual value.
         /// </value>
-        T Actual { get; }
+        TActual Actual { get; }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="IExpectation`1" /> is positive.
@@ -23,12 +23,6 @@
         bool Positive { get; }
 
         /// <summary>
-        /// Matcher that determines whether the actual and expected values are the same.
-        /// </summary>
-        /// <param name="expected">The expected value.</param>
-        void ToBe(T expected);
-
-        /// <summary>
         /// Matcher that determines whether the actual value is null.
         /// </summary>
         void ToBeNull();
@@ -36,7 +30,7 @@
         /// <summary>
         /// Matcher that determines whether the actual value type is the same as the given type.
         /// </summary>
-        /// <typeparam name="S">The type to compare.</typeparam>
-        void ToBeOfType<S>();
+        /// <typeparam name="TExpected">The type to compare.</typeparam>
+        void ToBeOfType<TExpected>();
     }
 }

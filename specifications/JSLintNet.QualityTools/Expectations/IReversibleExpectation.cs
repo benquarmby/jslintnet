@@ -3,8 +3,8 @@
     /// <summary>
     /// An expectation that can be reversed to a negative state.
     /// </summary>
-    /// <typeparam name="T">Any type.</typeparam>
-    public interface IReversibleExpectation<T> : IExpectation<T>
+    /// <typeparam name="TActual">Any type.</typeparam>
+    public interface IReversibleExpectation<out TActual> : IExpectation<TActual>
     {
         /// <summary>
         /// Gets the negative expectation.
@@ -12,6 +12,6 @@
         /// <value>
         /// The negative expectation.
         /// </value>
-        IExpectation<T> Not { get; }
+        IExpectation<TActual> Not { get; }
     }
 }

@@ -11,7 +11,6 @@
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
-    using Microsoft.Build.Framework;
     using Moq;
     using Xunit;
 
@@ -89,7 +88,7 @@
 
                     testable.Instance.Execute();
 
-                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.ErrorLimitReachedFormat, JSLintNetSettings.DefaultErrorLimit));
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain(x => x.Message == string.Format(Resources.ErrorLimitReachedFormat, JSLintNetSettings.DefaultErrorLimit));
                 }
             }
 
@@ -110,7 +109,7 @@
 
                     testable.Instance.Execute();
 
-                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.ExceptionLimitReachedFormat, JSLintNetSettings.ExceptionLimit));
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain(x => x.Message == string.Format(Resources.ExceptionLimitReachedFormat, JSLintNetSettings.ExceptionLimit));
                 }
             }
 
@@ -126,7 +125,7 @@
 
                     testable.Instance.Execute();
 
-                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.FileLimitReachedFormat, JSLintNetSettings.DefaultFileLimit));
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain(x => x.Message == string.Format(Resources.FileLimitReachedFormat, JSLintNetSettings.DefaultFileLimit));
                 }
             }
 
@@ -141,7 +140,7 @@
 
                     testable.Instance.Execute();
 
-                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.ErrorLimitReachedFormat, 11));
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain(x => x.Message == string.Format(Resources.ErrorLimitReachedFormat, 11));
                 }
             }
 
@@ -160,7 +159,7 @@
 
                     testable.Instance.Execute();
 
-                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain((BuildErrorEventArgs x) => x.Message == string.Format(Resources.FileLimitReachedFormat, 10));
+                    I.Expect(testable.BuildEngine.ErrorEvents).ToContain(x => x.Message == string.Format(Resources.FileLimitReachedFormat, 10));
                 }
             }
 
