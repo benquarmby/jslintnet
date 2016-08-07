@@ -16,8 +16,8 @@
     <copyright></copyright>
     <tags>JavaScript JSLint MSBuild</tags>
     <releaseNotes>
-      - JSLint edition 2016-04-08.
-      - Handles Date.UTC edge case.
+      - JSLint edition 2016-07-13
+      - Single quoted strings tolerated with 'single' option.
 
       For all release information see:
       https://github.com/benquarmby/jslintnet/releases
