@@ -9,7 +9,6 @@
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
     using JSLintNet.UI;
-    using JSLintNet.UI.Settings;
     using Moq;
     using Xunit;
     using CoreResources = JSLintNet.Properties.Resources;
@@ -169,7 +168,7 @@
                     base.BeforeResolve();
 
                     this.GetMock<IViewFactory>()
-                        .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
+                        .Setup(x => x.CreateSettings(It.IsAny<JSLintNetSettings>()))
                         .Returns(this.ViewMock.Object);
                 }
             }

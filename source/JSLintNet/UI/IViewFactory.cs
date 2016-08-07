@@ -1,11 +1,9 @@
 ﻿namespace JSLintNet.UI
 {
-    using JSLintNet.UI.Settings;
+    using JSLintNet.Settings;
 
     internal interface IViewFactory
     {
-        IView CreateSettings();
-
-        IView CreateSettings(SettingsViewModel viewModel);
+        IView CreateSettings(JSLintNetSettings settings);
     }
 }

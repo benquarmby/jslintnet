@@ -6,7 +6,6 @@
     using System.Linq;
     using EnvDTE;
     using JSLintNet.UI;
-    using JSLintNet.UI.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.Extensions.ProjectItems;
     using Microsoft.VisualStudio.Shell;
@@ -179,15 +178,12 @@
             var project = this.Environment.SelectedItems.Item(1).Project;
             var model = this.VisualStudioJSLintProvider.LoadSettings(project, false).TypedClone();
 
-            using (var viewModel = new SettingsViewModel(model))
-            {
-                var view = this.viewFactory.CreateSettings(viewModel);
-                var result = view.ShowDialog();
+            var view = this.viewFactory.CreateSettings(model);
+            var result = view.ShowDialog();
 
-                if (result.HasValue && result.Value)
-                {
-                    this.VisualStudioJSLintProvider.SaveSettings(project, model);
-                }
+            if (result.HasValue && result.Value)
+            {
+                this.VisualStudioJSLintProvider.SaveSettings(project, model);
             }
         }
 

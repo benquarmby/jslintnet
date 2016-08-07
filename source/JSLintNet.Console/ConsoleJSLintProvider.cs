@@ -11,7 +11,6 @@
     using JSLintNet.Execution;
     using JSLintNet.Settings;
     using JSLintNet.UI;
-    using JSLintNet.UI.Settings;
     using CoreResources = JSLintNet.Properties.Resources;
 
     internal class ConsoleJSLintProvider
@@ -104,21 +103,18 @@
                 .WriteLine(Resources.SettingsEditorLaunching)
                 .WriteLine(Resources.SettingsEditorCloseWarning);
 
-            using (var viewModel = new SettingsViewModel(settings))
+            var view = this.viewFactory.CreateSettings(settings);
+            var result = view.ShowDialog();
+
+            if (result.HasValue && result.Value)
             {
-                var view = this.viewFactory.CreateSettings(viewModel);
-                var result = view.ShowDialog();
+                this.settingRepository.Save(settings, options.SettingsFile);
 
-                if (result.HasValue && result.Value)
-                {
-                    this.settingRepository.Save(settings, options.SettingsFile);
-
-                    message = string.Format(Resources.SettingsEditorSavedFormat, options.SettingsFile);
-                }
-                else
-                {
-                    message = Resources.SettingsEditorCanceled;
-                }
+                message = string.Format(Resources.SettingsEditorSavedFormat, options.SettingsFile);
+            }
+            else
+            {
+                message = Resources.SettingsEditorCanceled;
             }
 
             this.consoleWriter

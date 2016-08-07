@@ -1,16 +1,13 @@
 ﻿namespace JSLintNet.UI
 {
+    using JSLintNet.Settings;
     using JSLintNet.UI.Settings;
 
     internal class ViewFactory : IViewFactory
     {
-        public IView CreateSettings()
+        public IView CreateSettings(JSLintNetSettings settings)
         {
-            return new SettingsView();
-        }
-
-        public IView CreateSettings(SettingsViewModel viewModel)
-        {
+            var viewModel = new SettingsViewModel(settings);
             var view = new SettingsView()
             {
                 DataContext = viewModel

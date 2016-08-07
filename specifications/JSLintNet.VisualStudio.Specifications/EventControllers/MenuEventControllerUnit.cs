@@ -9,7 +9,6 @@
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.UI;
-    using JSLintNet.UI.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.EventControllers;
     using JSLintNet.VisualStudio.Specifications.Fakes;
@@ -707,7 +706,7 @@
                     base.BeforeResolve();
 
                     this.GetMock<IViewFactory>()
-                        .Setup(x => x.CreateSettings(It.IsAny<SettingsViewModel>()))
+                        .Setup(x => x.CreateSettings(It.IsAny<JSLintNetSettings>()))
                         .Returns(this.ViewMock.Object);
 
                     this.GetMock<IVisualStudioJSLintProvider>()
