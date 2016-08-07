@@ -1,7 +1,7 @@
 ﻿var Calculator;
 
 Calculator = (function () {
-    'use strict';
+    "use strict";
 
     function add(first, second) {
         return first + second;

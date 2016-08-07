@@ -1,3 +1,3 @@
-﻿define(['some-module'], function (someModule) {
+﻿define(["some-module"], function (someModule) {
     return someModule;
 });

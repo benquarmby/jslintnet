@@ -2,7 +2,7 @@
 /*global define, ko*/
 
 define([], function () {
-    'use strict';
+    "use strict";
 
     return ko.applyBindings();
 });

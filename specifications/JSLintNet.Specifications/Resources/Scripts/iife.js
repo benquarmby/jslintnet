@@ -1,5 +1,5 @@
 ﻿(function () {
     var unused;
 
-    return true
+    return true;
 }());

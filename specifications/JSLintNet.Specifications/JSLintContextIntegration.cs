@@ -44,10 +44,10 @@
                 {
                     var result = instance.Lint(@"
 var ValidSource = (function () {
-    'use strict';
+    ""use strict"";
 
     var self = {
-        memberProperty: 'value'
+        memberProperty: ""value""
     };
 
     return {
