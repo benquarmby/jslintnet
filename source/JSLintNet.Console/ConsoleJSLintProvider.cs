@@ -11,7 +11,7 @@
     using JSLintNet.Execution;
     using JSLintNet.Settings;
     using JSLintNet.UI;
-    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Settings;
     using CoreResources = JSLintNet.Properties.Resources;
 
     internal class ConsoleJSLintProvider

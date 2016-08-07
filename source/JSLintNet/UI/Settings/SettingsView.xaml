@@ -1,8 +1,8 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:JSLintNet.UI.Views"
-        x:Class="JSLintNet.UI.Views.SettingsView"
+        xmlns:local="clr-namespace:JSLintNet.UI.Settings"
+        x:Class="JSLintNet.UI.Settings.SettingsView"
         Name="RootWindow"
         Title="JSLint.NET Settings" Height="420" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid>

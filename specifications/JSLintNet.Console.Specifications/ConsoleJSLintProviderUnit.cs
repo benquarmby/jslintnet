@@ -9,7 +9,7 @@
     using JSLintNet.QualityTools.Fakes;
     using JSLintNet.Settings;
     using JSLintNet.UI;
-    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Settings;
     using Moq;
     using Xunit;
     using CoreResources = JSLintNet.Properties.Resources;

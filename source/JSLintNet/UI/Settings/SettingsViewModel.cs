@@ -1,4 +1,4 @@
-﻿namespace JSLintNet.UI.ViewModels
+﻿namespace JSLintNet.UI.Settings
 {
     using System;
     using System.Collections.Generic;

@@ -3,7 +3,7 @@
     using JSLintNet.QualityTools;
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
-    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Settings;
     using Xunit;
 
     public class SettingsViewModelUnit

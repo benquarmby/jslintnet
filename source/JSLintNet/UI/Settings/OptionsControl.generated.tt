@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".xaml" #>
 <#@ include file="..\..\JSLintOptions.t4" #>
-<UserControl x:Class="JSLintNet.UI.Views.OptionsControl"
+<UserControl x:Class="JSLintNet.UI.Settings.OptionsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

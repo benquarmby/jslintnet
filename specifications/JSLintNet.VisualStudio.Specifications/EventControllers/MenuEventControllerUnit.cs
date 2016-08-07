@@ -9,7 +9,7 @@
     using JSLintNet.QualityTools.Expectations;
     using JSLintNet.Settings;
     using JSLintNet.UI;
-    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Settings;
     using JSLintNet.VisualStudio.Errors;
     using JSLintNet.VisualStudio.EventControllers;
     using JSLintNet.VisualStudio.Specifications.Fakes;

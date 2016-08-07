@@ -1,6 +1,6 @@
 ﻿namespace JSLintNet.UI
 {
-    using JSLintNet.UI.ViewModels;
+    using JSLintNet.UI.Settings;
 
     internal interface IViewFactory
     {
