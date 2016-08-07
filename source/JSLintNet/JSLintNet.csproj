@@ -113,6 +113,7 @@
     <Compile Include="UI\Views\IViewFactory.cs" />
     <Compile Include="UI\RelayCommand.cs" />
     <Compile Include="UI\RelayCommand`1.cs" />
+    <Compile Include="UI\Views\OptionsControl.xaml.cs" />
     <Compile Include="UI\Views\ViewFactory.cs" />
     <Compile Include="UI\ViewModels\SettingsViewModel.cs" />
     <Compile Include="UI\ViewModels\SettingsViewModel.generated.cs">
@@ -149,6 +150,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SettingsViewModel.generated.cs</LastGenOutput>
     </None>
+    <None Include="UI\Views\OptionsControl.generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OptionsControl.generated.xaml</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -172,6 +177,13 @@
     <None Include="Resources\ReportDocumentStyle.css" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\Views\OptionsControl.generated.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OptionsControl.generated.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

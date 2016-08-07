@@ -1,6 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:JSLintNet.UI.Views"
         x:Class="JSLintNet.UI.Views.SettingsView"
         Name="RootWindow"
         Title="JSLint.NET Settings" Height="420" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize">
@@ -53,39 +54,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="JSLint Options">
-                <Grid>
-                    <GroupBox Header="Assume..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="182" Width="240">
-                        <Canvas>
-                            <CheckBox Content="in development" Canvas.Left="10" Canvas.Top="10" Tag="devel" IsChecked="{Binding AssumeInDevelopment}" ToolTip="{Binding AssumeInDevelopmentTooltip}" />
-                            <CheckBox Content="ES6" Canvas.Left="10" Canvas.Top="31" Tag="es6" IsChecked="{Binding AssumeES6}" ToolTip="{Binding AssumeES6Tooltip}" />
-                            <CheckBox Content="a browser" Canvas.Left="10" Canvas.Top="52" Tag="browser" IsChecked="{Binding AssumeBrowser}" ToolTip="{Binding AssumeBrowserTooltip}" />
-                            <CheckBox Content="CouchDB" Canvas.Left="10" Canvas.Top="73" Tag="couch" IsChecked="{Binding AssumeCouchDB}" ToolTip="{Binding AssumeCouchDBTooltip}" />
-                            <CheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="94" Tag="node" IsChecked="{Binding AssumeNode}" ToolTip="{Binding AssumeNodeTooltip}" />
-                        </Canvas>
-                    </GroupBox>
-                    <GroupBox Header="Tolerate..." Margin="0,10,0,0" VerticalAlignment="Top" Height="182" HorizontalAlignment="Center" Width="240">
-                        <Canvas>
-                            <CheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="10" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" ToolTip="{Binding TolerateBitwiseOperatorsTooltip}" />
-                            <CheckBox Content="eval" Canvas.Left="10" Canvas.Top="31" Tag="eval" IsChecked="{Binding TolerateEval}" ToolTip="{Binding TolerateEvalTooltip}" />
-                            <CheckBox Content="for statement" Canvas.Left="10" Canvas.Top="52" Tag="for" IsChecked="{Binding TolerateForStatement}" ToolTip="{Binding TolerateForStatementTooltip}" />
-                            <CheckBox Content="multiple vars" Canvas.Left="10" Canvas.Top="73" Tag="multivar" IsChecked="{Binding TolerateMultipleVariables}" ToolTip="{Binding TolerateMultipleVariablesTooltip}" />
-                            <CheckBox Content="single quote strings" Canvas.Left="10" Canvas.Top="94" Tag="single" IsChecked="{Binding TolerateSingleQuoteStrings}" ToolTip="{Binding TolerateSingleQuoteStringsTooltip}" />
-                            <CheckBox Content="this" Canvas.Left="10" Canvas.Top="115" Tag="this" IsChecked="{Binding TolerateThis}" ToolTip="{Binding TolerateThisTooltip}" />
-                            <CheckBox Content="whitespace mess" Canvas.Left="10" Canvas.Top="136" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" ToolTip="{Binding TolerateMessyWhitespaceTooltip}" />
-                        </Canvas>
-                    </GroupBox>
-                    <GroupBox Header="Number..." HorizontalAlignment="Right" Margin="0,10,10,0" Width="240" Height="182" VerticalAlignment="Top">
-                        <Canvas>
-                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumLineLength}" />
-                            <Label Content="Maximum line length" Canvas.Left="65" Canvas.Top="10" Height="16" Padding="0" ToolTip="{Binding MaximumLineLengthTooltip}" />
-                            <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="31" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumErrors}" />
-                            <Label Content="Maximum number of warnings" Canvas.Left="65" Canvas.Top="31" Height="16" Padding="0" ToolTip="{Binding MaximumErrorsTooltip}" />
-                        </Canvas>
-                    </GroupBox>
-                    <GroupBox Header="Global Variables..." Margin="10,0,10,10" Height="95" VerticalAlignment="Bottom">
-                        <TextBox TextWrapping="Wrap" Text="{Binding GlobalVariables}" Margin="10,10,10,10" />
-                    </GroupBox>
-                </Grid>
+                <local:OptionsControl />
             </TabItem>
         </TabControl>
         <Button Content="Save" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Command="{Binding SettingsSavedCommand}" />

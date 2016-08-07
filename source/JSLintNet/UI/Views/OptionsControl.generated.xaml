@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="JSLintNet.UI.Views.OptionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="420" d:DesignWidth="800">
+    <Grid>
+        <GroupBox Header="Assume..." Height="182" Width="240" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Canvas>
+                <CheckBox Content="a browser" Canvas.Left="10" Canvas.Top="10" Tag="browser" IsChecked="{Binding AssumeBrowser}" ToolTip="True if the standard browser globals should be predefined." />
+                <CheckBox Content="CouchDB" Canvas.Left="10" Canvas.Top="31" Tag="couch" IsChecked="{Binding AssumeCouchDB}" ToolTip="True if Couch DB globals should be predefined." />
+                <CheckBox Content="in development" Canvas.Left="10" Canvas.Top="52" Tag="devel" IsChecked="{Binding AssumeInDevelopment}" ToolTip="True if browser globals that are useful in development should be predefined, and if debugger statements and TODO comments should be allowed." />
+                <CheckBox Content="ES6" Canvas.Left="10" Canvas.Top="73" Tag="es6" IsChecked="{Binding AssumeES6}" ToolTip="True if using the good parts of ECMAScript Sixth Edition." />
+                <CheckBox Content="Node.js" Canvas.Left="10" Canvas.Top="94" Tag="node" IsChecked="{Binding AssumeNode}" ToolTip="True if Node.js globals should be predefined." />
+            </Canvas>
+        </GroupBox>
+        <GroupBox Header="Tolerate..." Height="182" Width="240" Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Canvas>
+                <CheckBox Content="bitwise operators" Canvas.Left="10" Canvas.Top="10" Tag="bitwise" IsChecked="{Binding TolerateBitwiseOperators}" ToolTip="True if bitwise operators should be allowed." />
+                <CheckBox Content="eval" Canvas.Left="10" Canvas.Top="31" Tag="eval" IsChecked="{Binding TolerateEval}" ToolTip="True if eval should be allowed." />
+                <CheckBox Content="for statement" Canvas.Left="10" Canvas.Top="52" Tag="for" IsChecked="{Binding TolerateForStatement}" ToolTip="True if the for statement should be allowed." />
+                <CheckBox Content="multiple vars" Canvas.Left="10" Canvas.Top="73" Tag="multivar" IsChecked="{Binding TolerateMultipleVariables}" ToolTip="True if a var, let, or const statement can declare two or more variables in a single statement." />
+                <CheckBox Content="single quote strings" Canvas.Left="10" Canvas.Top="94" Tag="single" IsChecked="{Binding TolerateSingleQuoteStrings}" ToolTip="True if single quote should be allowed to enclose string literals." />
+                <CheckBox Content="this" Canvas.Left="10" Canvas.Top="115" Tag="this" IsChecked="{Binding TolerateThis}" ToolTip="True if this should be allowed." />
+                <CheckBox Content="whitespace mess" Canvas.Left="10" Canvas.Top="136" Tag="white" IsChecked="{Binding TolerateMessyWhitespace}" ToolTip="True if strict whitespace rules should be ignored." />
+            </Canvas>
+        </GroupBox>
+        <GroupBox Header="Number..." Height="182" Width="240" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Canvas>
+                <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Tag="maxerr" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumErrors}" />
+                <Label Content="Maximum line length" Canvas.Left="65" Canvas.Top="10" Height="16" Padding="0" ToolTip="The maximum number of warnings reported." />
+                <TextBox Height="16" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="31" Tag="maxlen" Width="50" Padding="0" FontSize="9" Text="{Binding MaximumLineLength}" />
+                <Label Content="Maximum warnings" Canvas.Left="65" Canvas.Top="31" Height="16" Padding="0" ToolTip="The maximum number of characters in a line." />
+            </Canvas>
+        </GroupBox>
+        <GroupBox Header="Global Variables..." Margin="10,0,10,10" Height="95" VerticalAlignment="Bottom">
+            <TextBox TextWrapping="Wrap" Text="{Binding GlobalVariables}" Margin="10,10,10,10" />
+        </GroupBox>
+    </Grid>
+</UserControl>
