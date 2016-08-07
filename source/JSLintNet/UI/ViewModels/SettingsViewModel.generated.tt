@@ -79,17 +79,6 @@ namespace JSLintNet.UI.ViewModels
             this.WriteLine(string.Empty);
         }
 
-        var prefix = definition.PropertyType == "int" ? "The " : "True if ";
-#>
-        public virtual string <#= definition.PropertyName #>Tooltip
-        {
-            get
-            {
-                return "<#= prefix + definition.Description #>.";
-            }
-        }
-
-<#
         if (definition.PropertyType == "int")
         {
 #>
